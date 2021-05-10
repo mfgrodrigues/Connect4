@@ -17,6 +17,13 @@ public class AguardaJogada extends EstadoAdapter{
         return new AguardaJogada(jogo);
     }
 
+    @Override
+    public IEstado jogaPecaEspecial(int coluna){
+        jogo.colocaPecaEspecial(coluna);
+        jogo.trocaJogador();
+        return new AguardaJogada(jogo);
+    }
+
     public Situacao getSituacaoAtual() {
         return Situacao.AguardaJogada;
     }

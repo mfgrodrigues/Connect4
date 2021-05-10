@@ -18,12 +18,14 @@ public abstract class EstadoAdapter implements IEstado {
     public IEstado jogaPeca(int coluna){return this;}
 
     @Override
-    public IEstado novaTentativa(){return this;}
-
-    /*@Override
-    public IEstado jogaPecaEspecial(){return this;}
+    public IEstado jogaPecaEspecial(int coluna){return this;}
 
     @Override
+    public IEstado novaTentativa(){return this;}
+
+
+
+    /*@Override
     public IEstado termina(){return this;}*/
 
 

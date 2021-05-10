@@ -59,12 +59,12 @@ public class IU {
                     //devo escrever mensagem de erro caso o jogador nao seja adicionado adicionaJogador(metodo bool)
                 }
                 else if (opcao == 2){
-                    for(int i = 0; i < 2; i++){
-                        System.out.println("Jogador:" + (i + 1) + "\nDigite o seu username: ");
+                    for(int i = 0; i < 2; i++) {
+                        System.out.println("Jogador " + (i + 1) + "\nDigite o seu username: ");
                         String nome = sc.nextLine();
                         maquinaEstados.adicionaJogador(nome);
-                        maquinaEstados.iniciaJogo();
                     }
+                        maquinaEstados.iniciaJogo();
                 }
                 else if(opcao == 3){
                     maquinaEstados.iniciaJogo();
@@ -109,11 +109,13 @@ public class IU {
             switch (sc.nextInt()) {
                 case 1:
                     System.out.println("Jogar peca na coluna:");
-                    Scanner sc = new Scanner(System.in);
                     int coluna = sc.nextInt();
                     maquinaEstados.jogaPeca(coluna);
                     break;
                 case 2:
+                    System.out.println("Jogar peca especial na coluna:");
+                    coluna = sc.nextInt();
+                    maquinaEstados.jogaPecaEspecial(coluna);
                     break;
                 case 3:
                     break;

@@ -24,13 +24,14 @@ public class Jogo {
     }
 
     public void inicia(){
-        if(jogadores.size() == 0){
+        if(jogadores.isEmpty()){
             while(jogadores.size() != 2){
                 jogadores.add(new JogadorVirtual());
             }
         }
         else if(jogadores.size() == 1) {
             jogadores.add(new JogadorVirtual());
+            System.out.println("entrei aqui 2\n");
         }
         preparaPecas();
         preparaTabuleiro();
@@ -80,6 +81,24 @@ public class Jogo {
         for (int linha = tabuleiro.length-1; linha >= 0; linha--){
             if(tabuleiro[linha][coluna - 1] == '_'){
                 tabuleiro[linha][coluna - 1] = jogadorAtual.getPeca();
+                jogadorAtual.aumentaNrJogada();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean colocaPecaEspecial(int coluna){
+        if(coluna < 0 || coluna - 1 > tabuleiro[0].length) {
+            return false;
+        } else if(tabuleiro[0][coluna] != '_') {
+            return false;
+        }
+        for(int linha = tabuleiro.length-1; linha >= 0; linha--){
+            if(tabuleiro[linha][coluna - 1] == '_'){
+                for(int i = linha + 1; i < tabuleiro.length; i++){
+                    tabuleiro[i][coluna - 1] = '_';
+                }
                 jogadorAtual.aumentaNrJogada();
                 return true;
             }

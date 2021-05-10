@@ -26,6 +26,8 @@ public class MaquinaEstados {
 
     public void jogaPeca(int coluna) { estadoAtual = estadoAtual.jogaPeca(coluna); }
 
+    public void jogaPecaEspecial(int coluna) { estadoAtual = estadoAtual.jogaPecaEspecial(coluna); }
+
     public void novaTentativa(){ estadoAtual = estadoAtual.novaTentativa(); }
 
     public Situacao getSituacaoAtual(){ return estadoAtual.getSituacaoAtual(); }

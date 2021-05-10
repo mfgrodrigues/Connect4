@@ -6,7 +6,7 @@ public interface IEstado {
     IEstado adicionaJogador(String nome);
     IEstado iniciaJogo();
     IEstado jogaPeca(int coluna);
-    //IEstado jogaPecaEspecial();
+    IEstado jogaPecaEspecial(int coluna);
     IEstado novaTentativa();
 
     Situacao getSituacaoAtual();
