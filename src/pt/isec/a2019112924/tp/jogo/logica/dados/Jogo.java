@@ -9,9 +9,10 @@ public class Jogo {
 
     private List<Jogador> jogadores;
     private char[][] tabuleiro;
-
     private boolean vencedor = false;
     private Jogador jogadorAtual;
+
+    private IMiniJogo miniJogo;
 
     public Jogo(){
         jogadores = new ArrayList<>(2);
@@ -31,7 +32,6 @@ public class Jogo {
         }
         else if(jogadores.size() == 1) {
             jogadores.add(new JogadorVirtual());
-            System.out.println("entrei aqui 2\n");
         }
         preparaPecas();
         preparaTabuleiro();
@@ -145,8 +145,7 @@ public class Jogo {
         return false;
     }
 
-
-
-
-
+    public IMiniJogo getMiniJogo() {
+        return new MiniJogoC();
+    }
 }

@@ -24,6 +24,13 @@ public class AguardaJogada extends EstadoAdapter{
         return new AguardaJogada(jogo);
     }
 
+    @Override
+    public IEstado escolheOpMiniJogo(){
+        jogo.getMiniJogo();
+        return new JogaMiniJogoC(jogo);
+    }
+
+    @Override
     public Situacao getSituacaoAtual() {
         return Situacao.AguardaJogada;
     }

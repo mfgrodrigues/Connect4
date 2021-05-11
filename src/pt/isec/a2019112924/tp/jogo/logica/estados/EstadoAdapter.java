@@ -21,9 +21,13 @@ public abstract class EstadoAdapter implements IEstado {
     public IEstado jogaPecaEspecial(int coluna){return this;}
 
     @Override
+    public IEstado escolheOpMiniJogo(){return this;}
+
+    @Override
+    public IEstado resolveCalculo(String resposta){return this;}
+
+    @Override
     public IEstado novaTentativa(){return this;}
-
-
 
     /*@Override
     public IEstado termina(){return this;}*/

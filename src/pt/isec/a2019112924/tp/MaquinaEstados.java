@@ -28,6 +28,10 @@ public class MaquinaEstados {
 
     public void jogaPecaEspecial(int coluna) { estadoAtual = estadoAtual.jogaPecaEspecial(coluna); }
 
+    public void escolheOpMiniJogo(){ estadoAtual = estadoAtual.escolheOpMiniJogo();}
+
+    public void resolveCalculo(String resposta){ estadoAtual = estadoAtual.resolveCalculo(resposta); }
+
     public void novaTentativa(){ estadoAtual = estadoAtual.novaTentativa(); }
 
     public Situacao getSituacaoAtual(){ return estadoAtual.getSituacaoAtual(); }

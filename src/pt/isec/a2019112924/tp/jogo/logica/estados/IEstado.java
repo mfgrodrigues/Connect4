@@ -7,6 +7,8 @@ public interface IEstado {
     IEstado iniciaJogo();
     IEstado jogaPeca(int coluna);
     IEstado jogaPecaEspecial(int coluna);
+    IEstado escolheOpMiniJogo();
+    IEstado resolveCalculo(String resposta);
     IEstado novaTentativa();
 
     Situacao getSituacaoAtual();
