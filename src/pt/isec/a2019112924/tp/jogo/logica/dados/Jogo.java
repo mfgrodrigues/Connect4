@@ -11,7 +11,6 @@ public class Jogo {
     private char[][] tabuleiro;
     private boolean vencedor = false;
     private Jogador jogadorAtual;
-
     private IMiniJogo miniJogo;
 
     public Jogo(){
@@ -145,7 +144,11 @@ public class Jogo {
         return false;
     }
 
+    public void iniciaMiniJogo(){
+        miniJogo = new MiniJogoC();
+    }
+
     public IMiniJogo getMiniJogo() {
-        return new MiniJogoC();
+        return miniJogo;
     }
 }

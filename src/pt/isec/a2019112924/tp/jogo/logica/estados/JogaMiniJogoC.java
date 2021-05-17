@@ -5,12 +5,17 @@ import pt.isec.a2019112924.tp.jogo.utils.Situacao;
 
 public class JogaMiniJogoC extends EstadoAdapter {
 
-    public JogaMiniJogoC(Jogo jogo){super(jogo);}
+    public JogaMiniJogoC(Jogo jogo) {
+        super(jogo);
+    }
 
     @Override
-    public IEstado resolveCalculo(String resposta){
-        jogo.getMiniJogo();
-        return new JogaMiniJogoC(jogo);
+    public IEstado resolveCalculo(String resposta) {
+        jogo.getMiniJogo().validaResposta(resposta);
+        if (!jogo.getMiniJogo().getJogoTerminou()) {
+            return this;
+        }
+        return new AguardaJogada(jogo);
     }
 
     @Override

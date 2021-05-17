@@ -1,5 +1,6 @@
 package pt.isec.a2019112924.tp;
 
+import pt.isec.a2019112924.tp.jogo.logica.dados.IMiniJogo;
 import pt.isec.a2019112924.tp.jogo.logica.dados.Jogador;
 import pt.isec.a2019112924.tp.jogo.logica.dados.Jogo;
 import pt.isec.a2019112924.tp.jogo.logica.estados.AguardaInicio;
@@ -43,6 +44,8 @@ public class MaquinaEstados {
     public Jogador getJogadorAtual(){
         return jogo.getJogadorAtual();
     }
+
+    public IMiniJogo getMiniJogo(){ return jogo.getMiniJogo(); }
 
 
 }

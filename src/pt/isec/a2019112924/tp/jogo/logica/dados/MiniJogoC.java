@@ -1,39 +1,63 @@
 package pt.isec.a2019112924.tp.jogo.logica.dados;
 
-import java.util.Random;
+public class MiniJogoC implements IMiniJogo {
+    private int numRespCertas;
+    private int num1;
+    private int num2;
+    private char operador;
+    private long tempo;
+    private static long DURACAO_JOGO_MILLIS = 30000;
 
-public class MiniJogoC implements IMiniJogo{
-    int respCerta;
-    int num1;
-    int num2;
-    char operador;
-
-    public MiniJogoC(){
-        respCerta = 0;
+    public MiniJogoC() {
+        numRespCertas = 0;
+        tempo = System.currentTimeMillis();
+        sorteiaCalculo();
     }
 
-    public void sorteiaCalculo(){
-        int num1 = (int)(Math.random() * 50) + 1;
-        int num2 = (int)(Math.random() * 50) + 1;
-        int rand = (int)(Math.random() * 4) + 1;
+    public void sorteiaCalculo() {
+        num1 = (int) (Math.random() * 50) + 1;
+        num2 = (int) (Math.random() * 50) + 1;
+        int rand = (int) (Math.random() * 100) % 4;
         String carateres = "x-+:";
         operador = carateres.charAt(rand);
-
     }
-
-    public int getNum1(){ return num1;}
-
-    public int getNum2(){ return num2;}
-
-    public char getOperador(){ return operador;}
 
     @Override
     public String getPergunta() {
-        return null;
+        return String.format("%d %c %d", num1, operador, num2);
     }
 
     @Override
     public boolean validaResposta(String resposta) {
+        if (System.currentTimeMillis() - tempo < DURACAO_JOGO_MILLIS) {
+            int res = Integer.parseInt(resposta);
+            int n = numRespCertas;
+            switch (operador) {
+                case 'x':
+                    if (res == num1 * num2) {
+                        numRespCertas++;
+                    }
+                case '-':
+                    if (res == num1 - num2) {
+                        numRespCertas++;
+                    }
+                case '+':
+                    if (res == num1 + num2) {
+                        numRespCertas++;
+                    }
+                case ':':
+                    if (res == num1 / num2) {
+                        numRespCertas++;
+                    }
+            }
+            sorteiaCalculo();
+            return numRespCertas > n;
+        }
         return false;
+    }
+
+    @Override
+    public boolean getJogoTerminou() {
+        return System.currentTimeMillis() - tempo >= DURACAO_JOGO_MILLIS;
     }
 }

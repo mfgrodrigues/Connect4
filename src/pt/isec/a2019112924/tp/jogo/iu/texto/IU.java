@@ -22,6 +22,7 @@ public class IU {
             switch (situacao) {
                 case AguardaInicio -> iuAguardaInicio();
                 case AguardaJogada -> iuAguardaJogada();
+                case JogaMiniJogoC -> iuMiniJogoC();
                 case TerminaJogo -> iuTerminaJogo();
             }
         }
@@ -106,7 +107,7 @@ public class IU {
         
                     0 - Sair
                     --+---+---+---+---+--""");
-            switch (sc.nextInt()) {
+            switch (leInteiro()) {
                 case 1:
                     System.out.println("Jogar peca na coluna:");
                     int coluna = sc.nextInt();
@@ -119,6 +120,9 @@ public class IU {
                     break;
                 case 3:
                     break;
+                case 4:
+                    maquinaEstados.escolheOpMiniJogo();
+                    break;
                 case 0:
                     sair = true;
                     break;
@@ -126,11 +130,14 @@ public class IU {
         }
     }
 
-    /*private void iuMiniJogoC(){
-        System.out.println("...");
+    private void iuMiniJogoC(){
+        System.out.println(maquinaEstados.getMiniJogo().getPergunta());
+        System.out.println("Resposta:");
+        String resposta = String.valueOf(leInteiro());
+        maquinaEstados.resolveCalculo(resposta);
     }
 
-    private void uiMiniJogoP(){
+    /*private void uiMiniJogoP(){
         System.out.println("...");
     }*/
 

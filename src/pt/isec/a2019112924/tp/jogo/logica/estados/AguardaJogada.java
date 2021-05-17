@@ -26,7 +26,7 @@ public class AguardaJogada extends EstadoAdapter{
 
     @Override
     public IEstado escolheOpMiniJogo(){
-        jogo.getMiniJogo();
+        jogo.iniciaMiniJogo();
         return new JogaMiniJogoC(jogo);
     }
 
