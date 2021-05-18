@@ -12,10 +12,12 @@ public class Jogo {
     private boolean vencedor = false;
     private Jogador jogadorAtual;
     private IMiniJogo miniJogo;
+    private int miniJogoAtivo;
 
     public Jogo(){
         jogadores = new ArrayList<>(2);
         tabuleiro = new char[ALTURA][LARGURA];
+        miniJogoAtivo = 0;
     }
 
     public boolean adicionaJogador(String nome){
@@ -145,7 +147,22 @@ public class Jogo {
     }
 
     public void iniciaMiniJogo(){
-        miniJogo = new MiniJogoC();
+        switch(miniJogoAtivo) {
+            case 0:
+                miniJogoAtivo = 1;
+                System.out.println(miniJogoAtivo);
+                miniJogo = new MiniJogoC();
+                break;
+            case 1:
+                miniJogoAtivo = 0;
+                System.out.println(miniJogoAtivo);
+                miniJogo = new MiniJogoP();
+                break;
+        }
+    }
+
+    public int getMiniJogoAtivo(){
+        return miniJogoAtivo;
     }
 
     public IMiniJogo getMiniJogo() {

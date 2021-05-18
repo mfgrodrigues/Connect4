@@ -3,14 +3,16 @@ package pt.isec.a2019112924.tp.jogo.logica.estados;
 import pt.isec.a2019112924.tp.jogo.logica.dados.Jogo;
 import pt.isec.a2019112924.tp.jogo.utils.Situacao;
 
-public class AguardaJogada extends EstadoAdapter{
+public class AguardaJogada extends EstadoAdapter {
 
-    public AguardaJogada(Jogo jogo){super(jogo);}
+    public AguardaJogada(Jogo jogo) {
+        super(jogo);
+    }
 
     @Override
-    public IEstado jogaPeca(int coluna){
+    public IEstado jogaPeca(int coluna) {
         jogo.colocaPeca(coluna);
-        if(jogo.avaliaVencedor()) {
+        if (jogo.avaliaVencedor()) {
             return new TerminaJogo(jogo);
         }
         jogo.trocaJogador();
@@ -18,16 +20,19 @@ public class AguardaJogada extends EstadoAdapter{
     }
 
     @Override
-    public IEstado jogaPecaEspecial(int coluna){
+    public IEstado jogaPecaEspecial(int coluna) {
         jogo.colocaPecaEspecial(coluna);
         jogo.trocaJogador();
         return new AguardaJogada(jogo);
     }
 
     @Override
-    public IEstado escolheOpMiniJogo(){
+    public IEstado escolheOpMiniJogo() {
         jogo.iniciaMiniJogo();
-        return new JogaMiniJogoC(jogo);
+        if (jogo.getMiniJogoAtivo() == 1) {
+            return new JogaMiniJogoC(jogo);
+        }
+        return new JogaMiniJogoP(jogo);
     }
 
     @Override

@@ -33,6 +33,8 @@ public class MaquinaEstados {
 
     public void resolveCalculo(String resposta){ estadoAtual = estadoAtual.resolveCalculo(resposta); }
 
+    public void digitaPalavras(String resposta){estadoAtual = estadoAtual.digitaPalavras(resposta); }
+
     public void novaTentativa(){ estadoAtual = estadoAtual.novaTentativa(); }
 
     public Situacao getSituacaoAtual(){ return estadoAtual.getSituacaoAtual(); }

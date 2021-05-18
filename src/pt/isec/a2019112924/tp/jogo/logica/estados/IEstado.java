@@ -9,6 +9,7 @@ public interface IEstado {
     IEstado jogaPecaEspecial(int coluna);
     IEstado escolheOpMiniJogo();
     IEstado resolveCalculo(String resposta);
+    IEstado digitaPalavras(String resposta);
     IEstado novaTentativa();
 
     Situacao getSituacaoAtual();

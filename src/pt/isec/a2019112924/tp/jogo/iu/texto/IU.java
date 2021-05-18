@@ -23,6 +23,7 @@ public class IU {
                 case AguardaInicio -> iuAguardaInicio();
                 case AguardaJogada -> iuAguardaJogada();
                 case JogaMiniJogoC -> iuMiniJogoC();
+                case JogaMiniJogoP -> iuMiniJogoP();
                 case TerminaJogo -> iuTerminaJogo();
             }
         }
@@ -106,21 +107,23 @@ public class IU {
                     4 - Jogar Mini-Jogo
         
                     0 - Sair
-                    --+---+---+---+---+--""");
+                    --+---+---+---+---+--
+                    Escolha uma opcao:""");
             switch (leInteiro()) {
                 case 1:
                     System.out.println("Jogar peca na coluna:");
-                    int coluna = sc.nextInt();
+                    int coluna = leInteiro();
                     maquinaEstados.jogaPeca(coluna);
                     break;
                 case 2:
                     System.out.println("Jogar peca especial na coluna:");
-                    coluna = sc.nextInt();
+                    coluna = leInteiro();
                     maquinaEstados.jogaPecaEspecial(coluna);
                     break;
                 case 3:
                     break;
                 case 4:
+                    // TODO disponibilizar esta opção após 4 jogadas
                     maquinaEstados.escolheOpMiniJogo();
                     break;
                 case 0:
@@ -132,18 +135,21 @@ public class IU {
 
     private void iuMiniJogoC(){
         System.out.println(maquinaEstados.getMiniJogo().getPergunta());
-        System.out.println("Resposta:");
+        System.out.println("Resultado:");
         String resposta = String.valueOf(leInteiro());
         maquinaEstados.resolveCalculo(resposta);
     }
 
-    /*private void uiMiniJogoP(){
-        System.out.println("...");
-    }*/
+    private void iuMiniJogoP(){
+        System.out.println(maquinaEstados.getMiniJogo().getPergunta());
+        System.out.println("Digite as palavras apresentadas no menor tempo possível. Pressione a tecla [enter] quando terminar.");
+        String resposta = sc.nextLine();
+        maquinaEstados.digitaPalavras(resposta);
+    }
 
     private void iuTerminaJogo(){
         mostraTabuleiro();
-        System.out.println("\nParabéns " + maquinaEstados.getJogadorAtual().getNome() + " !!!\nÉs o grande vencedor");
+        System.out.println("\nParabéns " + maquinaEstados.getJogadorAtual().getNome() + " !!!\nÉs o grande vencedor.");
         maquinaEstados.novaTentativa();
     }
 

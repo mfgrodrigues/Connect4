@@ -27,6 +27,9 @@ public abstract class EstadoAdapter implements IEstado {
     public IEstado resolveCalculo(String resposta){return this;}
 
     @Override
+    public IEstado digitaPalavras(String resposta){return this;}
+
+    @Override
     public IEstado novaTentativa(){return this;}
 
     /*@Override

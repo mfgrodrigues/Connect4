@@ -11,12 +11,13 @@ public class MiniJogoC implements IMiniJogo {
     public MiniJogoC() {
         numRespCertas = 0;
         tempo = System.currentTimeMillis();
-        sorteiaCalculo();
+        sorteiaPergunta();
     }
 
-    public void sorteiaCalculo() {
-        num1 = (int) (Math.random() * 50) + 1;
-        num2 = (int) (Math.random() * 50) + 1;
+    @Override
+    public void sorteiaPergunta() {
+        num1 = (int) (Math.random() * 30) + 10;
+        num2 = (int) (Math.random() * 10) + 1;
         int rand = (int) (Math.random() * 100) % 4;
         String carateres = "x-+:";
         operador = carateres.charAt(rand);
@@ -50,7 +51,7 @@ public class MiniJogoC implements IMiniJogo {
                         numRespCertas++;
                     }
             }
-            sorteiaCalculo();
+            sorteiaPergunta();
             return numRespCertas > n;
         }
         return false;
