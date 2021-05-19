@@ -1,9 +1,10 @@
 package pt.isec.a2019112924.tp.jogo.logica.dados;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Jogo {
+public class Jogo implements Serializable {
     final static int ALTURA = 6;
     final static int LARGURA = 7;
 

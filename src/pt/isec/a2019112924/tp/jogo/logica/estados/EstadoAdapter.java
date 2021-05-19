@@ -2,7 +2,9 @@ package pt.isec.a2019112924.tp.jogo.logica.estados;
 
 import pt.isec.a2019112924.tp.jogo.logica.dados.Jogo;
 
-public abstract class EstadoAdapter implements IEstado {
+import java.io.Serializable;
+
+public abstract class EstadoAdapter implements IEstado, Serializable {
 
     protected Jogo jogo;
 

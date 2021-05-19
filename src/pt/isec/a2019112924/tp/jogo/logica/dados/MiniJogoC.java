@@ -1,6 +1,8 @@
 package pt.isec.a2019112924.tp.jogo.logica.dados;
 
-public class MiniJogoC implements IMiniJogo {
+import java.io.Serializable;
+
+public class MiniJogoC implements IMiniJogo, Serializable {
     private int numRespCertas;
     private int num1;
     private int num2;

@@ -7,37 +7,40 @@ import pt.isec.a2019112924.tp.jogo.logica.estados.AguardaInicio;
 import pt.isec.a2019112924.tp.jogo.logica.estados.IEstado;
 import pt.isec.a2019112924.tp.jogo.utils.Situacao;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class MaquinaEstados {
+public class MaquinaEstados implements Serializable {
 
-    IEstado estadoAtual;
-    Jogo jogo;
+    private IEstado estadoAtual;
+    private Jogo jogo;
 
     public MaquinaEstados(){
         jogo = new Jogo();
         estadoAtual = new AguardaInicio(jogo);
     }
 
-    public void adicionaJogador(String nome){ estadoAtual = estadoAtual.adicionaJogador(nome); }
+    private void setEstadoAtual(IEstado estadoAtual){this.estadoAtual = estadoAtual;}
 
-    public void iniciaJogo(){ estadoAtual = estadoAtual.iniciaJogo(); }
+    public void adicionaJogador(String nome){ setEstadoAtual(estadoAtual = estadoAtual.adicionaJogador(nome)); }
 
-    public int sorteiaColuna(){ return jogo.sorteiaColuna(); }
+    public void iniciaJogo(){ setEstadoAtual(estadoAtual = estadoAtual.iniciaJogo()); }
 
-    public void jogaPeca(int coluna) { estadoAtual = estadoAtual.jogaPeca(coluna); }
+    public void jogaPeca(int coluna) { setEstadoAtual(estadoAtual = estadoAtual.jogaPeca(coluna)); }
 
-    public void jogaPecaEspecial(int coluna) { estadoAtual = estadoAtual.jogaPecaEspecial(coluna); }
+    public void jogaPecaEspecial(int coluna) { setEstadoAtual(estadoAtual = estadoAtual.jogaPecaEspecial(coluna)); }
 
-    public void escolheOpMiniJogo(){ estadoAtual = estadoAtual.escolheOpMiniJogo();}
+    public void escolheOpMiniJogo(){ setEstadoAtual(estadoAtual = estadoAtual.escolheOpMiniJogo());}
 
-    public void resolveCalculo(String resposta){ estadoAtual = estadoAtual.resolveCalculo(resposta); }
+    public void resolveCalculo(String resposta){ setEstadoAtual(estadoAtual = estadoAtual.resolveCalculo(resposta)); }
 
-    public void digitaPalavras(String resposta){estadoAtual = estadoAtual.digitaPalavras(resposta); }
+    public void digitaPalavras(String resposta){ setEstadoAtual(estadoAtual = estadoAtual.digitaPalavras(resposta)); }
 
-    public void novaTentativa(){ estadoAtual = estadoAtual.novaTentativa(); }
+    public void novaTentativa(){ setEstadoAtual(estadoAtual = estadoAtual.novaTentativa()); }
 
     public Situacao getSituacaoAtual(){ return estadoAtual.getSituacaoAtual(); }
+
+    public int sorteiaColuna(){ return jogo.sorteiaColuna(); }
 
     public char[][] getTabuleiro(){ return jogo.getTabuleiro();}
 

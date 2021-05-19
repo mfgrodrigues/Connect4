@@ -1,5 +1,6 @@
 package pt.isec.a2019112924.tp.jogo.iu.texto;
 
+import pt.isec.a2019112924.tp.GestorMaqEstados;
 import pt.isec.a2019112924.tp.MaquinaEstados;
 import pt.isec.a2019112924.tp.jogo.logica.dados.Jogador;
 import pt.isec.a2019112924.tp.jogo.logica.estados.AguardaJogada;
@@ -8,11 +9,11 @@ import pt.isec.a2019112924.tp.jogo.utils.Situacao;
 import java.util.Scanner;
 
 public class IU {
-    private MaquinaEstados maquinaEstados;
+    private GestorMaqEstados maquinaEstados;
     private boolean sair = false;
     private Scanner sc = new Scanner(System.in);
 
-    public IU(MaquinaEstados maquinaEstados){this.maquinaEstados = maquinaEstados;}
+    public IU(GestorMaqEstados maquinaEstados){this.maquinaEstados = maquinaEstados;}
 
     public void corre() {
 
@@ -121,6 +122,7 @@ public class IU {
                     maquinaEstados.jogaPecaEspecial(coluna);
                     break;
                 case 3:
+                    maquinaEstados.voltarAtras();
                     break;
                 case 4:
                     // TODO disponibilizar esta opção após 4 jogadas

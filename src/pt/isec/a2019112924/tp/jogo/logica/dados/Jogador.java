@@ -1,17 +1,19 @@
 package pt.isec.a2019112924.tp.jogo.logica.dados;
 
-public abstract class Jogador {
+import java.io.Serializable;
+
+public abstract class Jogador implements Serializable {
     private String nome;
     private int nrCreditos;
     private int nrJogadas;
-    private int pecaEspecial;
+    private int nrPecasEspeciais;
     private char peca;
 
     public Jogador(String nome){
         this.nome = nome;
         nrCreditos = 5;
         nrJogadas = 0;
-        pecaEspecial = 0;
+        nrPecasEspeciais = 0;
     }
     public void setPeca(char peca){this.peca = peca;}
 
