@@ -6,30 +6,31 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.StringJoiner;
 
 public class MiniJogoP implements IMiniJogo, Serializable {
-    private static List<String> palavras;
-    private static List<String> palavrasSorteadas;
+    private static List<String> palavras = new ArrayList<>();
+    private static String palavrasSorteadas;
     private int numPalavrasCertas;
     private long comeca;
+    private boolean terminou;
+    private boolean ganhou;
 
     public MiniJogoP() {
-        palavrasSorteadas = new ArrayList<>();
-        palavras = new ArrayList<>();
         if (palavras.isEmpty()) {
             acrescentaPalavras();
         }
+        terminou = false;
         numPalavrasCertas = 0;
-        comeca = System.currentTimeMillis();
+        ganhou = false;
         sorteiaPergunta();
     }
 
     public void acrescentaPalavras() {
-        try {
-            BufferedReader br = new BufferedReader(new FileReader("palavras.txt"));
+
+        try (BufferedReader br = new BufferedReader(new FileReader("palavras.txt"))) {
             String str;
             while ((str = br.readLine()) != null) {
                 palavras.add(str);
@@ -41,39 +42,39 @@ public class MiniJogoP implements IMiniJogo, Serializable {
         }
     }
 
-    @Override
-    public void sorteiaPergunta(){
-        for(int i = 0; i < 5; i ++) {
-            Random rand = new Random();
-            System.out.println(palavrasSorteadas.add(palavras.get(rand.nextInt(palavras.size()))));
+    private void sorteiaPergunta() {
+        StringJoiner sj = new StringJoiner(" ");
+        Random rand = new Random();
+
+        for (int i = 0; i < 5; i++) {
+            sj.add(palavras.get(rand.nextInt(palavras.size())));
         }
+        palavrasSorteadas = sj.toString();
     }
 
     @Override
     public String getPergunta() {
-        StringBuilder sb = new StringBuilder();
-        if (!palavrasSorteadas.isEmpty()) {
-            Iterator<String> it = palavrasSorteadas.iterator();
-
-            while (it.hasNext()) {
-                String plv = it.next();
-                sb.append(plv + " ");
-            }
-        }
-        else{
-            System.out.println("Palavras sorteadas encontra-se vazio.");
-        }
-        return sb.toString();
+        comeca = System.currentTimeMillis();
+        return palavrasSorteadas;
     }
 
     @Override
     public boolean validaResposta(String resposta) {
-        long tempo = System.currentTimeMillis() - comeca;
-        return false;
+        long tempo = (System.currentTimeMillis() - comeca) / 1000;
+        terminou = true;
+        if(resposta.equals(palavrasSorteadas) && tempo <= palavrasSorteadas.length() / 2){
+            ganhou = true;
+        }
+        return ganhou;
     }
 
     @Override
     public boolean getJogoTerminou() {
-        return false;
+        return terminou;
+    }
+
+    @Override
+    public boolean ganhou() {
+        return ganhou;
     }
 }

@@ -3,6 +3,7 @@ package pt.isec.a2019112924.tp.jogo.logica.dados;
 import java.io.Serializable;
 
 public class MiniJogoC implements IMiniJogo, Serializable {
+    private static final int MIN_RESPOSTAS_CERTAS = 5;
     private int numRespCertas;
     private int num1;
     private int num2;
@@ -16,8 +17,7 @@ public class MiniJogoC implements IMiniJogo, Serializable {
         sorteiaPergunta();
     }
 
-    @Override
-    public void sorteiaPergunta() {
+    private void sorteiaPergunta() {
         num1 = (int) (Math.random() * 30) + 10;
         num2 = (int) (Math.random() * 10) + 1;
         int rand = (int) (Math.random() * 100) % 4;
@@ -62,5 +62,10 @@ public class MiniJogoC implements IMiniJogo, Serializable {
     @Override
     public boolean getJogoTerminou() {
         return System.currentTimeMillis() - tempo >= DURACAO_JOGO_MILLIS;
+    }
+
+    @Override
+    public boolean ganhou() {
+        return numRespCertas >= MIN_RESPOSTAS_CERTAS;
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 public class MaquinaEstados implements Serializable {
 
     private IEstado estadoAtual;
-    private Jogo jogo;
+    private final Jogo jogo;
 
     public MaquinaEstados(){
         jogo = new Jogo();
@@ -51,6 +51,5 @@ public class MaquinaEstados implements Serializable {
     }
 
     public IMiniJogo getMiniJogo(){ return jogo.getMiniJogo(); }
-
 
 }

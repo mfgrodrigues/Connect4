@@ -3,6 +3,7 @@ package pt.isec.a2019112924.tp.jogo.logica.dados;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Jogo implements Serializable {
     final static int ALTURA = 6;
@@ -15,74 +16,74 @@ public class Jogo implements Serializable {
     private IMiniJogo miniJogo;
     private int miniJogoAtivo;
 
-    public Jogo(){
+    public Jogo() {
         jogadores = new ArrayList<>(2);
         tabuleiro = new char[ALTURA][LARGURA];
         miniJogoAtivo = 0;
     }
 
-    public boolean adicionaJogador(String nome){
+    public boolean adicionaJogador(String nome) {
         jogadores.add(new JogadorHumano(nome));
         return true;
     }
 
-    public void inicia(){
-        if(jogadores.isEmpty()){
-            while(jogadores.size() != 2){
+    public void inicia() {
+        if (jogadores.isEmpty()) {
+            while (jogadores.size() != 2) {
                 jogadores.add(new JogadorVirtual());
             }
-        }
-        else if(jogadores.size() == 1) {
+        } else if (jogadores.size() == 1) {
             jogadores.add(new JogadorVirtual());
         }
         preparaPecas();
         preparaTabuleiro();
-        jogadorAtual = jogadores.get((int)(Math.random() * 1));
+        jogadorAtual = jogadores.get((int) (Math.random() * 1));
     }
 
-    private void preparaPecas(){
+    private void preparaPecas() {
         jogadores.get(0).setPeca('X');
         jogadores.get(1).setPeca('0');
     }
 
-    private void preparaTabuleiro(){
-        for(int i = 0; i < ALTURA; i++){
-            for(int j = 0; j < LARGURA; j++){
+    private void preparaTabuleiro() {
+        for (int i = 0; i < ALTURA; i++) {
+            for (int j = 0; j < LARGURA; j++) {
                 tabuleiro[i][j] = '_';
             }
         }
     }
 
-    public char[][] getTabuleiro(){
+    public char[][] getTabuleiro() {
         return tabuleiro;
     }
 
-    public List<Jogador> getJogadores(){
+    public List<Jogador> getJogadores() {
         return jogadores;
     }
 
-    public Jogador getJogadorAtual(){
+    public Jogador getJogadorAtual() {
         return jogadorAtual;
     }
 
-    public void trocaJogador(){
-        jogadorAtual = jogadores.get(1-jogadores.indexOf(jogadorAtual));
+    public void trocaJogador() {
+        jogadorAtual = jogadores.get(1 - jogadores.indexOf(jogadorAtual));
     }
 
-    public int sorteiaColuna(){
-        return (int)(Math.random() * 6) + 1;
+    public int sorteiaColuna() {
+        Random rand = new Random();
+        return rand.nextInt(LARGURA);
     }
 
-    public boolean colocaPeca(int coluna){
-        if(coluna < 0 || coluna - 1 > tabuleiro[0].length) {
+    public boolean colocaPeca(int coluna) {
+        if (coluna < 0 || coluna >= LARGURA) {
             return false;
-        } else if(tabuleiro[0][coluna] != '_'){
+        } else if (tabuleiro[0][coluna] != '_') {
             return false;
         }
 
-        for (int linha = tabuleiro.length-1; linha >= 0; linha--){
-            if(tabuleiro[linha][coluna - 1] == '_'){
-                tabuleiro[linha][coluna - 1] = jogadorAtual.getPeca();
+        for (int linha = tabuleiro.length - 1; linha >= 0; linha--) {
+            if (tabuleiro[linha][coluna] == '_') {
+                tabuleiro[linha][coluna] = jogadorAtual.getPeca();
                 jogadorAtual.aumentaNrJogada();
                 return true;
             }
@@ -90,16 +91,16 @@ public class Jogo implements Serializable {
         return false;
     }
 
-    public boolean colocaPecaEspecial(int coluna){
-        if(coluna < 0 || coluna - 1 > tabuleiro[0].length) {
+    public boolean colocaPecaEspecial(int coluna) {
+        if (coluna < 0 || coluna >= LARGURA) {
             return false;
-        } else if(tabuleiro[0][coluna] != '_') {
+        } else if (tabuleiro[0][coluna] != '_') {
             return false;
         }
-        for(int linha = tabuleiro.length-1; linha >= 0; linha--){
-            if(tabuleiro[linha][coluna - 1] == '_'){
-                for(int i = linha + 1; i < tabuleiro.length; i++){
-                    tabuleiro[i][coluna - 1] = '_';
+        for (int linha = tabuleiro.length - 1; linha >= 0; linha--) {
+            if (tabuleiro[linha][coluna] == '_') {
+                for (int i = linha + 1; i < tabuleiro.length; i++) {
+                    tabuleiro[i][coluna] = '_';
                 }
                 jogadorAtual.aumentaNrJogada();
                 return true;
@@ -109,37 +110,46 @@ public class Jogo implements Serializable {
     }
 
     public boolean avaliaVencedor(){
-
-        for(int i = 0; i < tabuleiro.length; i++){
-            for (int j = 0;j < tabuleiro[0].length - 3; j++){
+        //check for 4 across
+        for(int i = 0; i<ALTURA; i++){
+            for (int j = 0;j < LARGURA - 3;j++){
                 if (tabuleiro[i][j] == jogadorAtual.getPeca()   &&
-                        tabuleiro[i][i+1] == jogadorAtual.getPeca() &&
-                        tabuleiro[i][i+2] == jogadorAtual.getPeca() &&
-                        tabuleiro[i][i+3] == jogadorAtual.getPeca()){
+                        tabuleiro[i][j+1] == jogadorAtual.getPeca() &&
+                        tabuleiro[i][j+2] == jogadorAtual.getPeca() &&
+                        tabuleiro[i][j+3] == jogadorAtual.getPeca()){
                     return true;
                 }
-                else if (tabuleiro[i][j] == jogadorAtual.getPeca()  &&
+            }
+        }
+        //check for 4 up and down
+        for(int i = 0; i < ALTURA - 3; i++){
+            for(int j = 0; j < LARGURA; j++){
+                if (tabuleiro[i][j] == jogadorAtual.getPeca()   &&
+                        tabuleiro[i+1][j] == jogadorAtual.getPeca() &&
+                        tabuleiro[i+2][j] == jogadorAtual.getPeca() &&
+                        tabuleiro[i+3][j] == jogadorAtual.getPeca()){
+                    return true;
+                }
+            }
+        }
+        //check upward diagonal
+        for(int i = 3; i < ALTURA; i++){
+            for(int j = 0; j < LARGURA - 3; j++){
+                if (tabuleiro[i][j] == jogadorAtual.getPeca()   &&
                         tabuleiro[i-1][j+1] == jogadorAtual.getPeca() &&
                         tabuleiro[i-2][j+2] == jogadorAtual.getPeca() &&
                         tabuleiro[i-3][j+3] == jogadorAtual.getPeca()){
                     return true;
-
                 }
             }
         }
-
-        for(int i = 0; i < tabuleiro.length - 3; i++){
-            for(int j = 0; j < tabuleiro[0].length; j++){
+        //check downward diagonal
+        for(int i = 0; i < ALTURA - 3; i++){
+            for(int j = 0; j < LARGURA - 3; j++){
                 if (tabuleiro[i][j] == jogadorAtual.getPeca()   &&
-                        tabuleiro[i+1][j] == jogadorAtual.getPeca()  &&
-                        tabuleiro[i+2][j] == jogadorAtual.getPeca()  &&
-                        tabuleiro[i+3][j] == jogadorAtual.getPeca() ){
-                    return true;
-                }
-                else if(tabuleiro[i][j] == jogadorAtual.getPeca()   &&
-                        tabuleiro[i+1][j+1] == jogadorAtual.getPeca()  &&
+                        tabuleiro[i+1][j+1] == jogadorAtual.getPeca() &&
                         tabuleiro[i+2][j+2] == jogadorAtual.getPeca() &&
-                        tabuleiro[i+3][j+3] == jogadorAtual.getPeca() ){
+                        tabuleiro[i+3][j+3] == jogadorAtual.getPeca()){
                     return true;
                 }
             }
@@ -147,8 +157,8 @@ public class Jogo implements Serializable {
         return false;
     }
 
-    public void iniciaMiniJogo(){
-        switch(miniJogoAtivo) {
+    public void iniciaMiniJogo() {
+        switch (miniJogoAtivo) {
             case 0:
                 miniJogoAtivo = 1;
                 System.out.println(miniJogoAtivo);
@@ -162,7 +172,7 @@ public class Jogo implements Serializable {
         }
     }
 
-    public int getMiniJogoAtivo(){
+    public int getMiniJogoAtivo() {
         return miniJogoAtivo;
     }
 

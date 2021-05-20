@@ -11,7 +11,9 @@ public class JogaMiniJogoP extends EstadoAdapter {
 
     @Override
     public IEstado digitaPalavras(String resposta){
-        jogo.getMiniJogo().validaResposta(resposta);
+        if(jogo.getMiniJogo().validaResposta(resposta)) {
+            jogo.getJogadorAtual().incrementaPecasEspeciais();
+        }
         return new AguardaJogada(jogo);
     }
 

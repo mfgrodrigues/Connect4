@@ -21,6 +21,11 @@ public class MaqEstadosOriginator implements IMementoOriginator{
     @Override
     public void restoreMemento(Memento memento) throws IOException, ClassNotFoundException {
         maqEstados = (MaquinaEstados) memento.getSnapshot();
+        for(int i = 0; i < 2; i++) {
+            maqEstados.getJogadores().get(i).setNrJogadas(0);
+            maqEstados.getJogadores().get(i).setNrCreditos(0);
+            maqEstados.getJogadores().get(i).setNrPecasEspeciais(0);
+        }
     }
 
     public void adicionaJogador(String nome){maqEstados.adicionaJogador(nome);}
@@ -31,25 +36,23 @@ public class MaqEstadosOriginator implements IMementoOriginator{
 
     public void jogaPecaEspecial(int coluna) {maqEstados.jogaPecaEspecial(coluna);}
 
-    public void escolheOpMiniJogo(){ maqEstados.escolheOpMiniJogo();}
+    public void escolheOpMiniJogo(){maqEstados.escolheOpMiniJogo();}
 
-    public void resolveCalculo(String resposta){ maqEstados.resolveCalculo(resposta); }
+    public void resolveCalculo(String resposta){maqEstados.resolveCalculo(resposta);}
 
-    public void digitaPalavras(String resposta){ maqEstados.digitaPalavras(resposta); }
+    public void digitaPalavras(String resposta){maqEstados.digitaPalavras(resposta);}
 
-    public void novaTentativa(){ maqEstados.novaTentativa(); }
+    public void novaTentativa(){maqEstados.novaTentativa();}
 
-    public Situacao getSituacaoAtual(){ return maqEstados.getSituacaoAtual(); }
+    public Situacao getSituacaoAtual(){return maqEstados.getSituacaoAtual();}
 
-    public int sorteiaColuna(){ return maqEstados.sorteiaColuna(); }
+    public int sorteiaColuna(){return maqEstados.sorteiaColuna();}
 
-    public char[][] getTabuleiro(){ return maqEstados.getTabuleiro();}
+    public char[][] getTabuleiro(){return maqEstados.getTabuleiro();}
 
-    public List<Jogador> getJogadores(){ return maqEstados.getJogadores();}
+    public List<Jogador> getJogadores(){return maqEstados.getJogadores();}
 
-    public Jogador getJogadorAtual(){
-        return maqEstados.getJogadorAtual();
-    }
+    public Jogador getJogadorAtual(){return maqEstados.getJogadorAtual();}
 
-    public IMiniJogo getMiniJogo(){ return maqEstados.getMiniJogo(); }
+    public IMiniJogo getMiniJogo(){return maqEstados.getMiniJogo();}
 }

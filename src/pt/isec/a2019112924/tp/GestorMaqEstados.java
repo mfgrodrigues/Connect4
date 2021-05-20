@@ -21,10 +21,7 @@ public class GestorMaqEstados {
         originator.adicionaJogador(nome);
     }
 
-    public void iniciaJogo(){
-        careTaker.gravaMemento();
-        originator.iniciaJogo();
-    }
+    public void iniciaJogo(){ originator.iniciaJogo();}
 
     public void jogaPeca(int coluna){
         careTaker.gravaMemento();
@@ -57,7 +54,6 @@ public class GestorMaqEstados {
     }
 
     public Situacao getSituacaoAtual(){ return originator.getSituacaoAtual(); }
-
 
     public int sorteiaColuna(){ return originator.sorteiaColuna(); }
 

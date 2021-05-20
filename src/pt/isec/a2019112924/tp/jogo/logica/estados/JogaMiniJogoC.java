@@ -15,6 +15,9 @@ public class JogaMiniJogoC extends EstadoAdapter {
         if (!jogo.getMiniJogo().getJogoTerminou()) {
             return this;
         }
+        if (jogo.getMiniJogo().ganhou()) {
+            jogo.getJogadorAtual().incrementaPecasEspeciais();
+        }
         return new AguardaJogada(jogo);
     }
 

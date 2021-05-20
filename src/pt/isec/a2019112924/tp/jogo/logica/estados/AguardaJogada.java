@@ -11,7 +11,9 @@ public class AguardaJogada extends EstadoAdapter {
 
     @Override
     public IEstado jogaPeca(int coluna) {
-        jogo.colocaPeca(coluna);
+        if(!jogo.colocaPeca(coluna)){
+            return this;
+        }
         if (jogo.avaliaVencedor()) {
             return new TerminaJogo(jogo);
         }
