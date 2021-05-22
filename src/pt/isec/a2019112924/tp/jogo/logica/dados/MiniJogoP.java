@@ -11,6 +11,8 @@ import java.util.Random;
 import java.util.StringJoiner;
 
 public class MiniJogoP implements IMiniJogo, Serializable {
+    private static final long serialVersionUID = 1L;
+
     private static List<String> palavras = new ArrayList<>();
     private static String palavrasSorteadas;
     private int numPalavrasCertas;

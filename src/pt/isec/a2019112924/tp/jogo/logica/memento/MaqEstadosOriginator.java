@@ -6,9 +6,12 @@ import pt.isec.a2019112924.tp.jogo.logica.dados.Jogador;
 import pt.isec.a2019112924.tp.jogo.utils.Situacao;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
-public class MaqEstadosOriginator implements IMementoOriginator{
+public class MaqEstadosOriginator implements IMementoOriginator, Serializable {
+    private static final long serialVersionUID = 1L;
+
     MaquinaEstados maqEstados;
 
     public MaqEstadosOriginator(){maqEstados = new MaquinaEstados();}
@@ -19,7 +22,19 @@ public class MaqEstadosOriginator implements IMementoOriginator{
     }
 
     @Override
+    public Memento saveMementoJogo() throws IOException{
+        return new Memento(maqEstados.getJogo());
+    }
+
+    @Override
     public void restoreMemento(Memento memento) throws IOException, ClassNotFoundException {
+        //TODO guardar a informacao jogador
+        //TODO so dou reset ao nr de jogadas de quem fez undo
+        /*for(int i = 0; i < 2; i++) {
+            maqEstados.getJogadores().get(i).getNrJogadas();
+            maqEstados.getJogadores().get(i).getNrCreditos();
+            maqEstados.getJogadores().get(i).getNrPecasEspeciais();
+        }*/
         maqEstados = (MaquinaEstados) memento.getSnapshot();
         for(int i = 0; i < 2; i++) {
             maqEstados.getJogadores().get(i).setNrJogadas(0);
@@ -33,6 +48,8 @@ public class MaqEstadosOriginator implements IMementoOriginator{
     public void iniciaJogo(){maqEstados.iniciaJogo();}
 
     public void jogaPeca(int coluna) {maqEstados.jogaPeca(coluna);}
+
+    public void jogaPeca() {maqEstados.jogaPeca();}
 
     public void jogaPecaEspecial(int coluna) {maqEstados.jogaPecaEspecial(coluna);}
 

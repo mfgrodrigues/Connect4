@@ -20,6 +20,9 @@ public abstract class EstadoAdapter implements IEstado, Serializable {
     public IEstado jogaPeca(int coluna){return this;}
 
     @Override
+    public IEstado jogaPeca(){return this;}
+
+    @Override
     public IEstado jogaPecaEspecial(int coluna){return this;}
 
     @Override

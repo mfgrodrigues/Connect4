@@ -20,6 +20,8 @@ public class MaquinaEstados implements Serializable {
         estadoAtual = new AguardaInicio(jogo);
     }
 
+    public Jogo getJogo(){ return jogo; }
+
     private void setEstadoAtual(IEstado estadoAtual){this.estadoAtual = estadoAtual;}
 
     public void adicionaJogador(String nome){ setEstadoAtual(estadoAtual = estadoAtual.adicionaJogador(nome)); }
@@ -27,6 +29,8 @@ public class MaquinaEstados implements Serializable {
     public void iniciaJogo(){ setEstadoAtual(estadoAtual = estadoAtual.iniciaJogo()); }
 
     public void jogaPeca(int coluna) { setEstadoAtual(estadoAtual = estadoAtual.jogaPeca(coluna)); }
+
+    public void jogaPeca() { setEstadoAtual(estadoAtual = estadoAtual.jogaPeca()); }
 
     public void jogaPecaEspecial(int coluna) { setEstadoAtual(estadoAtual = estadoAtual.jogaPecaEspecial(coluna)); }
 
@@ -51,5 +55,4 @@ public class MaquinaEstados implements Serializable {
     }
 
     public IMiniJogo getMiniJogo(){ return jogo.getMiniJogo(); }
-
 }

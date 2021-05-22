@@ -8,9 +8,11 @@ public class TerminaJogo extends EstadoAdapter{
 
     @Override
     public IEstado novaTentativa() {
+        jogo.eliminaJogadores();
         return new AguardaInicio(jogo);
     }
 
+    @Override
     public Situacao getSituacaoAtual() {
         return Situacao.TerminaJogo;
     }

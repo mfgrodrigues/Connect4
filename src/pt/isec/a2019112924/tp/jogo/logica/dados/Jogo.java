@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Random;
 
 public class Jogo implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     final static int ALTURA = 6;
     final static int LARGURA = 7;
 
@@ -19,12 +21,15 @@ public class Jogo implements Serializable {
     public Jogo() {
         jogadores = new ArrayList<>(2);
         tabuleiro = new char[ALTURA][LARGURA];
-        miniJogoAtivo = 0;
     }
 
     public boolean adicionaJogador(String nome) {
         jogadores.add(new JogadorHumano(nome));
         return true;
+    }
+
+    public void eliminaJogadores(){
+        jogadores.clear();
     }
 
     public void inicia() {
@@ -37,6 +42,7 @@ public class Jogo implements Serializable {
         }
         preparaPecas();
         preparaTabuleiro();
+        miniJogoAtivo = 0;
         jogadorAtual = jogadores.get((int) (Math.random() * 1));
     }
 
@@ -64,6 +70,7 @@ public class Jogo implements Serializable {
     public Jogador getJogadorAtual() {
         return jogadorAtual;
     }
+
 
     public void trocaJogador() {
         jogadorAtual = jogadores.get(1 - jogadores.indexOf(jogadorAtual));

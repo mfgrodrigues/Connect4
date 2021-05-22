@@ -5,4 +5,5 @@ import java.io.IOException;
 public interface IMementoOriginator {
     Memento saveMemento() throws IOException; //saveState
     void restoreMemento(Memento m) throws IOException, ClassNotFoundException; //restoreState
+    Memento saveMementoJogo() throws IOException;
 }

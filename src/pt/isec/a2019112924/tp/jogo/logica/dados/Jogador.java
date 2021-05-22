@@ -3,6 +3,8 @@ package pt.isec.a2019112924.tp.jogo.logica.dados;
 import java.io.Serializable;
 
 public abstract class Jogador implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String nome;
     private int nrCreditos;
     private int nrJogadas;
@@ -14,10 +16,6 @@ public abstract class Jogador implements Serializable {
         nrCreditos = 5;
         nrJogadas = 0;
         nrPecasEspeciais = 0;
-    }
-
-    public void setPeca(char peca) {
-        this.peca = peca;
     }
 
     public char getPeca() {
@@ -38,6 +36,10 @@ public abstract class Jogador implements Serializable {
 
     public int getNrPecasEspeciais() {
         return nrPecasEspeciais;
+    }
+
+    public void setPeca(char peca) {
+        this.peca = peca;
     }
 
     public void setNrCreditos(int nrCreditos) {

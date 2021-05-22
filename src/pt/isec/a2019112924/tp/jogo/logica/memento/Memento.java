@@ -5,8 +5,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-public class Memento {
+public class Memento implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private final byte[] snapshot;
 
     public Memento(Object obj) throws IOException {

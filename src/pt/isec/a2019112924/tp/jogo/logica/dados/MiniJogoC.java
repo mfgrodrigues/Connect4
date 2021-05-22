@@ -3,6 +3,8 @@ package pt.isec.a2019112924.tp.jogo.logica.dados;
 import java.io.Serializable;
 
 public class MiniJogoC implements IMiniJogo, Serializable {
+    private static final long serialVersionUID = 1L;
+
     private static final int MIN_RESPOSTAS_CERTAS = 5;
     private int numRespCertas;
     private int num1;

@@ -22,6 +22,19 @@ public class AguardaJogada extends EstadoAdapter {
     }
 
     @Override
+    public IEstado jogaPeca(){
+        int coluna = jogo.sorteiaColuna();
+        if(!jogo.colocaPeca(coluna)){
+            return this;
+        }
+        if (jogo.avaliaVencedor()) {
+            return new TerminaJogo(jogo);
+        }
+        jogo.trocaJogador();
+        return new AguardaJogada(jogo);
+    }
+
+    @Override
     public IEstado jogaPecaEspecial(int coluna) {
         jogo.colocaPecaEspecial(coluna);
         jogo.trocaJogador();
@@ -30,11 +43,14 @@ public class AguardaJogada extends EstadoAdapter {
 
     @Override
     public IEstado escolheOpMiniJogo() {
-        jogo.iniciaMiniJogo();
-        if (jogo.getMiniJogoAtivo() == 1) {
-            return new JogaMiniJogoC(jogo);
+        if(jogo.getJogadorAtual().getNrJogadas() == 4) {
+            jogo.iniciaMiniJogo();
+            if (jogo.getMiniJogoAtivo() == 1) {
+                return new JogaMiniJogoC(jogo);
+            }
+            return new JogaMiniJogoP(jogo);
         }
-        return new JogaMiniJogoP(jogo);
+        return this;
     }
 
     @Override

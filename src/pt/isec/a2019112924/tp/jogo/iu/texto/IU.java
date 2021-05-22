@@ -1,25 +1,25 @@
 package pt.isec.a2019112924.tp.jogo.iu.texto;
 
-import pt.isec.a2019112924.tp.GestorMaqEstados;
+import pt.isec.a2019112924.tp.Gestor;
 import pt.isec.a2019112924.tp.jogo.logica.dados.Jogador;
+import pt.isec.a2019112924.tp.jogo.logica.dados.Jogo;
 import pt.isec.a2019112924.tp.jogo.utils.Situacao;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class IU {
-    private GestorMaqEstados maquinaEstados;
+    private Gestor gestor;
     private boolean sair = false;
     private Scanner sc = new Scanner(System.in);
 
-    public IU(GestorMaqEstados maquinaEstados) {
-        this.maquinaEstados = maquinaEstados;
+    public IU(Gestor maquinaEstados) {
+        this.gestor = maquinaEstados;
     }
 
     public void corre() {
 
         while (!sair) {
-            Situacao situacao = maquinaEstados.getSituacaoAtual();
+            Situacao situacao = gestor.getSituacaoAtual();
             System.out.println("\n[" + situacao + "]\n");
             switch (situacao) {
                 case AguardaInicio -> iuAguardaInicio();
@@ -36,13 +36,14 @@ public class IU {
                 --+---+---+---+---+--
                 MENU:                
                 1 - Novo Jogo
-                2 - Historico Jogos 
+                2 - Carregar Jogo Anterior
+                3 - Replay Historico Jogos 
 
                 0 - Sair
                 --+---+---+---+---+--
                 Escolha uma opcao:""");
 
-        switch (leInteiro(0, 2)) {
+        switch (leInteiro(0, 3)) {
             case 1:
                 System.out.println("""
                         --+---+---+---+---+--
@@ -54,27 +55,38 @@ public class IU {
                         --+---+---+---+---+--
                         Escolha uma opcao:""");
                 int opcao = leInteiro(0, 3);
-
                 if (opcao == 1) {
                     System.out.println("Digite o seu username: ");
                     String nome = sc.nextLine();
-                    maquinaEstados.adicionaJogador(nome);
-                    maquinaEstados.iniciaJogo();
-                    //devo escrever mensagem de erro caso o jogador nao seja adicionado adicionaJogador(metodo bool)
+                    gestor.adicionaJogador(nome);
+                    gestor.iniciaJogo();
+                    //TODO feedback do jogo
                 } else if (opcao == 2) {
                     for (int i = 0; i < 2; i++) {
                         System.out.println("Jogador " + (i + 1) + "\nDigite o seu username: ");
                         String nome = sc.nextLine();
-                        maquinaEstados.adicionaJogador(nome);
+                        gestor.adicionaJogador(nome);
+                        //TODO feedback do jogo: jogadores com o mesmo nome
                     }
-                    maquinaEstados.iniciaJogo();
+                    gestor.iniciaJogo();
                 } else if (opcao == 3) {
-                    maquinaEstados.iniciaJogo();
+                    gestor.iniciaJogo();
                 } else if (opcao == 0) {
                     sair = true;
                 }
                 break;
             case 2:
+                gestor.loadEstadoJogoFicheiro("jogo.bin");
+                break;
+            case 3:
+                System.out.println("Indique o nome do ficheiro: ");
+                String nomeFich = sc.nextLine();
+                gestor.loadReplayJogo(nomeFich);
+                do {
+                    mostraReplay(gestor.avancaReplay());
+                    System.out.println("Pressione [ENTER] para avancar");
+                    sc.nextLine();
+                }while(gestor.getStackJogoSize() > 0);
                 break;
             case 0:
                 sair = true;
@@ -84,78 +96,50 @@ public class IU {
     }
 
     private void iuAguardaJogada() {
-        int jog = 0;
         mostraTabuleiro();
-
+        mostraInfoJogadores();
         System.out.println();
-        for (Jogador jogador : maquinaEstados.getJogadores()) {
-            System.out.println("Jogador" + (jog + 1) + " -> " + jogador.toString());
-            jog++;
-        }
-        System.out.println();
-
         System.out.println("\n--+---+---+---+---+--");
-        System.out.println("JOGA " + (maquinaEstados.getJogadorAtual().getNome()).toUpperCase() + "\n");
-        if (maquinaEstados.getJogadorAtual().getNome().contains("Virtual")) {
+        System.out.println("JOGA " + (gestor.getJogadorAtual().getNome()).toUpperCase() + "\n");
+        if (gestor.getJogadorAtual().getNome().contains("Virtual")) {
             System.out.println("Pressione [ENTER] para avancar");
-            try {
-                System.in.read();
-            } catch (IOException e) {
-                System.out.println("Tecla invalida");
-            }
-            int coluna = maquinaEstados.sorteiaColuna();
-            System.out.println("Coloco " + maquinaEstados.getJogadorAtual().getPeca() + " na coluna " + coluna);
+            sc.nextLine();
             System.out.println("--+---+---+---+---+--");
-            maquinaEstados.jogaPeca(coluna);
-
+            gestor.jogaPeca();
         } else {
             System.out.println("""
                     1 - Jogar Peca
                     2 - Jogar Peca Especial
-                    3 - Voltar Jogada Atras """);
-            if (maquinaEstados.getJogadorAtual().getNrJogadas() == 4) {
-                System.out.println("4 - Jogar Mini Jogo");
-            }
-            System.out.println("""
+                    3 - Voltar Jogada Atras 
+                    4 - Jogar Mini Jogo
+                    
                     0 - Sair
                     --+---+---+---+---+--
                     Escolha uma opcao:""");
 
-
-            switch (leInteiro(0, maquinaEstados.getJogadorAtual().getNrJogadas() == 4 ? 4 : 3)) {
+            switch (leInteiro(0,4)) {
                 case 1:
                     System.out.println("Jogar peca na coluna:");
                     int coluna = leInteiro(1, 7);
-                    maquinaEstados.jogaPeca(coluna - 1);
+                    gestor.jogaPeca(coluna - 1);
                     break;
                 case 2:
                     System.out.println("Jogar peca especial na coluna:");
                     coluna = leInteiro(1, 7);
-                    maquinaEstados.jogaPecaEspecial(coluna - 1);
+                    gestor.jogaPecaEspecial(coluna - 1);
                     break;
                 case 3:
-                    int creditos = 0;
                     System.out.println("Nr. de creditos para voltar atras:");
-                    do {
-                        try {
-                            creditos = Integer.parseInt(sc.nextLine());
-                            if (creditos <= maquinaEstados.getJogadorAtual().getNrCreditos()) {
-                                for (int i = 0; i < creditos; i++) {
-                                    maquinaEstados.voltarAtras();
-                                }
-                            }
-                        } catch (Exception e) {
-                            System.out.println("Nr. creditos disponiveis: " + maquinaEstados.getJogadorAtual().getNrCreditos());
-                        }
-                    } while (creditos > maquinaEstados.getJogadorAtual().getNrCreditos());
-
-                    break;
-                case 4:
-                    if (maquinaEstados.getJogadorAtual().getNrJogadas() == 4) {
-                        maquinaEstados.escolheOpMiniJogo();
+                    int nrBacks = leInteiro();
+                    if(!gestor.voltarAtras(nrBacks)) {
+                        System.out.println("Numero de creditos disponivel insuficiente");
                     }
                     break;
+                case 4:
+                    gestor.escolheOpMiniJogo();
+                    break;
                 case 0:
+                    gestor.saveEstadoJogoFicheiro("jogo.bin");
                     sair = true;
                     break;
             }
@@ -163,34 +147,82 @@ public class IU {
     }
 
     private void iuMiniJogoC() {
-        System.out.println(maquinaEstados.getMiniJogo().getPergunta());
+        System.out.println(gestor.getMiniJogo().getPergunta());
         System.out.println("Resultado:");
         String resposta = String.valueOf(leInteiro());
-        maquinaEstados.resolveCalculo(resposta);
+        gestor.resolveCalculo(resposta);
     }
 
     private void iuMiniJogoP() {
-        System.out.println(maquinaEstados.getMiniJogo().getPergunta());
+        System.out.println(gestor.getMiniJogo().getPergunta());
         System.out.println("Digite as palavras apresentadas no menor tempo possível. Pressione a tecla [enter] quando terminar.");
         String resposta = sc.nextLine();
-        maquinaEstados.digitaPalavras(resposta);
+        gestor.digitaPalavras(resposta);
     }
 
     private void iuTerminaJogo() {
         mostraTabuleiro();
-        System.out.println("\nParabéns " + maquinaEstados.getJogadorAtual().getNome() + " !!!\nÉs o grande vencedor.");
-        maquinaEstados.novaTentativa();
+        System.out.println("\nParabéns " + gestor.getJogadorAtual().getNome() + " !!!\nÉs o grande vencedor.\n");
+        System.out.println("Deseja gravar o jogo? [Sim/Nao]");
+        String grava = sc.nextLine().toUpperCase();
+        if(grava.equals("SIM")) {
+            System.out.println("Nome do ficheiro:");
+            String nomeFich = sc.nextLine();
+            gestor.saveReplayJogo(nomeFich);
+        }
+        System.out.println("""
+                        --+---+---+---+---+--
+                        0 - Sair 
+                        1 - Voltar a Jogar
+                        --+---+---+---+---+--
+                        Escolha uma opcao:""");
+        switch (leInteiro(0,1)){
+            case 0:
+                sair = true;
+                break;
+            case 1:
+                gestor.novaTentativa();
+                break;
+        }
+
     }
 
     private void mostraTabuleiro() {
-        for (int i = 0; i < maquinaEstados.getTabuleiro().length; i++) {
+        for (int i = 0; i < gestor.getTabuleiro().length; i++) {
             System.out.print("|");
-            for (int j = 0; j < maquinaEstados.getTabuleiro()[0].length; j++) {
-                System.out.print(maquinaEstados.getTabuleiro()[i][j]);
+            for (int j = 0; j < gestor.getTabuleiro()[0].length; j++) {
+                System.out.print(gestor.getTabuleiro()[i][j]);
                 System.out.print("|");
             }
             System.out.println();
         }
+    }
+
+    private void mostraInfoJogadores() {
+        int jog = 0;
+        for (Jogador jogador : gestor.getJogadores()) {
+            System.out.println("Jogador" + (jog + 1) + " -> " + jogador.toString());
+            jog++;
+        }
+    }
+
+    private void mostraReplay(Jogo jogo) {
+        int jog = 0;
+        for (Jogador jogador : jogo.getJogadores()) {
+            System.out.println("Jogador" + (jog + 1) + " -> " + jogador.toString());
+            jog++;
+        }
+        System.out.println();
+        for (int i = 0; i < jogo.getTabuleiro().length; i++) {
+            System.out.print("|");
+            for (int j = 0; j < jogo.getTabuleiro()[0].length; j++) {
+                System.out.print(jogo.getTabuleiro()[i][j]);
+                System.out.print("|");
+            }
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println("JOGA " + (jogo.getJogadorAtual().getNome()).toUpperCase() + "\n");
     }
 
     private int leInteiro(int min, int max) {
