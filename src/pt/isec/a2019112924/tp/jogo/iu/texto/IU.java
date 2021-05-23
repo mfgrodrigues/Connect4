@@ -13,8 +13,8 @@ public class IU {
     private int tam = 0;
     private Scanner sc = new Scanner(System.in);
 
-    public IU(Gestor maquinaEstados) {
-        this.gestor = maquinaEstados;
+    public IU(Gestor gestor) {
+        this.gestor = gestor;
     }
 
     public void corre() {
@@ -146,7 +146,7 @@ public class IU {
                     System.out.println("Nr. de creditos para voltar atras:");
                     int nrBacks = leInteiro();
                     if(!gestor.voltarAtras(nrBacks)) {
-                        System.out.println("Numero de creditos disponivel insuficiente");
+                        System.out.println("Nao e possivel voltar atras");
                     }
                     break;
                 case 4:
@@ -278,9 +278,10 @@ public class IU {
     }
 
     private void mostraLog(){
-        for(String msg: gestor.getLog()){
-            System.out.println("[" +  msg + "]");
+        for(int i = tam; i < gestor.getLog().size(); i++){
+            System.out.println("[" + gestor.getLog().get(i) + "]");
         }
+        tam = gestor.getLog().size();
     }
 
     private void mostraFicheiros(){

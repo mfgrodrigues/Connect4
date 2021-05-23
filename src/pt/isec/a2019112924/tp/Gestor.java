@@ -6,7 +6,6 @@ import pt.isec.a2019112924.tp.jogo.logica.dados.JogadorHumano;
 import pt.isec.a2019112924.tp.jogo.logica.dados.Jogo;
 import pt.isec.a2019112924.tp.jogo.logica.memento.CareTaker;
 import pt.isec.a2019112924.tp.jogo.logica.memento.MaqEstadosOriginator;
-import pt.isec.a2019112924.tp.jogo.logica.memento.Memento;
 import pt.isec.a2019112924.tp.jogo.utils.Situacao;
 
 import java.io.File;
@@ -15,9 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 
 public class Gestor {
@@ -47,7 +44,6 @@ public class Gestor {
         careTaker.gravaMemento();
         originator.jogaPeca(coluna);
         careTaker.gravaJogo();
-        System.out.println("gravei joga peca");
     }
 
     public void jogaPeca() {
@@ -60,7 +56,6 @@ public class Gestor {
         careTaker.gravaMemento();
         originator.jogaPecaEspecial(coluna);
         careTaker.gravaJogo();
-        System.out.println("gravei joga peca epsecial");
     }
 
     public void escolheOpMiniJogo(){
@@ -103,8 +98,8 @@ public class Gestor {
         jog1 = originator.getJogadores().get(0);
         jog2 = originator.getJogadores().get(1);
 
-        for (int i = 0; i < nrBacks; i++) {
-            careTaker.undo();
+        if(!careTaker.undo(nrBacks)){
+            return false;
         }
 
         originator.getJogadores().clear();
@@ -113,7 +108,10 @@ public class Gestor {
         jogAtual.setNrJogadas(0);
         ((JogadorHumano)jogAtual).setNrCreditos(((JogadorHumano)jogAtual).getNrCreditos() - nrBacks);
         originator.getJogo().setLog(logCopia);
-        originator.getJogo().addLog(originator.getJogadorAtual().getNome() + ": Voltou para tras " + nrBacks + " vezes");
+        originator.getJogo().addLog(jogAtual.getNome() + ": Voltou para tras " + nrBacks + " vezes");
+        if(nrBacks%2 == 0) {
+            originator.getJogo().trocaJogador();
+        }
         careTaker.gravaJogo();
         return true;
     }

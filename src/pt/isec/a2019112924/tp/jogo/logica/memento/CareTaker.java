@@ -46,17 +46,23 @@ public class CareTaker implements Serializable {
     }
 
 
-    public void undo() {
+    public boolean undo(int nrBacks) {
         if (stackHist.isEmpty()) {
-            return;
+            return false;
+        }
+        if(nrBacks > stackHist.size()){
+            return false;
         }
         try {
-            Memento anterior = stackHist.pop();
-            originator.restoreMemento(anterior);
+            for(int i = 0; i < nrBacks; i++) {
+                Memento anterior = stackHist.pop();
+                originator.restoreMemento(anterior);
+            }
         } catch(IOException | ClassNotFoundException e) {
             System.err.println("[Erro] undo " + e);
             stackHist.clear();
         }
+        return true;
     }
 
     public Jogo replayJogo(){
@@ -73,7 +79,7 @@ public class CareTaker implements Serializable {
     }
 
     public void saveReplay(String nomeFich){
-        gravaJogo();
+        //gravaJogo();
         String ficheiro = "./replays/" + nomeFich + ".bin";
         File f = new File(ficheiro);
         try{
