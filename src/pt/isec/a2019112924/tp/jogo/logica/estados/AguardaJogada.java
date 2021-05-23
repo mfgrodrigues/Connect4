@@ -38,18 +38,19 @@ public class AguardaJogada extends EstadoAdapter {
             return new TerminaJogo(jogo);
         }
         jogo.trocaJogador();
+
         return new AguardaJogada(jogo);
     }
 
     @Override
     public IEstado jogaPecaEspecial(int coluna) {
+        jogo.addLog(jogo.getJogadorAtual().getNome() + ": Joga peca especial coluna " + (coluna + 1));
         if(jogo.getJogadorAtual() instanceof JogadorHumano) {
             if(((JogadorHumano)jogo.getJogadorAtual()).getNrPecasEspeciais() == 0) {
                 jogo.addLog(jogo.getJogadorAtual().getNome() + ": Nr de pecas especiais insuficientes");
                 return this;
             }
         }
-        jogo.addLog(jogo.getJogadorAtual().getNome() + ": Joga peca especial coluna " + (coluna + 1));
         jogo.colocaPecaEspecial(coluna);
         ((JogadorHumano)jogo.getJogadorAtual()).decrementaPecasEspeciais();
         jogo.trocaJogador();

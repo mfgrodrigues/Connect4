@@ -15,9 +15,8 @@ public class Memento implements Serializable {
     public Memento(Object obj) throws IOException {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
              ObjectOutputStream oos = new ObjectOutputStream(baos)){
-            //array de bytes em memoria
-            oos.writeObject(obj);
-            snapshot = baos.toByteArray();
+             oos.writeObject(obj);
+             snapshot = baos.toByteArray();
         }
     }
 

@@ -109,14 +109,17 @@ public class Gestor {
         ((JogadorHumano)jogAtual).setNrCreditos(((JogadorHumano)jogAtual).getNrCreditos() - nrBacks);
         originator.getJogo().setLog(logCopia);
         originator.getJogo().addLog(jogAtual.getNome() + ": Voltou para tras " + nrBacks + " vezes");
-        if(nrBacks%2 == 0) {
-            originator.getJogo().trocaJogador();
-        }
         careTaker.gravaJogo();
         return true;
     }
 
-    public void loadReplayJogo(String nomeFich) {careTaker.loadReplay(nomeFich);}
+    public boolean loadReplayJogo(String nomeFich) {
+        if(!existeFicheiro(nomeFich)){
+            return false;
+        }
+        careTaker.loadReplay(nomeFich);
+        return true;
+    }
 
     public boolean saveReplayJogo(String nomeFich) {
         verificaReplays();
@@ -138,7 +141,6 @@ public class Gestor {
         String[] ficheiros;
         ficheiros = reuneFicheiros();
         for(int i = 0; i < ficheiros.length; i++){
-            System.out.println(ficheiros[i]);
             if(ficheiros[i].equals(nomeFich + ".bin")){
                 return true;
             }
@@ -201,6 +203,4 @@ public class Gestor {
     }
 
     public List<String> getLog(){ return originator.getLog();}
-
-    public void clearLog(){ originator.clearLog();}
 }

@@ -51,6 +51,4 @@ public class MaquinaEstados implements Serializable {
     public IMiniJogo getMiniJogo(){ return jogo.getMiniJogo();}
 
     public List<String> getLog(){ return jogo.getLog();}
-
-    public void clearLog(){ jogo.clearLog();}
 }

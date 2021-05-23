@@ -61,6 +61,4 @@ public class MaqEstadosOriginator implements IMementoOriginator, Serializable {
     public IMiniJogo getMiniJogo(){return maqEstados.getMiniJogo();}
 
     public List<String> getLog(){ return maqEstados.getLog();}
-
-    public void clearLog(){ maqEstados.clearLog();}
 }

@@ -11,6 +11,7 @@ public class IU {
     private Gestor gestor;
     private boolean sair = false;
     private int tam = 0;
+    private boolean continua = false;
     private Scanner sc = new Scanner(System.in);
 
     public IU(Gestor gestor) {
@@ -92,14 +93,21 @@ public class IU {
                 break;
             case 3:
                 mostraFicheiros();
-                System.out.println("Indique o nome do ficheiro: ");
-                String nomeFich = sc.nextLine();
-                gestor.loadReplayJogo(nomeFich);
-                do {
+                while(!continua){
+                    System.out.println("Indique o nome do ficheiro: ");
+                    String nomeFich = sc.nextLine();
+                    if(gestor.loadReplayJogo(nomeFich)){
+                        continua = true;
+                    }
+                    else{
+                        System.out.println("O ficheiro nao existe");
+                    }
+                }
+                while(gestor.getStackJogoSize() > 0){
                     mostraReplay(gestor.avancaReplay());
                     System.out.println("Pressione [ENTER] para avancar");
                     sc.nextLine();
-                }while(gestor.getStackJogoSize() > 0);
+                }
                 break;
             case 0:
                 sair = true;
@@ -287,6 +295,7 @@ public class IU {
     private void mostraFicheiros(){
         if(gestor.reuneFicheiros().length == 0){
             System.out.println("Nao existem jogos gravados.");
+            continua = true;
         }
         for(String nomeFich: gestor.reuneFicheiros()) {
             System.out.println(nomeFich);

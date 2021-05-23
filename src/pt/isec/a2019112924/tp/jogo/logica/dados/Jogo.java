@@ -92,10 +92,10 @@ public class Jogo implements Serializable {
     }
 
     public void trocaJogador() {
-        if(jogadorAtual == jogadores.get(0))
+        if(jogadorAtual.getNome().equals(jogadores.get(0).getNome())) {
             jogadorAtual = jogadores.get(1);
-        else
-            jogadorAtual = jogadores.get(0);
+        }else if(jogadorAtual.getNome().equals(jogadores.get(1).getNome())){
+            jogadorAtual = jogadores.get(0);}
     }
 
     public int sorteiaColuna() {
