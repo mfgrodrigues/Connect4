@@ -20,39 +20,37 @@ public class MaquinaEstados implements Serializable {
         estadoAtual = new AguardaInicio(jogo);
     }
 
-    public Jogo getJogo(){ return jogo; }
+    public Jogo getJogo(){ return jogo;}
 
     private void setEstadoAtual(IEstado estadoAtual){this.estadoAtual = estadoAtual;}
 
-    public void adicionaJogador(String nome){ setEstadoAtual(estadoAtual = estadoAtual.adicionaJogador(nome)); }
+    public void iniciaJogo(){ setEstadoAtual(estadoAtual = estadoAtual.iniciaJogo());}
 
-    public void iniciaJogo(){ setEstadoAtual(estadoAtual = estadoAtual.iniciaJogo()); }
+    public void jogaPeca(int coluna) { setEstadoAtual(estadoAtual = estadoAtual.jogaPeca(coluna));}
 
-    public void jogaPeca(int coluna) { setEstadoAtual(estadoAtual = estadoAtual.jogaPeca(coluna)); }
+    public void jogaPeca() { setEstadoAtual(estadoAtual = estadoAtual.jogaPeca());}
 
-    public void jogaPeca() { setEstadoAtual(estadoAtual = estadoAtual.jogaPeca()); }
-
-    public void jogaPecaEspecial(int coluna) { setEstadoAtual(estadoAtual = estadoAtual.jogaPecaEspecial(coluna)); }
+    public void jogaPecaEspecial(int coluna) { setEstadoAtual(estadoAtual = estadoAtual.jogaPecaEspecial(coluna));}
 
     public void escolheOpMiniJogo(){ setEstadoAtual(estadoAtual = estadoAtual.escolheOpMiniJogo());}
 
-    public void resolveCalculo(String resposta){ setEstadoAtual(estadoAtual = estadoAtual.resolveCalculo(resposta)); }
+    public void resolveCalculo(String resposta){ setEstadoAtual(estadoAtual = estadoAtual.resolveCalculo(resposta));}
 
-    public void digitaPalavras(String resposta){ setEstadoAtual(estadoAtual = estadoAtual.digitaPalavras(resposta)); }
+    public void digitaPalavras(String resposta){ setEstadoAtual(estadoAtual = estadoAtual.digitaPalavras(resposta));}
 
-    public void novaTentativa(){ setEstadoAtual(estadoAtual = estadoAtual.novaTentativa()); }
+    public void novaTentativa(){ setEstadoAtual(estadoAtual = estadoAtual.novaTentativa());}
 
-    public Situacao getSituacaoAtual(){ return estadoAtual.getSituacaoAtual(); }
-
-    public int sorteiaColuna(){ return jogo.sorteiaColuna(); }
+    public Situacao getSituacaoAtual(){ return estadoAtual.getSituacaoAtual();}
 
     public char[][] getTabuleiro(){ return jogo.getTabuleiro();}
 
     public List<Jogador> getJogadores(){ return jogo.getJogadores();}
 
-    public Jogador getJogadorAtual(){
-        return jogo.getJogadorAtual();
-    }
+    public Jogador getJogadorAtual(){ return jogo.getJogadorAtual();}
 
-    public IMiniJogo getMiniJogo(){ return jogo.getMiniJogo(); }
+    public IMiniJogo getMiniJogo(){ return jogo.getMiniJogo();}
+
+    public List<String> getLog(){ return jogo.getLog();}
+
+    public void clearLog(){ jogo.clearLog();}
 }

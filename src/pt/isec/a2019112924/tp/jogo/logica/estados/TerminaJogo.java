@@ -8,6 +8,7 @@ public class TerminaJogo extends EstadoAdapter{
 
     @Override
     public IEstado novaTentativa() {
+        jogo.addLog(jogo.getJogadorAtual().getNome() + ": Volta a jogar");
         jogo.eliminaJogadores();
         return new AguardaInicio(jogo);
     }

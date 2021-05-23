@@ -11,9 +11,6 @@ public abstract class EstadoAdapter implements IEstado, Serializable {
     protected EstadoAdapter(Jogo jogo){this.jogo = jogo;}
 
     @Override
-    public IEstado adicionaJogador(String nome){return this;}
-
-    @Override
     public IEstado iniciaJogo(){return this;}
 
     @Override

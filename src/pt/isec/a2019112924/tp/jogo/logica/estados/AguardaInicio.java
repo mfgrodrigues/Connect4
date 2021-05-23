@@ -8,13 +8,8 @@ public class AguardaInicio extends EstadoAdapter{
     public AguardaInicio(Jogo jogo){super(jogo);}
 
     @Override
-    public IEstado adicionaJogador(String nome) {
-        jogo.adicionaJogador(nome);
-        return new AguardaInicio(jogo);
-    }
-
-    @Override
     public IEstado iniciaJogo() {
+        jogo.addLog("Inicio de um novo jogo");
         jogo.inicia();
         return new AguardaJogada(jogo);
     }

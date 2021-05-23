@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class IU {
     private Gestor gestor;
     private boolean sair = false;
+    private int tam = 0;
     private Scanner sc = new Scanner(System.in);
 
     public IU(Gestor maquinaEstados) {
@@ -20,7 +21,9 @@ public class IU {
 
         while (!sair) {
             Situacao situacao = gestor.getSituacaoAtual();
-            System.out.println("\n[" + situacao + "]\n");
+            System.out.println();
+            mostraLog();
+            System.out.println();
             switch (situacao) {
                 case AguardaInicio -> iuAguardaInicio();
                 case AguardaJogada -> iuAguardaJogada();
@@ -60,13 +63,18 @@ public class IU {
                     String nome = sc.nextLine();
                     gestor.adicionaJogador(nome);
                     gestor.iniciaJogo();
-                    //TODO feedback do jogo
                 } else if (opcao == 2) {
+                    String nome;
                     for (int i = 0; i < 2; i++) {
-                        System.out.println("Jogador " + (i + 1) + "\nDigite o seu username: ");
-                        String nome = sc.nextLine();
-                        gestor.adicionaJogador(nome);
-                        //TODO feedback do jogo: jogadores com o mesmo nome
+                        boolean adicionado = false;
+                        do {
+                            System.out.println("Jogador " + (i + 1) + "\nDigite o seu username: ");
+                             nome = sc.nextLine();
+                            if (gestor.adicionaJogador(nome)) {
+                                adicionado = true;
+                                System.out.println("Bem-vindo");
+                            }
+                        }while(!adicionado);
                     }
                     gestor.iniciaJogo();
                 } else if (opcao == 3) {
@@ -76,9 +84,14 @@ public class IU {
                 }
                 break;
             case 2:
-                gestor.loadEstadoJogoFicheiro("jogo.bin");
+                if(gestor.loadEstadoJogoFicheiro("jogo.bin")){
+                System.out.println("Jogo carregado com sucesso");
+                }else{
+                    System.out.println("Nao ha jogos guardados");
+                }
                 break;
             case 3:
+                mostraFicheiros();
                 System.out.println("Indique o nome do ficheiro: ");
                 String nomeFich = sc.nextLine();
                 gestor.loadReplayJogo(nomeFich);
@@ -97,6 +110,7 @@ public class IU {
 
     private void iuAguardaJogada() {
         mostraTabuleiro();
+        System.out.println();
         mostraInfoJogadores();
         System.out.println();
         System.out.println("\n--+---+---+---+---+--");
@@ -139,7 +153,9 @@ public class IU {
                     gestor.escolheOpMiniJogo();
                     break;
                 case 0:
-                    gestor.saveEstadoJogoFicheiro("jogo.bin");
+                    if(gestor.saveEstadoJogoFicheiro("jogo.bin")){
+                        System.out.println("Jogo gravado com sucesso");
+                    }
                     sair = true;
                     break;
             }
@@ -166,9 +182,18 @@ public class IU {
         System.out.println("Deseja gravar o jogo? [Sim/Nao]");
         String grava = sc.nextLine().toUpperCase();
         if(grava.equals("SIM")) {
-            System.out.println("Nome do ficheiro:");
-            String nomeFich = sc.nextLine();
-            gestor.saveReplayJogo(nomeFich);
+            boolean guardado = false;
+            do {
+                System.out.println("Nome do ficheiro:");
+                String nomeFich = sc.nextLine();
+                if(gestor.saveReplayJogo(nomeFich)){
+                    guardado = true;
+                    System.out.println("Jogo gravado com sucesso");
+                }
+                else{
+                    System.out.println("Ficheiro ja existe.");
+                }
+            }while(!guardado);
         }
         System.out.println("""
                         --+---+---+---+---+--
@@ -208,6 +233,11 @@ public class IU {
 
     private void mostraReplay(Jogo jogo) {
         int jog = 0;
+        for(String msg: jogo.getLog()) {
+            System.out.println("[" + msg + "]");
+        }
+        System.out.println();
+
         for (Jogador jogador : jogo.getJogadores()) {
             System.out.println("Jogador" + (jog + 1) + " -> " + jogador.toString());
             jog++;
@@ -222,7 +252,6 @@ public class IU {
             System.out.println();
         }
         System.out.println();
-        System.out.println("JOGA " + (jogo.getJogadorAtual().getNome()).toUpperCase() + "\n");
     }
 
     private int leInteiro(int min, int max) {
@@ -246,5 +275,20 @@ public class IU {
             }
         } while (opcao == -1);
         return opcao;
+    }
+
+    private void mostraLog(){
+        for(String msg: gestor.getLog()){
+            System.out.println("[" +  msg + "]");
+        }
+    }
+
+    private void mostraFicheiros(){
+        if(gestor.reuneFicheiros().length == 0){
+            System.out.println("Nao existem jogos gravados.");
+        }
+        for(String nomeFich: gestor.reuneFicheiros()) {
+            System.out.println(nomeFich);
+        }
     }
 }

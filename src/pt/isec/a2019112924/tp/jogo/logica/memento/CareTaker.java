@@ -25,6 +25,8 @@ public class CareTaker implements Serializable {
 
     public Deque<Memento> getStackJogo(){return stackJogo;}
 
+    public void setStackJogo(Deque<Memento> stackJogo){ this.stackJogo = stackJogo;}
+
     public void gravaMemento() {
         try{
             stackHist.push(originator.saveMemento());
@@ -72,26 +74,25 @@ public class CareTaker implements Serializable {
 
     public void saveReplay(String nomeFich){
         gravaJogo();
-        File f = new File(nomeFich);
-        //TODO: verificar nome
+        String ficheiro = "./replays/" + nomeFich + ".bin";
+        File f = new File(ficheiro);
         try{
             f.createNewFile();
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f));
             oos.writeObject(stackJogo);
             oos.close();
-            System.out.println("Gravacao efetuada com sucesso");
         }catch (Exception e){
             System.err.println("[Erro] saveReplay " + e);
         }
     }
 
     public void loadReplay(String nomeFich){
+        String ficheiro = "./replays/" + nomeFich + ".bin";
         try{
-            File f = new File(nomeFich);
+            File f = new File(ficheiro);
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
             stackJogo = (Deque<Memento>)ois.readObject();
             ois.close();
-            System.out.println("Jogo recuperado com sucesso");
         }catch(FileNotFoundException e){
             System.err.println("[Erro] loadReplay " + e);
         }catch (Exception e){

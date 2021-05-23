@@ -2,6 +2,7 @@ package pt.isec.a2019112924.tp;
 
 import pt.isec.a2019112924.tp.jogo.logica.dados.IMiniJogo;
 import pt.isec.a2019112924.tp.jogo.logica.dados.Jogador;
+import pt.isec.a2019112924.tp.jogo.logica.dados.JogadorHumano;
 import pt.isec.a2019112924.tp.jogo.logica.dados.Jogo;
 import pt.isec.a2019112924.tp.jogo.logica.memento.CareTaker;
 import pt.isec.a2019112924.tp.jogo.logica.memento.MaqEstadosOriginator;
@@ -12,9 +13,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 public class Gestor {
@@ -26,29 +29,38 @@ public class Gestor {
         careTaker = new CareTaker(originator);
     }
 
-    // Maquina de Estados
-    public void adicionaJogador(String nome){
-        originator.adicionaJogador(nome);
+    public boolean adicionaJogador(String nome){
+        for(int i = 0; i < originator.getJogadores().size(); i++) {
+            if (originator.getJogadores().get(i).getNome().equals(nome)){
+                return false;
+            }
+        }
+        originator.getJogo().adicionaJogador(nome);
+        return true;
     }
 
-    public void iniciaJogo(){ originator.iniciaJogo();}
+    //Maquina Estados
+    public void iniciaJogo(){ originator.iniciaJogo();
+        careTaker.gravaJogo();}
 
     public void jogaPeca(int coluna){
-        careTaker.gravaJogo();
         careTaker.gravaMemento();
         originator.jogaPeca(coluna);
+        careTaker.gravaJogo();
+        System.out.println("gravei joga peca");
     }
 
     public void jogaPeca() {
-        careTaker.gravaJogo();
         careTaker.gravaMemento();
         originator.jogaPeca();
+        careTaker.gravaJogo();
     }
 
     public void jogaPecaEspecial(int coluna){
-        careTaker.gravaJogo();
         careTaker.gravaMemento();
         originator.jogaPecaEspecial(coluna);
+        careTaker.gravaJogo();
+        System.out.println("gravei joga peca epsecial");
     }
 
     public void escolheOpMiniJogo(){
@@ -69,8 +81,6 @@ public class Gestor {
 
     public Situacao getSituacaoAtual(){ return originator.getSituacaoAtual(); }
 
-    public int sorteiaColuna(){ return originator.sorteiaColuna(); }
-
     public char[][] getTabuleiro(){ return originator.getTabuleiro();}
 
     public List<Jogador> getJogadores(){ return originator.getJogadores();}
@@ -81,24 +91,84 @@ public class Gestor {
 
     // CareTaker
     public boolean voltarAtras(int nrBacks) {
-        if (nrBacks <= originator.getJogadorAtual().getNrCreditos()) {
-            for(int i = 0; i < nrBacks; i++) {
-                careTaker.undo();
+        Jogador jog1, jog2, jogAtual;
+        List<String> logCopia = new ArrayList<>(originator.getLog());
+
+        if(originator.getJogadorAtual() instanceof JogadorHumano) {
+            if (nrBacks > ((JogadorHumano) originator.getJogadorAtual()).getNrCreditos()) {
+                return false;
             }
-            return true;
         }
-        return false;
+        jogAtual = originator.getJogadorAtual();
+        jog1 = originator.getJogadores().get(0);
+        jog2 = originator.getJogadores().get(1);
+
+        for (int i = 0; i < nrBacks; i++) {
+            careTaker.undo();
+        }
+
+        originator.getJogadores().clear();
+        originator.getJogadores().add(jog1);
+        originator.getJogadores().add(jog2);
+        jogAtual.setNrJogadas(0);
+        ((JogadorHumano)jogAtual).setNrCreditos(((JogadorHumano)jogAtual).getNrCreditos() - nrBacks);
+        originator.getJogo().setLog(logCopia);
+        originator.getJogo().addLog(originator.getJogadorAtual().getNome() + ": Voltou para tras " + nrBacks + " vezes");
+        careTaker.gravaJogo();
+        return true;
     }
 
     public void loadReplayJogo(String nomeFich) {careTaker.loadReplay(nomeFich);}
 
-    public void saveReplayJogo(String nomeFich) {careTaker.saveReplay(nomeFich);}
+    public boolean saveReplayJogo(String nomeFich) {
+        verificaReplays();
+        if(existeFicheiro(nomeFich)){
+            return false;
+        }
+        careTaker.saveReplay(nomeFich);
+        return true;
+    }
 
     public Jogo avancaReplay(){ return careTaker.replayJogo();}
 
+    public String[] reuneFicheiros(){
+        File f = new File("./replays");
+        return f.list();
+    }
+
+    public boolean existeFicheiro(String nomeFich){
+        String[] ficheiros;
+        ficheiros = reuneFicheiros();
+        for(int i = 0; i < ficheiros.length; i++){
+            System.out.println(ficheiros[i]);
+            if(ficheiros[i].equals(nomeFich + ".bin")){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void verificaReplays(){
+        File dir = new File("./replays");
+        if(!dir.exists()){
+            dir.mkdir();
+        }
+        if(dir.listFiles().length == 5){
+            long dataMaisAntiga = dir.listFiles()[0].lastModified();
+            int indiceFich = 0;
+            for (int i = 0; i < dir.listFiles().length; i++) {
+                if (dir.listFiles()[i].lastModified() < dataMaisAntiga) {
+                    dataMaisAntiga = dir.listFiles()[i].lastModified();
+                    indiceFich = i;
+                }
+            }
+            dir.listFiles()[indiceFich].delete();
+        }
+    }
+
     public int getStackJogoSize(){ return careTaker.getStackJogo().size();}
 
-    public void saveEstadoJogoFicheiro(String nomeFich){
+    public boolean saveEstadoJogoFicheiro(String nomeFich){
         try{
             File f = new File(nomeFich);
             f.createNewFile();
@@ -106,33 +176,33 @@ public class Gestor {
             oos.writeObject(originator);
             oos.writeObject(careTaker);
             oos.close();
-            System.out.println("Jogo gravado com sucesso");
+            return true;
         }catch(Exception e){
             System.err.println("[Erro] saveEstadoJogoFicheiro " + e);
         }
+        return false;
     }
 
-    public void loadEstadoJogoFicheiro(String nomeFich){
+    public boolean loadEstadoJogoFicheiro(String nomeFich){
         File f = new File(nomeFich);
         if(!f.exists()){
-            System.out.println("Não existe jogo gravado");
+            return false;
         }
         try{
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
             originator = (MaqEstadosOriginator) ois.readObject();
             careTaker = (CareTaker) ois.readObject();
             f.delete();
+            return true;
         }catch(FileNotFoundException e){
             System.err.println("[Erro] loadEstadoJogoFicheiro " + e);
         }catch (Exception e){
             System.err.println("[Erro] loadEstadoJogoFicheiro " + e);
         }
+        return false;
     }
 
+    public List<String> getLog(){ return originator.getLog();}
 
-
-
-
-
-
+    public void clearLog(){ originator.clearLog();}
 }

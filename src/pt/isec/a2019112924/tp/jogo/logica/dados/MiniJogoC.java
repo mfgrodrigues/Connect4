@@ -20,7 +20,7 @@ public class MiniJogoC implements IMiniJogo, Serializable {
     }
 
     private void sorteiaPergunta() {
-        num1 = (int) (Math.random() * 30) + 10;
+        num1 = (int) (Math.random() * 20) + 10;
         num2 = (int) (Math.random() * 10) + 1;
         int rand = (int) (Math.random() * 100) % 4;
         String carateres = "x-+:";

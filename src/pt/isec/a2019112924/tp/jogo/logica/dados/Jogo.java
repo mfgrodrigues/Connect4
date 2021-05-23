@@ -1,6 +1,8 @@
 package pt.isec.a2019112924.tp.jogo.logica.dados;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,14 +20,32 @@ public class Jogo implements Serializable {
     private IMiniJogo miniJogo;
     private int miniJogoAtivo;
 
+    //Log
+    private List<String> log = new ArrayList<>();
+
+    public void addLog(String str){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");;
+        log.add(dtf.format(LocalDateTime.now()) + ": " + str);
+    }
+
+    public void setLog(List<String> log){ this.log = log;}
+
+    public List<String>getLog(){
+        return log;
+    }
+
+    public void clearLog(){
+        log.clear();
+    }
+
+    //Jogo
     public Jogo() {
         jogadores = new ArrayList<>(2);
         tabuleiro = new char[ALTURA][LARGURA];
     }
 
-    public boolean adicionaJogador(String nome) {
+    public void adicionaJogador(String nome) {
         jogadores.add(new JogadorHumano(nome));
-        return true;
     }
 
     public void eliminaJogadores(){
@@ -43,7 +63,7 @@ public class Jogo implements Serializable {
         preparaPecas();
         preparaTabuleiro();
         miniJogoAtivo = 0;
-        jogadorAtual = jogadores.get((int) (Math.random() * 1));
+        jogadorAtual = jogadores.get((int)(Math.random() * 1));
     }
 
     private void preparaPecas() {
@@ -71,9 +91,11 @@ public class Jogo implements Serializable {
         return jogadorAtual;
     }
 
-
     public void trocaJogador() {
-        jogadorAtual = jogadores.get(1 - jogadores.indexOf(jogadorAtual));
+        if(jogadorAtual == jogadores.get(0))
+            jogadorAtual = jogadores.get(1);
+        else
+            jogadorAtual = jogadores.get(0);
     }
 
     public int sorteiaColuna() {
@@ -117,7 +139,6 @@ public class Jogo implements Serializable {
     }
 
     public boolean avaliaVencedor(){
-        //check for 4 across
         for(int i = 0; i<ALTURA; i++){
             for (int j = 0;j < LARGURA - 3;j++){
                 if (tabuleiro[i][j] == jogadorAtual.getPeca()   &&
@@ -128,7 +149,6 @@ public class Jogo implements Serializable {
                 }
             }
         }
-        //check for 4 up and down
         for(int i = 0; i < ALTURA - 3; i++){
             for(int j = 0; j < LARGURA; j++){
                 if (tabuleiro[i][j] == jogadorAtual.getPeca()   &&
@@ -139,7 +159,6 @@ public class Jogo implements Serializable {
                 }
             }
         }
-        //check upward diagonal
         for(int i = 3; i < ALTURA; i++){
             for(int j = 0; j < LARGURA - 3; j++){
                 if (tabuleiro[i][j] == jogadorAtual.getPeca()   &&
@@ -150,7 +169,6 @@ public class Jogo implements Serializable {
                 }
             }
         }
-        //check downward diagonal
         for(int i = 0; i < ALTURA - 3; i++){
             for(int j = 0; j < LARGURA - 3; j++){
                 if (tabuleiro[i][j] == jogadorAtual.getPeca()   &&
