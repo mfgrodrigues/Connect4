@@ -24,15 +24,13 @@ public class MaqEstadosOriginator implements IMementoOriginator, Serializable {
 
     @Override
     public Memento saveMementoJogo() throws IOException{
-        return new Memento(maqEstados.getJogo());
+        return new Memento(maqEstados);
     }
 
     @Override
     public void restoreMemento(Memento memento) throws IOException, ClassNotFoundException {
         maqEstados = (MaquinaEstados) memento.getSnapshot();
     }
-
-    public Jogo getJogo(){ return maqEstados.getJogo();}
 
     public void iniciaJogo(){maqEstados.iniciaJogo();}
 
@@ -61,4 +59,10 @@ public class MaqEstadosOriginator implements IMementoOriginator, Serializable {
     public IMiniJogo getMiniJogo(){return maqEstados.getMiniJogo();}
 
     public List<String> getLog(){ return maqEstados.getLog();}
+
+    public void addLog(String log){ maqEstados.addLog(log);}
+
+    public void setLog(List<String> logs){ maqEstados.setLog(logs);}
+
+    public void adicionaJogador(String nome){ maqEstados.adicionaJogador(nome);}
 }

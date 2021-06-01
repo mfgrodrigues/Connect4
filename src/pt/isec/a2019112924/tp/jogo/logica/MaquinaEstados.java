@@ -20,8 +20,6 @@ public class MaquinaEstados implements Serializable {
         estadoAtual = new AguardaInicio(jogo);
     }
 
-    public Jogo getJogo(){ return jogo;}
-
     private void setEstadoAtual(IEstado estadoAtual){this.estadoAtual = estadoAtual;}
 
     public void iniciaJogo(){ setEstadoAtual(estadoAtual = estadoAtual.iniciaJogo());}
@@ -51,4 +49,11 @@ public class MaquinaEstados implements Serializable {
     public IMiniJogo getMiniJogo(){ return jogo.getMiniJogo();}
 
     public List<String> getLog(){ return jogo.getLog();}
+
+    public void addLog(String log){ jogo.addLog(log);}
+
+    public void setLog(List<String> logs){ jogo.setLog(logs);}
+
+    public void adicionaJogador(String nome){ jogo.adicionaJogador(nome);}
+
 }

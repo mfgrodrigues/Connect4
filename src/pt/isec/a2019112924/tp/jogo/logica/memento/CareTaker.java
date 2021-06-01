@@ -67,17 +67,18 @@ public class CareTaker implements Serializable {
         return true;
     }
 
-    public Jogo replayJogo(){
+    public boolean replayJogo(){
         if(stackJogo.isEmpty()){
-            return null;
+            return false;
         }
         try{
-            return (Jogo)stackJogo.pollLast().getSnapshot();
+            Memento jogo = stackJogo.pollLast();
+            originator.restoreMemento(jogo);
         } catch(IOException | ClassNotFoundException e) {
             System.err.println("[Erro] replayJogo " + e);
             stackHist.clear();
         }
-        return null;
+        return true;
     }
 
     public void saveReplay(String nomeFich){

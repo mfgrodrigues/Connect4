@@ -3,7 +3,6 @@ package pt.isec.a2019112924.tp.jogo.logica;
 import pt.isec.a2019112924.tp.jogo.logica.dados.IMiniJogo;
 import pt.isec.a2019112924.tp.jogo.logica.dados.Jogador;
 import pt.isec.a2019112924.tp.jogo.logica.dados.JogadorHumano;
-import pt.isec.a2019112924.tp.jogo.logica.dados.Jogo;
 import pt.isec.a2019112924.tp.jogo.logica.memento.CareTaker;
 import pt.isec.a2019112924.tp.jogo.logica.memento.MaqEstadosOriginator;
 import pt.isec.a2019112924.tp.jogo.utils.Situacao;
@@ -32,7 +31,7 @@ public class Gestor {
                 return false;
             }
         }
-        originator.getJogo().adicionaJogador(nome);
+        originator.adicionaJogador(nome);
         return true;
     }
 
@@ -109,8 +108,8 @@ public class Gestor {
         originator.getJogadores().add(jog2);
         jogAtual.setNrJogadas(0);
         ((JogadorHumano)jogAtual).setNrCreditos(((JogadorHumano)jogAtual).getNrCreditos() - nrBacks);
-        originator.getJogo().setLog(logCopia);
-        originator.getJogo().addLog(jogAtual.getNome() + ": Voltou para tras " + nrBacks + " vezes");
+        originator.setLog(logCopia);
+        originator.addLog(jogAtual.getNome() + ": Voltou para tras " + nrBacks + " vezes");
         careTaker.gravaJogo();
         return true;
     }
@@ -132,7 +131,7 @@ public class Gestor {
         return true;
     }
 
-    public Jogo avancaReplay(){ return careTaker.replayJogo();}
+    public  void avancaReplay(){ careTaker.replayJogo();}
 
     public String[] reuneFicheiros(){
         File f = new File("./replays");

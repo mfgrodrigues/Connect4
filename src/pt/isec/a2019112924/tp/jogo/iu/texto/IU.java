@@ -3,9 +3,10 @@ package pt.isec.a2019112924.tp.jogo.iu.texto;
 import pt.isec.a2019112924.tp.jogo.logica.Gestor;
 import pt.isec.a2019112924.tp.jogo.logica.dados.Jogador;
 import pt.isec.a2019112924.tp.jogo.logica.dados.JogadorVirtual;
-import pt.isec.a2019112924.tp.jogo.logica.dados.Jogo;
 import pt.isec.a2019112924.tp.jogo.utils.Situacao;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class IU {
@@ -14,6 +15,7 @@ public class IU {
     private int tam = 0;
     private boolean continua = false;
     private Scanner sc = new Scanner(System.in);
+    private boolean replay;
 
     public IU(Gestor gestor) {
         this.gestor = gestor;
@@ -104,8 +106,10 @@ public class IU {
                         System.out.println("O ficheiro nao existe");
                     }
                 }
+                replay = true;
                 while(gestor.getStackJogoSize() > 0){
-                    mostraReplay(gestor.avancaReplay());
+                    gestor.avancaReplay();
+                    mostraReplay();
                     System.out.println("Pressione [ENTER] para avancar");
                     sc.nextLine();
                 }
@@ -186,25 +190,31 @@ public class IU {
     }
 
     private void iuTerminaJogo() {
-        mostraTabuleiro();
-        System.out.println("\nParabéns " + gestor.getJogadorAtual().getNome() + " !!!\nÉs o grande vencedor.\n");
-        //TODO nome do jogo
-        if(gestor.saveReplayJogo("Jogo")) {
-            System.out.println("Jogo gravado com sucesso");
-        }
-        System.out.println("""
+        if(!replay) {
+            mostraTabuleiro();
+            System.out.println("\nParabéns " + gestor.getJogadorAtual().getNome() + " !!!\nÉs o grande vencedor.\n");
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm_ss");
+            if (gestor.saveReplayJogo("Jogo" + dtf.format(LocalDateTime.now()))) {
+                System.out.println("Jogo gravado com sucesso");
+            }
+            System.out.println("""
                         --+---+---+---+---+--
                         0 - Sair 
                         1 - Voltar a Jogar
                         --+---+---+---+---+--
                         Escolha uma opcao:""");
-        switch (leInteiro(0,1)){
-            case 0:
-                sair = true;
-                break;
-            case 1:
-                gestor.novaTentativa();
-                break;
+            switch (leInteiro(0,1)){
+                case 0:
+                    sair = true;
+                    break;
+                case 1:
+                    gestor.novaTentativa();
+                    break;
+            }
+        }
+        else {
+            replay = false;
+            gestor.novaTentativa();
         }
     }
 
@@ -227,27 +237,9 @@ public class IU {
         }
     }
 
-    private void mostraReplay(Jogo jogo) {
-        int jog = 0;
-        for(String msg: jogo.getLog()) {
-            System.out.println("[" + msg + "]");
-        }
-        System.out.println();
-
-        for (Jogador jogador : jogo.getJogadores()) {
-            System.out.println("Jogador" + (jog + 1) + " -> " + jogador.toString());
-            jog++;
-        }
-        System.out.println();
-        for (int i = 0; i < jogo.getTabuleiro().length; i++) {
-            System.out.print("|");
-            for (int j = 0; j < jogo.getTabuleiro()[0].length; j++) {
-                System.out.print(jogo.getTabuleiro()[i][j]);
-                System.out.print("|");
-            }
-            System.out.println();
-        }
-        System.out.println();
+    private void mostraReplay() {
+        mostraInfoJogadores();
+        mostraTabuleiro();
     }
 
     private int leInteiro(int min, int max) {
@@ -288,5 +280,6 @@ public class IU {
         for(String nomeFich: gestor.reuneFicheiros()) {
             System.out.println(nomeFich);
         }
+        continua = false;
     }
 }

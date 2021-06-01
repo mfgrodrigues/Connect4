@@ -43,21 +43,25 @@ public class MiniJogoC implements IMiniJogo, Serializable {
                         System.out.println("acertou *");
                         numRespCertas++;
                     }
+                    break;
                 case '-':
                     if (res == num1 - num2) {
                         System.out.println("acertou -");
                         numRespCertas++;
                     }
+                    break;
                 case '+':
                     if (res == num1 + num2) {
                         System.out.println("acertou +");
                         numRespCertas++;
                     }
+                    break;
                 case ':':
                     if (res == num1 / num2) {
                         System.out.println("acertou /");
                         numRespCertas++;
                     }
+                    break;
             }
             sorteiaPergunta();
             return numRespCertas > n;
