@@ -15,7 +15,6 @@ public class Jogo implements Serializable {
 
     private List<Jogador> jogadores;
     private char[][] tabuleiro;
-    private boolean vencedor = false;
     private Jogador jogadorAtual;
     private IMiniJogo miniJogo;
     private int miniJogoAtivo;
@@ -24,7 +23,7 @@ public class Jogo implements Serializable {
     private List<String> log = new ArrayList<>();
 
     public void addLog(String str){
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");;
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         log.add(dtf.format(LocalDateTime.now()) + ": " + str);
     }
 
@@ -123,19 +122,12 @@ public class Jogo implements Serializable {
     public boolean colocaPecaEspecial(int coluna) {
         if (coluna < 0 || coluna >= LARGURA) {
             return false;
-        } else if (tabuleiro[0][coluna] != '_') {
-            return false;
         }
-        for (int linha = tabuleiro.length - 1; linha >= 0; linha--) {
-            if (tabuleiro[linha][coluna] == '_') {
-                for (int i = linha + 1; i < tabuleiro.length; i++) {
-                    tabuleiro[i][coluna] = '_';
-                }
-                jogadorAtual.aumentaNrJogada();
-                return true;
-            }
+        for (int i = 0; i < ALTURA; i++) {
+            tabuleiro[i][coluna] = '_';
         }
-        return false;
+        jogadorAtual.aumentaNrJogada();
+        return true;
     }
 
     public boolean avaliaVencedor(){
@@ -183,22 +175,18 @@ public class Jogo implements Serializable {
     }
 
     public void iniciaMiniJogo() {
-        switch (miniJogoAtivo) {
+        switch (jogadorAtual.getMiniJogoAtivo()) {
             case 0:
-                miniJogoAtivo = 1;
+                jogadorAtual.setMiniJogoAtivo(1);
                 System.out.println(miniJogoAtivo);
                 miniJogo = new MiniJogoC();
                 break;
             case 1:
-                miniJogoAtivo = 0;
+                jogadorAtual.setMiniJogoAtivo(0);
                 System.out.println(miniJogoAtivo);
                 miniJogo = new MiniJogoP();
                 break;
         }
-    }
-
-    public int getMiniJogoAtivo() {
-        return miniJogoAtivo;
     }
 
     public IMiniJogo getMiniJogo() {

@@ -1,7 +1,8 @@
 package pt.isec.a2019112924.tp.jogo.iu.texto;
 
-import pt.isec.a2019112924.tp.Gestor;
+import pt.isec.a2019112924.tp.jogo.logica.Gestor;
 import pt.isec.a2019112924.tp.jogo.logica.dados.Jogador;
+import pt.isec.a2019112924.tp.jogo.logica.dados.JogadorVirtual;
 import pt.isec.a2019112924.tp.jogo.logica.dados.Jogo;
 import pt.isec.a2019112924.tp.jogo.utils.Situacao;
 
@@ -123,7 +124,7 @@ public class IU {
         System.out.println();
         System.out.println("\n--+---+---+---+---+--");
         System.out.println("JOGA " + (gestor.getJogadorAtual().getNome()).toUpperCase() + "\n");
-        if (gestor.getJogadorAtual().getNome().contains("Virtual")) {
+        if (gestor.getJogadorAtual() instanceof JogadorVirtual) {
             System.out.println("Pressione [ENTER] para avancar");
             sc.nextLine();
             System.out.println("--+---+---+---+---+--");
@@ -187,21 +188,9 @@ public class IU {
     private void iuTerminaJogo() {
         mostraTabuleiro();
         System.out.println("\nParabéns " + gestor.getJogadorAtual().getNome() + " !!!\nÉs o grande vencedor.\n");
-        System.out.println("Deseja gravar o jogo? [Sim/Nao]");
-        String grava = sc.nextLine().toUpperCase();
-        if(grava.equals("SIM")) {
-            boolean guardado = false;
-            do {
-                System.out.println("Nome do ficheiro:");
-                String nomeFich = sc.nextLine();
-                if(gestor.saveReplayJogo(nomeFich)){
-                    guardado = true;
-                    System.out.println("Jogo gravado com sucesso");
-                }
-                else{
-                    System.out.println("Ficheiro ja existe.");
-                }
-            }while(!guardado);
+        //TODO nome do jogo
+        if(gestor.saveReplayJogo("Jogo")) {
+            System.out.println("Jogo gravado com sucesso");
         }
         System.out.println("""
                         --+---+---+---+---+--
@@ -217,7 +206,6 @@ public class IU {
                 gestor.novaTentativa();
                 break;
         }
-
     }
 
     private void mostraTabuleiro() {

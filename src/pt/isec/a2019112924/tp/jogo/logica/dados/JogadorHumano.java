@@ -7,7 +7,8 @@ public class JogadorHumano extends Jogador{
 
     public JogadorHumano(String nome) {
         super(nome);
-        nrPecasEspeciais = 0;
+        //TODO pecas especiais a 0
+        nrPecasEspeciais = 5;
         nrCreditos = 5;
     }
 
@@ -21,10 +22,6 @@ public class JogadorHumano extends Jogador{
 
     public void setNrCreditos(int nrCreditos) {
         this.nrCreditos = nrCreditos;
-    }
-
-    public void setNrPecasEspeciais(int nrPecasEspeciais) {
-        this.nrPecasEspeciais = nrPecasEspeciais;
     }
 
     public void incrementaPecasEspeciais() { nrPecasEspeciais++; }

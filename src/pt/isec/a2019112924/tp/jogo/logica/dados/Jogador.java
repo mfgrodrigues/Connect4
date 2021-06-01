@@ -8,10 +8,12 @@ public abstract class Jogador implements Serializable {
     private String nome;
     private int nrJogadas;
     private char peca;
+    private int miniJogoAtivo;
 
     public Jogador(String nome) {
         this.nome = nome;
         nrJogadas = 0;
+        miniJogoAtivo = 0;
     }
 
     public char getPeca() {
@@ -37,6 +39,10 @@ public abstract class Jogador implements Serializable {
     public void aumentaNrJogada() {
         nrJogadas++;
     }
+
+    public int getMiniJogoAtivo() { return miniJogoAtivo; }
+
+    public void setMiniJogoAtivo(int miniJogoAtivo){ this.miniJogoAtivo = miniJogoAtivo;}
 
     public String toString() {
         return "Nome: " + nome + ", Nr.Jogadas: " + nrJogadas;

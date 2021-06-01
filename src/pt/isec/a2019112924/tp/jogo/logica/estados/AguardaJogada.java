@@ -59,9 +59,9 @@ public class AguardaJogada extends EstadoAdapter {
 
     @Override
     public IEstado escolheOpMiniJogo() {
-        if(jogo.getJogadorAtual().getNrJogadas() == 4) {
+        if(jogo.getJogadorAtual().getNrJogadas() % 4 == 0) {
             jogo.iniciaMiniJogo();
-            if (jogo.getMiniJogoAtivo() == 1) {
+            if (jogo.getJogadorAtual().getMiniJogoAtivo() == 1) {
                 jogo.addLog(jogo.getJogadorAtual().getNome() + ": Joga Mini Jogo Calculo");
                 return new JogaMiniJogoC(jogo);
             }

@@ -36,22 +36,26 @@ public class MiniJogoC implements IMiniJogo, Serializable {
     public boolean validaResposta(String resposta) {
         if (System.currentTimeMillis() - tempo < DURACAO_JOGO_MILLIS) {
             int res = Integer.parseInt(resposta);
-            int n = numRespCertas;
+            int n= numRespCertas;
             switch (operador) {
                 case 'x':
                     if (res == num1 * num2) {
+                        System.out.println("acertou *");
                         numRespCertas++;
                     }
                 case '-':
                     if (res == num1 - num2) {
+                        System.out.println("acertou -");
                         numRespCertas++;
                     }
                 case '+':
                     if (res == num1 + num2) {
+                        System.out.println("acertou +");
                         numRespCertas++;
                     }
                 case ':':
                     if (res == num1 / num2) {
+                        System.out.println("acertou /");
                         numRespCertas++;
                     }
             }

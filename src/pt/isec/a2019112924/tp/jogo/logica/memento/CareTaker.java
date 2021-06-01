@@ -24,7 +24,10 @@ public class CareTaker implements Serializable {
 
     public Deque<Memento> getStackJogo(){return stackJogo;}
 
-    public void setStackJogo(Deque<Memento> stackJogo){ this.stackJogo = stackJogo;}
+    public void limpaHistoricos(){
+        stackHist.clear();
+        stackJogo.clear();
+    }
 
     public void gravaMemento() {
         try{
@@ -78,7 +81,6 @@ public class CareTaker implements Serializable {
     }
 
     public void saveReplay(String nomeFich){
-        //gravaJogo();
         String ficheiro = "./replays/" + nomeFich + ".bin";
         File f = new File(ficheiro);
         try{

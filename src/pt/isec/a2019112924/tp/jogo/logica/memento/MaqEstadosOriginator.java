@@ -1,6 +1,6 @@
 package pt.isec.a2019112924.tp.jogo.logica.memento;
 
-import pt.isec.a2019112924.tp.MaquinaEstados;
+import pt.isec.a2019112924.tp.jogo.logica.MaquinaEstados;
 import pt.isec.a2019112924.tp.jogo.logica.dados.IMiniJogo;
 import pt.isec.a2019112924.tp.jogo.logica.dados.Jogador;
 import pt.isec.a2019112924.tp.jogo.logica.dados.Jogo;

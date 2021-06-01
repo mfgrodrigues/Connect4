@@ -1,4 +1,4 @@
-package pt.isec.a2019112924.tp;
+package pt.isec.a2019112924.tp.jogo.logica;
 
 import pt.isec.a2019112924.tp.jogo.logica.dados.IMiniJogo;
 import pt.isec.a2019112924.tp.jogo.logica.dados.Jogador;

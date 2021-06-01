@@ -15,7 +15,6 @@ public class MiniJogoP implements IMiniJogo, Serializable {
 
     private static List<String> palavras = new ArrayList<>();
     private static String palavrasSorteadas;
-    private int numPalavrasCertas;
     private long comeca;
     private boolean terminou;
     private boolean ganhou;
@@ -25,12 +24,11 @@ public class MiniJogoP implements IMiniJogo, Serializable {
             acrescentaPalavras();
         }
         terminou = false;
-        numPalavrasCertas = 0;
         ganhou = false;
         sorteiaPergunta();
     }
 
-    public void acrescentaPalavras() {
+    private void acrescentaPalavras() {
 
         try (BufferedReader br = new BufferedReader(new FileReader("palavras.txt"))) {
             String str;
