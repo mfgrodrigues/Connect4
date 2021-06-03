@@ -2,7 +2,6 @@ package pt.isec.a2019112924.tp.jogo.iu.gui;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -12,20 +11,21 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
+
+import static pt.isec.a2019112924.tp.jogo.iu.gui.ConstantesGUI.ALTURA;
+import static pt.isec.a2019112924.tp.jogo.iu.gui.ConstantesGUI.LARGURA;
 
 // Base
 public class Root extends BorderPane {
     private MenuItem novoJogoMI;
     private PrincipalPane principalPane;
-    final static int ALTURA = 6;
-    final static int LARGURA = 7;
 
     public Root(){
         criarLayout();
@@ -39,8 +39,12 @@ public class Root extends BorderPane {
     }
 
     private void criarLayout(){
+        int dimMin = Math.min(670,330)- 2 * 10;
 
-        GridPane tabuleiro = new GridPane();
+        BackgroundSize backgroundSize = new BackgroundSize(dimMin, dimMin, false, false, false, false);
+        changeBackground(Root.this, Color.AQUAMARINE);
+
+   /*     GridPane tabuleiro = new GridPane();
         tabuleiro.setVgap(10);
         tabuleiro.setHgap(10);
         for(int i = 0; i < LARGURA; i++){
@@ -52,14 +56,16 @@ public class Root extends BorderPane {
             }
         }
         tabuleiro.setAlignment(Pos.CENTER);
-        this.setCenter(tabuleiro);
-
+        this.setCenter(tabuleiro);*/
+        principalPane = new PrincipalPane();
+        setCenter(principalPane);
     }
 
     private void menus(){
         MenuBar menuBar = new MenuBar();
         setTop(menuBar);
 
+        // menu jogo
         Menu menuJogo = new Menu("Jogo");
 
         novoJogoMI = new MenuItem("Novo jogo");
@@ -76,6 +82,7 @@ public class Root extends BorderPane {
 
         menuJogo.getItems().addAll(novoJogoMI, lerObjMI, gravarObjMI,new SeparatorMenuItem(), sairMI);
 
+        // menu ajuda
         Menu menuAjuda = new Menu("Ajuda");
 
         MenuItem instrucoesMI = new MenuItem("Instrucoes");
