@@ -57,8 +57,6 @@ public class Root extends BorderPane {
         }
         tabuleiro.setAlignment(Pos.CENTER);
         this.setCenter(tabuleiro);*/
-        principalPane = new PrincipalPane();
-        setCenter(principalPane);
     }
 
     private void menus(){

@@ -29,7 +29,7 @@ public class JogadorHumano extends Jogador{
     public void decrementaPecasEspeciais() { nrPecasEspeciais--; }
 
     public String toString() {
-        return super.toString() + ", Nr.Creditos: " + nrCreditos + ", Nr. Pecas Especiais:" + nrPecasEspeciais;
+        return super.toString() + " Nr.Creditos: " + nrCreditos + " Nr. Pecas Especiais: " + nrPecasEspeciais;
     }
 
 

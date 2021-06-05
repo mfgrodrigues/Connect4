@@ -45,7 +45,7 @@ public abstract class Jogador implements Serializable {
     public void setMiniJogoAtivo(int miniJogoAtivo){ this.miniJogoAtivo = miniJogoAtivo;}
 
     public String toString() {
-        return "Nome: " + nome + ", Nr.Jogadas: " + nrJogadas;
+        return "Nome: " + nome + " Nr.Jogadas: " + nrJogadas;
     }
 
 }
