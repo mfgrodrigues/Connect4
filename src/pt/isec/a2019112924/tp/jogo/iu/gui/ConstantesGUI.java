@@ -13,5 +13,8 @@ public class ConstantesGUI {
 
     public static Font LETRA = Font.font("verdana", FontWeight.BOLD, FontPosture.ITALIC, 25);
 
+    public static String FICHEIRO_CARREGAJOGO = "jogo.bin";
+    public static String IMAGEM =  "connect4.png";
+
 
 }

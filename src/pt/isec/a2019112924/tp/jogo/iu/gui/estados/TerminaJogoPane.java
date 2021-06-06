@@ -2,11 +2,15 @@ package pt.isec.a2019112924.tp.jogo.iu.gui.estados;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import pt.isec.a2019112924.tp.jogo.logica.JogoObservavel;
 import pt.isec.a2019112924.tp.jogo.utils.Situacao;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static pt.isec.a2019112924.tp.jogo.logica.PropsID.PROP_ESTADO;
 
@@ -46,6 +50,11 @@ public class TerminaJogoPane extends VBox {
 
     private void atualizaEstado() {
         if (jogObs.getSituacaoAtual() == Situacao.TerminaJogo) {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm_ss");
+            if (jogObs.saveReplayJogo("Jogo" + dtf.format(LocalDateTime.now()))) {
+                Alert sucesso = new Alert(Alert.AlertType.CONFIRMATION, "Jogo gravado com sucesso");
+                sucesso.show();
+            }
             lbVencedor.setText("Parabens, " + jogObs.getJogadorAtual().getNome() + ". Es o grande vencedor!");
             this.setVisible(true);
         }

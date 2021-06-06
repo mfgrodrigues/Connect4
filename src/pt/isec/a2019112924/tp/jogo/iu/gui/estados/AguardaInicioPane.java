@@ -19,6 +19,8 @@ import pt.isec.a2019112924.tp.jogo.iu.gui.recursos.ImageLoader;
 import pt.isec.a2019112924.tp.jogo.logica.JogoObservavel;
 import pt.isec.a2019112924.tp.jogo.utils.Situacao;
 
+import static pt.isec.a2019112924.tp.jogo.iu.gui.ConstantesGUI.FICHEIRO_CARREGAJOGO;
+import static pt.isec.a2019112924.tp.jogo.iu.gui.ConstantesGUI.IMAGEM;
 import static pt.isec.a2019112924.tp.jogo.logica.PropsID.PROP_ESTADO;
 
 public class AguardaInicioPane extends VBox {
@@ -26,13 +28,16 @@ public class AguardaInicioPane extends VBox {
 
     private Label lbTitulo;
     private HBox hBbotoes, hBJogadores, hBDados;
-    private Button btnInicia, btnCarrega, btnReplay, btnSair;
+    private Button btnInicia, btnCarrega, btnReplay;
     private Button btnJog1, btnJog2, btnJogV;
     private TextField tfNome;
     private Button btnAvanca;
+    private int nrJogadores, jogadoresAdicionados;
 
-    public AguardaInicioPane(JogoObservavel jogObs){
+    public AguardaInicioPane(JogoObservavel jogObs) {
         this.jogObs = jogObs;
+        nrJogadores = 0;
+        jogadoresAdicionados = 0;
         criaComponentes();
         dispoeVista();
         registaListener();
@@ -40,12 +45,11 @@ public class AguardaInicioPane extends VBox {
         atualiza();
     }
 
-    private void criaComponentes(){
+    private void criaComponentes() {
         hBbotoes = new HBox();
         btnInicia = new Button("Novo Jogo");
         btnCarrega = new Button("Carregar Jogo");
         btnReplay = new Button("Replay Historico");
-        btnSair = new Button("Sair");
 
         hBJogadores = new HBox();
         btnJog1 = new Button("1 Jogador");
@@ -64,7 +68,7 @@ public class AguardaInicioPane extends VBox {
         setSpacing(20);
 
         //Titulo
-        Image img = ImageLoader.getImage("connect4.png");
+        Image img = ImageLoader.getImage(IMAGEM);
         ImageView imageView = new ImageView(img);
         imageView.setFitHeight(280);
         imageView.setFitWidth(650);
@@ -74,7 +78,7 @@ public class AguardaInicioPane extends VBox {
         //Botoes de Opcoes
         hBbotoes.setAlignment(Pos.CENTER);
         hBbotoes.setSpacing(15);
-        hBbotoes.getChildren().addAll(btnInicia, btnCarrega, btnReplay, btnSair);
+        hBbotoes.getChildren().addAll(btnInicia, btnCarrega, btnReplay);
         hBbotoes.setVisible(true);
 
         //Botoes Jogadores
@@ -96,23 +100,40 @@ public class AguardaInicioPane extends VBox {
         setBorder(new Border(new BorderStroke(Color.DARKGRAY, BorderStrokeStyle.SOLID, null, new BorderWidths(3))));
     }
 
-    private void registaObservador(){
-        jogObs.addPropertyChangelistener(PROP_ESTADO, evt -> {atualiza();});
+    private void registaObservador() {
+        jogObs.addPropertyChangelistener(PROP_ESTADO, evt -> {
+            atualiza();
+        });
     }
 
-    public void registaListener(){
+    public void registaListener() {
         btnInicia.setOnAction(e -> {
             hBbotoes.setVisible(false);
             hBJogadores.setVisible(true);
         });
 
+        btnCarrega.setOnAction(e->{
+            if(!jogObs.loadEstadoJogoFicheiro(FICHEIRO_CARREGAJOGO)){
+                Alert carregaJogo = new Alert(Alert.AlertType.ERROR, "Nao existem jogos guardados");
+                carregaJogo.show();
+                return;
+            }
+        });
+
+        btnReplay.setOnAction(e->{
+
+        });
+
         btnJog1.setOnAction(e -> {
+            nrJogadores = 1;
             hBJogadores.setVisible(false);
             hBDados.setVisible(true);
         });
 
         btnJog2.setOnAction(e -> {
-            
+            nrJogadores = 2;
+            hBJogadores.setVisible(false);
+            hBDados.setVisible(true);
         });
 
         btnJogV.setOnAction(e -> {
@@ -121,29 +142,35 @@ public class AguardaInicioPane extends VBox {
 
         btnAvanca.setOnAction(e -> {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            if(tfNome.getText().isEmpty()){
+            if (tfNome.getText().isEmpty()) {
                 alert.setContentText("Insira um nome");
                 alert.show();
+                return;
             }
-            else if(!jogObs.adicionaJogador(tfNome.getText())){
+            if (!jogObs.adicionaJogador(tfNome.getText())) {
                 alert.setContentText("Nome de jogador ja existe");
                 alert.show();
+                return;
             }
-            else {
+            tfNome.clear();
+            jogadoresAdicionados++;
+            tfNome.requestFocus();
+            if(nrJogadores == jogadoresAdicionados){
+                jogadoresAdicionados = 0;
                 jogObs.iniciaJogo();
             }
+
         });
 
     }
 
-    public void atualiza(){
-        if(jogObs.getSituacaoAtual() == Situacao.AguardaInicio) {
+    public void atualiza() {
+        if (jogObs.getSituacaoAtual() == Situacao.AguardaInicio) {
             this.setVisible(true);
             hBbotoes.setVisible(true);
             hBJogadores.setVisible(false);
             hBDados.setVisible(false);
-        }
-        else{
+        } else {
             this.setVisible(false);
         }
     }
