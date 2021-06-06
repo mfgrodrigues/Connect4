@@ -101,25 +101,25 @@ public class AguardaInicioPane extends VBox {
     }
 
     public void registaListener(){
-        btnInicia.setOnAction((e)->{
+        btnInicia.setOnAction(e -> {
             hBbotoes.setVisible(false);
             hBJogadores.setVisible(true);
         });
 
-        btnJog1.setOnAction((e)->{
+        btnJog1.setOnAction(e -> {
             hBJogadores.setVisible(false);
             hBDados.setVisible(true);
         });
 
-        btnJog2.setOnAction((e)->{
-
+        btnJog2.setOnAction(e -> {
+            
         });
 
-        btnJogV.setOnAction((e)->{
+        btnJogV.setOnAction(e -> {
             jogObs.iniciaJogo();
         });
 
-        btnAvanca.setOnAction((e)->{
+        btnAvanca.setOnAction(e -> {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             if(tfNome.getText().isEmpty()){
                 alert.setContentText("Insira um nome");
@@ -137,7 +137,15 @@ public class AguardaInicioPane extends VBox {
     }
 
     public void atualiza(){
-        this.setVisible(jogObs.getSituacaoAtual() == Situacao.AguardaInicio);
+        if(jogObs.getSituacaoAtual() == Situacao.AguardaInicio) {
+            this.setVisible(true);
+            hBbotoes.setVisible(true);
+            hBJogadores.setVisible(false);
+            hBDados.setVisible(false);
+        }
+        else{
+            this.setVisible(false);
+        }
     }
 
 }

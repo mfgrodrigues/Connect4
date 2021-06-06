@@ -7,8 +7,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import pt.isec.a2019112924.tp.jogo.logica.JogoObservavel;
+import pt.isec.a2019112924.tp.jogo.utils.Situacao;
 
 import static pt.isec.a2019112924.tp.jogo.iu.gui.ConstantesGUI.LETRA;
+import static pt.isec.a2019112924.tp.jogo.logica.PropsID.PROP_ESTADO;
+import static pt.isec.a2019112924.tp.jogo.logica.PropsID.PROP_MINIJOGO;
 
 public class JogaMiniJogoCPane extends VBox {
     private JogoObservavel jogObs;
@@ -22,6 +25,8 @@ public class JogaMiniJogoCPane extends VBox {
         this.jogObs = jogObs;
         criaComponentes();
         dispoeVista();
+        registaObservador();
+        registaListener();
     }
 
     private void criaComponentes(){
@@ -41,5 +46,32 @@ public class JogaMiniJogoCPane extends VBox {
         hBCalculo.getChildren().addAll(lbPergunta,tfResposta, btnResponder);
 
         getChildren().addAll(lbTitulo, hBCalculo);
+    }
+
+     private void registaObservador(){
+        jogObs.addPropertyChangelistener(PROP_ESTADO, evt -> {atualiza();});
+        jogObs.addPropertyChangelistener(PROP_MINIJOGO, evt ->{atualizaPergunta();});
+    }
+
+    private void registaListener(){
+        btnResponder.setOnAction(e -> {
+            jogObs.resolveCalculo(tfResposta.getText());
+            tfResposta.clear();
+        });
+    }
+
+    private void atualizaPergunta(){
+        lbPergunta.setText(jogObs.getMiniJogo().getPergunta());
+        tfResposta.requestFocus();
+    }
+
+    private void atualiza(){
+        if(jogObs.getSituacaoAtual() == Situacao.JogaMiniJogoC) {
+            lbPergunta.setText(jogObs.getMiniJogo().getPergunta());
+            this.setVisible(true);
+        }
+        else{
+            this.setVisible(false);
+        }
     }
 }

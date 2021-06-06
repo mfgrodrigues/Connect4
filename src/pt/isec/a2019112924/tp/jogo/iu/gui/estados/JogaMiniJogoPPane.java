@@ -45,7 +45,7 @@ public class JogaMiniJogoPPane extends VBox {
 
     private void registaListener(){
         btnResponder.setOnAction((e)->{
-
+            jogObs.digitaPalavra(tfResposta.getText());
         });
     }
 
@@ -54,8 +54,13 @@ public class JogaMiniJogoPPane extends VBox {
     }
 
     public void atualiza(){
-        lbPergunta.setText(jogObs.getMiniJogo().getPergunta());
-        this.setVisible(jogObs.getSituacaoAtual() == Situacao.AguardaInicio);
+        if(jogObs.getSituacaoAtual() == Situacao.JogaMiniJogoP) {
+            lbPergunta.setText(jogObs.getMiniJogo().getPergunta());
+            this.setVisible(true);
+        }
+        else{
+            this.setVisible(false);
+        }
     }
 
 

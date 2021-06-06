@@ -40,25 +40,21 @@ public class MiniJogoC implements IMiniJogo, Serializable {
             switch (operador) {
                 case 'x':
                     if (res == num1 * num2) {
-                        System.out.println("acertou *");
                         numRespCertas++;
                     }
                     break;
                 case '-':
                     if (res == num1 - num2) {
-                        System.out.println("acertou -");
                         numRespCertas++;
                     }
                     break;
                 case '+':
                     if (res == num1 + num2) {
-                        System.out.println("acertou +");
                         numRespCertas++;
                     }
                     break;
                 case ':':
                     if (res == num1 / num2) {
-                        System.out.println("acertou /");
                         numRespCertas++;
                     }
                     break;

@@ -31,25 +31,27 @@ public class JogoObservavel {
 
     public void iniciaJogo(){
         gestor.iniciaJogo();
-        propertyChangeSupport.firePropertyChange(PROP_ESTADO, null, null);
+        if(alteraEstado(getSituacaoAtual())){
+            propertyChangeSupport.firePropertyChange(PROP_ESTADO, null, null);
+        }
     }
 
     public void jogaPeca(int coluna){
         gestor.jogaPeca(coluna);
         propertyChangeSupport.firePropertyChange(PROP_TABULEIRO, null, null);
         propertyChangeSupport.firePropertyChange(PROP_JOGADORES, null, null);
-        /*if(alterEstado(getSituacaoAtual())){
+        if(alteraEstado(getSituacaoAtual())){
             propertyChangeSupport.firePropertyChange(PROP_ESTADO, null, null);
-        }*/
+        }
     }
 
     public  void jogaPeca(){
         gestor.jogaPeca();
         propertyChangeSupport.firePropertyChange(PROP_TABULEIRO, null, null);
         propertyChangeSupport.firePropertyChange(PROP_JOGADORES, null, null);
-        /*if(alterEstado(getSituacaoAtual())){
+        if(alteraEstado(getSituacaoAtual())){
             propertyChangeSupport.firePropertyChange(PROP_ESTADO, null, null);
-        }*/
+        }
 
     }
 
@@ -57,6 +59,35 @@ public class JogoObservavel {
         gestor.jogaPecaEspecial(coluna);
         propertyChangeSupport.firePropertyChange(PROP_TABULEIRO, null, null);
         propertyChangeSupport.firePropertyChange(PROP_JOGADORES, null, null);
+    }
+
+    public void escolheOpMiniJogo(){
+        gestor.escolheOpMiniJogo();
+        if(alteraEstado(getSituacaoAtual())){
+            propertyChangeSupport.firePropertyChange(PROP_ESTADO, null, null);
+        }
+    }
+
+    public void resolveCalculo(String resposta){
+       gestor.resolveCalculo(resposta);
+       propertyChangeSupport.firePropertyChange(PROP_MINIJOGO, null, null);
+        if(alteraEstado(getSituacaoAtual())){
+            propertyChangeSupport.firePropertyChange(PROP_ESTADO, null, null);
+        }
+    }
+
+    public void digitaPalavra(String resposta){
+        gestor.digitaPalavras(resposta);
+        if(alteraEstado(getSituacaoAtual())){
+            propertyChangeSupport.firePropertyChange(PROP_ESTADO, null, null);
+        }
+    }
+
+    public void novaTentativa(){
+        gestor.novaTentativa();
+        if(alteraEstado(getSituacaoAtual())) {
+            propertyChangeSupport.firePropertyChange(PROP_ESTADO, null, null);
+        }
     }
 
     public char[][] getTabuleiro(){ return gestor.getTabuleiro();}
@@ -69,7 +100,7 @@ public class JogoObservavel {
 
     public Situacao getSituacaoAtual(){ return gestor.getSituacaoAtual();}
 
-    private boolean alterEstado(Situacao prox){
+    private boolean alteraEstado(Situacao prox){
         Situacao anterior = estado;
         estado = prox;
         if(anterior != prox){
@@ -77,6 +108,7 @@ public class JogoObservavel {
         }
         return false;
     }
+
 
 
 

@@ -21,6 +21,7 @@ public class TerminaJogoPane extends VBox {
        criaComponentes();
        dispoeVista();
        registaObservador();
+       registaListener();
     }
 
     private void criaComponentes(){
@@ -35,9 +36,21 @@ public class TerminaJogoPane extends VBox {
         getChildren().addAll(lbVencedor, btnNovaTentativa);
     }
 
+    private void registaListener(){
+        btnNovaTentativa.setOnAction((e)->{
+            jogObs.novaTentativa();
+        });
+    }
+
     private void registaObservador(){jogObs.addPropertyChangelistener(PROP_ESTADO, evt -> {atualizaEstado();});}
 
-    private void atualizaEstado(){
-        lbVencedor.setText("Parabens, " + jogObs.getJogadorAtual().getNome() + " .Es o grande vencedor!");
-        this.setVisible(jogObs.getSituacaoAtual() == Situacao.TerminaJogo);}
+    private void atualizaEstado() {
+        if (jogObs.getSituacaoAtual() == Situacao.TerminaJogo) {
+            lbVencedor.setText("Parabens, " + jogObs.getJogadorAtual().getNome() + ". Es o grande vencedor!");
+            this.setVisible(true);
+        }
+        else{
+            this.setVisible(false);
+        }
+    }
 }
