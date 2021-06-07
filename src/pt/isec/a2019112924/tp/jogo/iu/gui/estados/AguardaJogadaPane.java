@@ -20,14 +20,13 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.stage.WindowEvent;
 import pt.isec.a2019112924.tp.jogo.logica.JogoObservavel;
 import pt.isec.a2019112924.tp.jogo.logica.dados.JogadorHumano;
 import pt.isec.a2019112924.tp.jogo.logica.dados.JogadorVirtual;
 import pt.isec.a2019112924.tp.jogo.utils.Situacao;
 
 import static javafx.scene.input.KeyCode.ENTER;
-import static pt.isec.a2019112924.tp.jogo.logica.PropsID.*;
+import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.*;
 
 public class AguardaJogadaPane extends BorderPane {
     private JogoObservavel jogObs;
@@ -117,11 +116,15 @@ public class AguardaJogadaPane extends BorderPane {
                 alert.show();
                 return;
             }
-            if(jogaPeca == true) {
+            if(jogaPeca) {
                 jogObs.jogaPeca(Integer.parseInt(tfTexto.getText()) - 1);
+                if(jogObs.getColunaCompleta()){
+                    alert.setContentText("Coluna completa");
+                    alert.show();
+                }
                 jogaPeca = false;
             }
-            else if(jogaPecaEspecial == true){
+            else if(jogaPecaEspecial){
                 jogObs.jogaPecaEspecial(Integer.parseInt(tfTexto.getText()) - 1);
                 jogaPecaEspecial = false;
             }

@@ -83,6 +83,8 @@ public class Gestor {
 
     public Jogador getJogadorAtual(){ return originator.getJogadorAtual();}
 
+    public boolean getColunaCompleta(){return originator.getColunaCompleta();}
+
     public IMiniJogo getMiniJogo(){ return originator.getMiniJogo(); }
 
     // CareTaker

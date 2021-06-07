@@ -46,6 +46,8 @@ public class MaquinaEstados implements Serializable {
 
     public Jogador getJogadorAtual(){ return jogo.getJogadorAtual();}
 
+    public boolean getColunaCompleta(){return jogo.getColunaCompleta();}
+
     public IMiniJogo getMiniJogo(){ return jogo.getMiniJogo();}
 
     public List<String> getLog(){ return jogo.getLog();}

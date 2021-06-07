@@ -1,4 +1,4 @@
-package pt.isec.a2019112924.tp.jogo.logica;
+package pt.isec.a2019112924.tp.jogo.iu.gui.recursos;
 
 public class PropsID {
     private PropsID(){}

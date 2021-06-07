@@ -9,7 +9,7 @@ import pt.isec.a2019112924.tp.jogo.logica.JogoObservavel;
 import pt.isec.a2019112924.tp.jogo.utils.Situacao;
 
 import static pt.isec.a2019112924.tp.jogo.iu.gui.ConstantesGUI.LETRA;
-import static pt.isec.a2019112924.tp.jogo.logica.PropsID.PROP_ESTADO;
+import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.PROP_ESTADO;
 
 public class JogaMiniJogoPPane extends VBox {
     private JogoObservavel jogObs;

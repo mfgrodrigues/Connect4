@@ -17,7 +17,7 @@ public class Jogo implements Serializable {
     private char[][] tabuleiro;
     private Jogador jogadorAtual;
     private IMiniJogo miniJogo;
-    private int miniJogoAtivo;
+    private boolean colunaCompleta;
 
     //Log
     private List<String> log = new ArrayList<>();
@@ -61,8 +61,8 @@ public class Jogo implements Serializable {
         }
         preparaPecas();
         preparaTabuleiro();
-        miniJogoAtivo = 0;
         jogadorAtual = jogadores.get((int)(Math.random() * 1));
+        colunaCompleta = false;
     }
 
     private void preparaPecas() {
@@ -90,6 +90,8 @@ public class Jogo implements Serializable {
         return jogadorAtual;
     }
 
+    public boolean getColunaCompleta(){ return colunaCompleta;}
+
     public void trocaJogador() {
         if(jogadorAtual.getNome().equals(jogadores.get(0).getNome())) {
             jogadorAtual = jogadores.get(1);
@@ -106,6 +108,7 @@ public class Jogo implements Serializable {
         if (coluna < 0 || coluna >= LARGURA) {
             return false;
         } else if (tabuleiro[0][coluna] != '_') {
+            colunaCompleta = true;
             return false;
         }
 
@@ -113,6 +116,7 @@ public class Jogo implements Serializable {
             if (tabuleiro[linha][coluna] == '_') {
                 tabuleiro[linha][coluna] = jogadorAtual.getPeca();
                 jogadorAtual.aumentaNrJogada();
+                colunaCompleta = false;
                 return true;
             }
         }
@@ -178,12 +182,10 @@ public class Jogo implements Serializable {
         switch (jogadorAtual.getMiniJogoAtivo()) {
             case 0:
                 jogadorAtual.setMiniJogoAtivo(1);
-                System.out.println(miniJogoAtivo);
                 miniJogo = new MiniJogoC();
                 break;
             case 1:
                 jogadorAtual.setMiniJogoAtivo(0);
-                System.out.println(miniJogoAtivo);
                 miniJogo = new MiniJogoP();
                 break;
         }

@@ -8,7 +8,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
 
-import static pt.isec.a2019112924.tp.jogo.logica.PropsID.*;
+import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.*;
 
 public class JogoObservavel {
     private Gestor gestor;
@@ -150,6 +150,8 @@ public class JogoObservavel {
     public Situacao getSituacaoAtual() {
         return gestor.getSituacaoAtual();
     }
+
+    public boolean getColunaCompleta(){return gestor.getColunaCompleta();}
 
     private boolean alteraEstado(Situacao prox) {
         Situacao anterior = estado;

@@ -12,7 +12,7 @@ import pt.isec.a2019112924.tp.jogo.utils.Situacao;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static pt.isec.a2019112924.tp.jogo.logica.PropsID.PROP_ESTADO;
+import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.PROP_ESTADO;
 
 
 public class TerminaJogoPane extends VBox {

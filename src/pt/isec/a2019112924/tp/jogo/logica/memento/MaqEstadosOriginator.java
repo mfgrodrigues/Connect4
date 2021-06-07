@@ -57,6 +57,8 @@ public class MaqEstadosOriginator implements IMementoOriginator, Serializable {
 
     public Jogador getJogadorAtual(){return maqEstados.getJogadorAtual();}
 
+    public boolean getColunaCompleta(){return maqEstados.getColunaCompleta();}
+
     public IMiniJogo getMiniJogo(){return maqEstados.getMiniJogo();}
 
     public List<String> getLog(){ return maqEstados.getLog();}

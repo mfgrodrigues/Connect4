@@ -21,7 +21,7 @@ import pt.isec.a2019112924.tp.jogo.utils.Situacao;
 
 import static pt.isec.a2019112924.tp.jogo.iu.gui.ConstantesGUI.FICHEIRO_CARREGAJOGO;
 import static pt.isec.a2019112924.tp.jogo.iu.gui.ConstantesGUI.IMAGEM;
-import static pt.isec.a2019112924.tp.jogo.logica.PropsID.PROP_ESTADO;
+import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.PROP_ESTADO;
 
 public class AguardaInicioPane extends VBox {
     private JogoObservavel jogObs;

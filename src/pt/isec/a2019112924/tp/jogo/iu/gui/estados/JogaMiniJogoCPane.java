@@ -1,6 +1,7 @@
 package pt.isec.a2019112924.tp.jogo.iu.gui.estados;
 
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -10,8 +11,8 @@ import pt.isec.a2019112924.tp.jogo.logica.JogoObservavel;
 import pt.isec.a2019112924.tp.jogo.utils.Situacao;
 
 import static pt.isec.a2019112924.tp.jogo.iu.gui.ConstantesGUI.LETRA;
-import static pt.isec.a2019112924.tp.jogo.logica.PropsID.PROP_ESTADO;
-import static pt.isec.a2019112924.tp.jogo.logica.PropsID.PROP_MINIJOGO;
+import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.PROP_ESTADO;
+import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.PROP_MINIJOGO;
 
 public class JogaMiniJogoCPane extends VBox {
     private JogoObservavel jogObs;
@@ -57,6 +58,16 @@ public class JogaMiniJogoCPane extends VBox {
         btnResponder.setOnAction(e -> {
             jogObs.resolveCalculo(tfResposta.getText());
             tfResposta.clear();
+            if(jogObs.getMiniJogo().getJogoTerminou()){
+                Alert minijogo = new Alert(Alert.AlertType.INFORMATION);
+                if(jogObs.getMiniJogo().ganhou()){
+                   minijogo.setContentText("Venceu o Mini Jogo. Volte a jogar.");
+                }
+                else{
+                    minijogo.setContentText("Perdeu o Mini Jogo.");
+                }
+                minijogo.show();
+            }
         });
     }
 
