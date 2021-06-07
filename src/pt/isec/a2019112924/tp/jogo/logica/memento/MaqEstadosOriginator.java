@@ -63,6 +63,8 @@ public class MaqEstadosOriginator implements IMementoOriginator, Serializable {
 
     public List<String> getLog(){ return maqEstados.getLog();}
 
+    public void clearLog(){ maqEstados.clearLog();}
+
     public void addLog(String log){ maqEstados.addLog(log);}
 
     public void setLog(List<String> logs){ maqEstados.setLog(logs);}

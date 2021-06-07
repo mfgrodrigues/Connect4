@@ -52,6 +52,8 @@ public class MaquinaEstados implements Serializable {
 
     public List<String> getLog(){ return jogo.getLog();}
 
+    public void clearLog(){ jogo.clearLog();}
+
     public void addLog(String log){ jogo.addLog(log);}
 
     public void setLog(List<String> logs){ jogo.setLog(logs);}

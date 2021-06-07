@@ -1,10 +1,12 @@
 package pt.isec.a2019112924.tp.jogo.iu.gui.estados;
 
+import javafx.beans.property.ObjectProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -16,6 +18,7 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -24,6 +27,10 @@ import pt.isec.a2019112924.tp.jogo.logica.JogoObservavel;
 import pt.isec.a2019112924.tp.jogo.logica.dados.JogadorHumano;
 import pt.isec.a2019112924.tp.jogo.logica.dados.JogadorVirtual;
 import pt.isec.a2019112924.tp.jogo.utils.Situacao;
+
+import javax.swing.plaf.basic.BasicBorders;
+
+import java.util.List;
 
 import static javafx.scene.input.KeyCode.ENTER;
 import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.*;
@@ -74,13 +81,13 @@ public class AguardaJogadaPane extends BorderPane {
         //tabuleiro do jogo
         mostraTabuleiro();
 
-
         // Comandos Jogador Humano
         hBOpcoes.getChildren().addAll(btnJoga, btnJogaEspecial, btnMiniJogo, btnUndo);
         hBOpcoes.setAlignment(Pos.CENTER);
         hBOpcoes.setSpacing(10);
         hBOpcoes.setPrefSize(900.00, 150.00);
         hBOpcoes.setMinSize(900.00, 150.00);
+        hBOpcoes.setHgrow(btnJoga, Priority.ALWAYS);
 
         //Insercao de dados (coluna)
         hBDados.setAlignment(Pos.CENTER);
@@ -174,6 +181,9 @@ public class AguardaJogadaPane extends BorderPane {
         jogObs.addPropertyChangelistener(PROP_JOGADORES, evt -> {
             atualizaJogadores();
         });
+        jogObs.addPropertyChangelistener(PROP_LOG, evt ->{
+            atualizaLog();
+        });
 
     }
 
@@ -264,6 +274,13 @@ public class AguardaJogadaPane extends BorderPane {
             lbJogadorAtual.setBorder(new Border(new BorderStroke(Color.DARKBLUE, BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(3))));
 
         }
+    }
+
+    private void atualizaLog(){
+        for(String msg: jogObs.getLog()){
+            System.out.println(msg);
+        }
+        jogObs.clearLog();
     }
 
 }

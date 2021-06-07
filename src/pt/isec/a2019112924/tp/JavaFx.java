@@ -20,7 +20,7 @@ public class JavaFx extends Application {
         JogoObservavel jogObs = new JogoObservavel(gestorJogo);
 
         PrincipalPane gui = new PrincipalPane(jogObs);
-        stage.setScene(new Scene(gui.obtemRootPane(), 900, 600));
+        stage.setScene(new Scene(gui.obtemRootPane(), 900, 650));
         stage.setTitle("4 em Linha");
         stage.setMinWidth(300);
         stage.setMinHeight(300);

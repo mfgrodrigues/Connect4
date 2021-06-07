@@ -207,4 +207,6 @@ public class Gestor {
 
     // Log
     public List<String> getLog(){ return originator.getLog();}
+
+    public void clearLog(){ originator.clearLog();}
 }

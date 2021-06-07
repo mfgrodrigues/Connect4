@@ -29,9 +29,13 @@ public class JogoObservavel {
         return gestor.adicionaJogador(nome);
     }
 
+    public List<String> getLog() { return gestor.getLog();}
+
+    public void clearLog(){ gestor.clearLog();}
 
     public void iniciaJogo() {
         gestor.iniciaJogo();
+        propertyChangeSupport.firePropertyChange(PROP_LOG, null, null);
         if (alteraEstado(getSituacaoAtual())) {
             propertyChangeSupport.firePropertyChange(PROP_ESTADO, null, null);
         }
@@ -39,6 +43,7 @@ public class JogoObservavel {
 
     public void jogaPeca(int coluna) {
         gestor.jogaPeca(coluna);
+        propertyChangeSupport.firePropertyChange(PROP_LOG, null, null);
         propertyChangeSupport.firePropertyChange(PROP_TABULEIRO, null, null);
         propertyChangeSupport.firePropertyChange(PROP_JOGADORES, null, null);
         if (alteraEstado(getSituacaoAtual())) {
@@ -48,6 +53,7 @@ public class JogoObservavel {
 
     public void jogaPeca() {
         gestor.jogaPeca();
+        propertyChangeSupport.firePropertyChange(PROP_LOG, null, null);
         propertyChangeSupport.firePropertyChange(PROP_TABULEIRO, null, null);
         propertyChangeSupport.firePropertyChange(PROP_JOGADORES, null, null);
         if (alteraEstado(getSituacaoAtual())) {
@@ -58,6 +64,7 @@ public class JogoObservavel {
 
     public void jogaPecaEspecial(int coluna) {
         gestor.jogaPecaEspecial(coluna);
+        propertyChangeSupport.firePropertyChange(PROP_LOG, null, null);
         propertyChangeSupport.firePropertyChange(PROP_TABULEIRO, null, null);
         propertyChangeSupport.firePropertyChange(PROP_JOGADORES, null, null);
     }

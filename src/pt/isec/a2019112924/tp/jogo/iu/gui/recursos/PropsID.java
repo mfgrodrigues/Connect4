@@ -6,4 +6,5 @@ public class PropsID {
     public static String PROP_TABULEIRO = "tabuleiro";
     public static String PROP_JOGADORES = "jogadores";
     public static String PROP_MINIJOGO = "minijogo";
+    public static String PROP_LOG = "log";
 }
