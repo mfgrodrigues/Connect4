@@ -63,7 +63,6 @@ public class AguardaInicioPane extends VBox {
     }
 
     private void dispoeVista() {
-        //TODO resize da image consoante maximizacao e minimizacao
         setAlignment(Pos.CENTER);
         setSpacing(20);
 

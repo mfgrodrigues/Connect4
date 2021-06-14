@@ -17,6 +17,7 @@ public class ImageLoader {
             imgCache.put(name,img);
             return img;
         } catch (Exception e) {
+            System.err.println("[Erro] ImageLoader_getImage " + e);
         }
         return null;
     }

@@ -5,6 +5,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import pt.isec.a2019112924.tp.jogo.logica.JogoObservavel;
 import pt.isec.a2019112924.tp.jogo.utils.Situacao;
 
@@ -13,7 +15,8 @@ import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.PROP_ESTADO;
 
 public class JogaMiniJogoPPane extends VBox {
     private JogoObservavel jogObs;
-    private Label lbPergunta, lbTitulo, lbInstrucoes;
+    private Label lbTitulo, lbInstrucoes;
+    private Text txtPergunta;
     private Button btnResponder;
     private TextField tfResposta;
 
@@ -28,8 +31,8 @@ public class JogaMiniJogoPPane extends VBox {
 
     private void criaComponentes(){
         lbTitulo = new Label("MINI JOGO PALAVRAS");
-        lbPergunta = new Label();
-        lbInstrucoes = new Label("Digite as palavras apresentadas no menor tempo possível");
+        txtPergunta = new Text();
+        lbInstrucoes = new Label();
         btnResponder = new Button("OK");
         tfResposta = new TextField();
     }
@@ -39,8 +42,7 @@ public class JogaMiniJogoPPane extends VBox {
         setSpacing(15);
         lbTitulo.setFont(LETRA);
         tfResposta.setMaxWidth(550.00);
-
-        getChildren().addAll(lbTitulo, lbInstrucoes, lbPergunta, tfResposta, btnResponder);
+        getChildren().addAll(lbTitulo, lbInstrucoes, txtPergunta, tfResposta, btnResponder);
     }
 
     private void registaListener(){
@@ -55,7 +57,9 @@ public class JogaMiniJogoPPane extends VBox {
 
     public void atualiza(){
         if(jogObs.getSituacaoAtual() == Situacao.JogaMiniJogoP) {
-            lbPergunta.setText(jogObs.getMiniJogo().getPergunta());
+            lbInstrucoes.setText(jogObs.getJogadorAtual().getNome() + "digita as palavras apresentadas no menor tempo possível");
+            txtPergunta.setText(jogObs.getMiniJogo().getPergunta());
+            txtPergunta.setFill(Color.CORNFLOWERBLUE);
             this.setVisible(true);
         }
         else{

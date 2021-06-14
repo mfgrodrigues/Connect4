@@ -1,57 +1,55 @@
 package pt.isec.a2019112924.tp.jogo.iu.gui.estados;
 
-import javafx.beans.property.ObjectProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import pt.isec.a2019112924.tp.jogo.iu.gui.recursos.ImageLoader;
 import pt.isec.a2019112924.tp.jogo.logica.JogoObservavel;
 import pt.isec.a2019112924.tp.jogo.logica.dados.JogadorHumano;
 import pt.isec.a2019112924.tp.jogo.logica.dados.JogadorVirtual;
 import pt.isec.a2019112924.tp.jogo.utils.Situacao;
 
-import javax.swing.plaf.basic.BasicBorders;
-
-import java.util.List;
-
 import static javafx.scene.input.KeyCode.ENTER;
+import static pt.isec.a2019112924.tp.jogo.iu.gui.ConstantesGUI.*;
 import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.*;
 
-public class AguardaJogadaPane extends BorderPane {
+public class AguardaJogadaPane extends VBox {
     private JogoObservavel jogObs;
 
     private VBox vBCentro;
     private HBox hBOpcoes, hBDados;
     private GridPane tabuleiro;
-    private Button btnJoga, btnJogaEspecial, btnMiniJogo, btnUndo, btnAvanca;
+    private Button btnJogaEspecial, btnMiniJogo, btnUndo, btnAvanca;
     private TextField tfTexto;
     private StackPane spComandos = new StackPane();
     private Label lbJogadorAtual, lbJogador1, lbJogador2, lbJogadorVirtual, lbEntrada;
-    private boolean jogaPeca, jogaPecaEspecial;
+    private boolean jogaPecaEspecial, voltaAtras;
+    private ImageView imgAmarelo, imgAzul;
 
 
     public AguardaJogadaPane(JogoObservavel jogObs) {
         this.jogObs = jogObs;
-        jogaPeca = false;
         jogaPecaEspecial = false;
+        voltaAtras = false;
         criaComponentes();
         dispoeVista();
         registaListeners();
@@ -59,11 +57,10 @@ public class AguardaJogadaPane extends BorderPane {
     }
 
     private void criaComponentes() {
-        vBCentro = new VBox(40);
+        //vBCentro = new VBox(40);
         hBOpcoes = new HBox();
         hBDados = new HBox();
         tabuleiro = new GridPane();
-        btnJoga = new Button("Jogar Peca");
         btnJogaEspecial = new Button("Jogar Peca Especial");
         btnMiniJogo = new Button("Jogar Mini Jogo");
         btnUndo = new Button("Voltar Atras");
@@ -82,12 +79,9 @@ public class AguardaJogadaPane extends BorderPane {
         mostraTabuleiro();
 
         // Comandos Jogador Humano
-        hBOpcoes.getChildren().addAll(btnJoga, btnJogaEspecial, btnMiniJogo, btnUndo);
+        hBOpcoes.getChildren().addAll(btnJogaEspecial, btnMiniJogo, btnUndo);
         hBOpcoes.setAlignment(Pos.CENTER);
         hBOpcoes.setSpacing(10);
-        hBOpcoes.setPrefSize(900.00, 150.00);
-        hBOpcoes.setMinSize(900.00, 150.00);
-        hBOpcoes.setHgrow(btnJoga, Priority.ALWAYS);
 
         //Insercao de dados (coluna)
         hBDados.setAlignment(Pos.CENTER);
@@ -96,26 +90,43 @@ public class AguardaJogadaPane extends BorderPane {
         hBDados.setVisible(false);
         spComandos.getChildren().addAll(hBOpcoes, hBDados, lbJogadorVirtual);
         spComandos.setVisible(false);
-        setBottom(spComandos);
 
+        //VBOX: Perfil dos Jogadores
         VBox perfilJogadores = new VBox();
         perfilJogadores.setAlignment(Pos.CENTER);
         perfilJogadores.setSpacing(10);
+        lbJogador1.setFont(LETRA_JOGO);
+        lbJogador2.setFont(LETRA_JOGO);
         perfilJogadores.getChildren().addAll(lbJogador1, lbJogador2);
-        //TODO alterar letra
-        vBCentro.getChildren().addAll(perfilJogadores, tabuleiro, lbJogadorAtual);
-        vBCentro.setAlignment(Pos.CENTER);
-        setCenter(vBCentro);
+
+
+        //Imagem jogador amarelo
+        Image jogAmarelo = ImageLoader.getImage(AMARELO);
+        imgAmarelo = new ImageView(jogAmarelo);
+        imgAmarelo.setFitHeight(230);
+        imgAmarelo.setFitWidth(170);
+
+        //Imagem jogador azul
+        Image jogAzul = ImageLoader.getImage(AZUL);
+        imgAzul = new ImageView(jogAzul);
+        imgAzul.setFitHeight(230);
+        imgAzul.setFitWidth(170);
+
+
+        //HBOX: imagens jogadores + tabuleiro
+        HBox hBvistaJogo = new HBox();
+        hBvistaJogo.setAlignment(Pos.CENTER);
+        hBvistaJogo.setSpacing(40);
+        hBvistaJogo.getChildren().addAll(imgAmarelo, tabuleiro, imgAzul);
+
+        //VBOX: perfil jogadores + vista do jogo + label jogador atual + comandos
+        setAlignment(Pos.CENTER);
+        setSpacing(50);
+        getChildren().addAll(perfilJogadores, hBvistaJogo, lbJogadorAtual, spComandos);
     }
 
     private void registaListeners() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        btnJoga.setOnAction(e -> {
-            lbEntrada.setText("Coluna: ");
-            hBOpcoes.setVisible(false);
-            hBDados.setVisible(true);
-            jogaPeca = true;
-        });
 
         btnAvanca.setOnAction(e -> {
             if (tfTexto.getText().isEmpty() || Integer.parseInt(tfTexto.getText()) <= 0 || Integer.parseInt(tfTexto.getText()) > jogObs.getTabuleiro()[0].length) {
@@ -123,19 +134,12 @@ public class AguardaJogadaPane extends BorderPane {
                 alert.show();
                 return;
             }
-            if(jogaPeca) {
-                jogObs.jogaPeca(Integer.parseInt(tfTexto.getText()) - 1);
-                if(jogObs.getColunaCompleta()){
-                    alert.setContentText("Coluna completa");
-                    alert.show();
-                }
-                jogaPeca = false;
-            }
             else if(jogaPecaEspecial){
                 jogObs.jogaPecaEspecial(Integer.parseInt(tfTexto.getText()) - 1);
                 jogaPecaEspecial = false;
             }
             else{
+                voltaAtras = false;
                 if(!jogObs.voltarAtras(Integer.parseInt(tfTexto.getText()))){
                    alert.setContentText("Nao e possivel voltar atras");
                    alert.show();
@@ -147,9 +151,8 @@ public class AguardaJogadaPane extends BorderPane {
         });
 
         btnJogaEspecial.setOnAction(e -> {
-            lbEntrada.setText("Coluna: ");
             hBOpcoes.setVisible(false);
-            hBDados.setVisible(true);
+
             jogaPecaEspecial = true;
         });
 
@@ -168,6 +171,7 @@ public class AguardaJogadaPane extends BorderPane {
             lbEntrada.setText("Nr. Vezes: ");
             hBOpcoes.setVisible(false);
             hBDados.setVisible(true);
+            voltaAtras = true;
         });
     }
 
@@ -247,9 +251,26 @@ public class AguardaJogadaPane extends BorderPane {
         tabuleiro.setVgap(5);
         tabuleiro.setHgap(5);
 
+        final Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText("Coluna completa");
+
         for (int i = 0; i < jogObs.getTabuleiro().length; i++) {
             for (int j = 0; j < jogObs.getTabuleiro()[0].length; j++) {
                 Circle circulo = new Circle(15, Color.WHITE);
+                final int coluna = j;
+                circulo.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+                    if (jogObs.getJogadorAtual() instanceof JogadorHumano && jogaPecaEspecial && !voltaAtras) {
+                        jogObs.jogaPecaEspecial(coluna);
+                        jogaPecaEspecial = false;
+                    }
+                    else if(jogObs.getJogadorAtual() instanceof JogadorHumano && !jogaPecaEspecial && !voltaAtras){
+                        jogObs.jogaPeca(coluna);
+                        if (jogObs.getColunaCompleta()) {
+                            alert.show();
+                        }
+                    }
+                });
+
                 tabuleiro.add(circulo, j, i);
             }
         }
@@ -266,11 +287,21 @@ public class AguardaJogadaPane extends BorderPane {
     private void configuraJogAtual(){
         lbJogador1.setText(jogObs.getJogadores().get(0).toString());
         lbJogador2.setText(jogObs.getJogadores().get(1).toString());
-        lbJogadorAtual.setText(" JOGA " + jogObs.getJogadorAtual().getNome().toUpperCase());
+        lbJogadorAtual.setText(jogObs.getJogadorAtual().getNome().toUpperCase());
         if(jogObs.getJogadorAtual().getPeca() == 'X') {
+            imgAmarelo.setVisible(true);
+            imgAzul.setVisible(false);
+            lbJogadorAtual.setFont(LETRA_JOGO);
+            lbJogadorAtual.setTextFill(Color.BLACK);
+            lbJogadorAtual.setBackground(new Background((new BackgroundFill(Color.YELLOW, new CornerRadii(10), Insets.EMPTY))));
             lbJogadorAtual.setBorder(new Border(new BorderStroke(Color.YELLOW, BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(3))));
         }
         else{
+            imgAmarelo.setVisible(false);
+            imgAzul.setVisible(true);
+            lbJogadorAtual.setFont(LETRA_JOGO);
+            lbJogadorAtual.setTextFill(Color.WHITE);
+            lbJogadorAtual.setBackground(new Background((new BackgroundFill(Color.DARKBLUE, new CornerRadii(10), Insets.EMPTY))));
             lbJogadorAtual.setBorder(new Border(new BorderStroke(Color.DARKBLUE, BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(3))));
 
         }

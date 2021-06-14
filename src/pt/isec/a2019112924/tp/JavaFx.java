@@ -20,17 +20,28 @@ public class JavaFx extends Application {
         JogoObservavel jogObs = new JogoObservavel(gestorJogo);
 
         PrincipalPane gui = new PrincipalPane(jogObs);
-        stage.setScene(new Scene(gui.obtemRootPane(), 900, 650));
+        stage.setScene(new Scene(gui.obtemRootPane(), 910, 600));
         stage.setTitle("4 em Linha");
-        stage.setMinWidth(300);
-        stage.setMinHeight(300);
+        stage.setMinWidth(910);
+        stage.setMinHeight(600);
+        stage.setMaxWidth(910);
+        stage.setMaxHeight(600);
         stage.show();
+
+      /* PrincipalPane gui1 = new PrincipalPane(jogObs);
+        Stage stage1 = new Stage();
+        stage1.setTitle("4 em Linha");
+        stage1.setScene(new Scene(gui1.obtemRootPane(), 900, 650));
+        stage1.show();*/
+
+
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
                 if (jogObs.getSituacaoAtual() == Situacao.AguardaJogada) {
                     jogObs.saveEstadoJogoFicheiro(FICHEIRO_CARREGAJOGO);
                 }
                 stage.close();
+                //stage1.close();
             }
         });
     }
