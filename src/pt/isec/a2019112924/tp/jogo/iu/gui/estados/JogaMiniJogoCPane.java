@@ -1,5 +1,6 @@
 package pt.isec.a2019112924.tp.jogo.iu.gui.estados;
 
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -9,6 +10,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import pt.isec.a2019112924.tp.jogo.logica.JogoObservavel;
 import pt.isec.a2019112924.tp.jogo.utils.Situacao;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.ConstantesGUI.LETRA;
 import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.PROP_ESTADO;
@@ -20,6 +24,8 @@ public class JogaMiniJogoCPane extends VBox {
     private Label lbPergunta, lbTitulo, lbTimer;
     private Button btnResponder;
     private TextField tfResposta;
+    private Timer timer;
+    private int intervalo;
 
 
     public JogaMiniJogoCPane(JogoObservavel jogObs){
@@ -34,8 +40,10 @@ public class JogaMiniJogoCPane extends VBox {
         lbTitulo = new Label("MINI JOGO CALCULO");
         hBCalculo = new HBox(10);
         lbPergunta = new Label();
+        lbTimer = new Label();
         tfResposta = new TextField();
         btnResponder = new Button("OK");
+        intervalo = 30;
     }
 
     private void dispoeVista(){
@@ -46,12 +54,13 @@ public class JogaMiniJogoCPane extends VBox {
         hBCalculo.setAlignment(Pos.CENTER);
         hBCalculo.getChildren().addAll(lbPergunta,tfResposta, btnResponder);
 
-        getChildren().addAll(lbTitulo, hBCalculo);
+        getChildren().addAll(lbTitulo, lbTimer, hBCalculo);
     }
 
      private void registaObservador(){
-        jogObs.addPropertyChangelistener(PROP_ESTADO, evt -> {atualiza();});
-        jogObs.addPropertyChangelistener(PROP_MINIJOGO, evt ->{atualizaPergunta();});
+        jogObs.addPropertyChangelistener(PROP_ESTADO, evt -> { atualiza();});
+        jogObs.addPropertyChangelistener(PROP_MINIJOGO, evt ->{
+            atualizaPergunta(); });
     }
 
     private void registaListener(){
@@ -79,10 +88,29 @@ public class JogaMiniJogoCPane extends VBox {
     private void atualiza(){
         if(jogObs.getSituacaoAtual() == Situacao.JogaMiniJogoC) {
             lbPergunta.setText(jogObs.getMiniJogo().getPergunta());
+            setTimer();
             this.setVisible(true);
         }
         else{
             this.setVisible(false);
         }
+    }
+
+    private void setTimer(){
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if(intervalo > 0){
+                    Platform.runLater(() -> lbTimer.setText("Tempo Restante: " + intervalo));
+                    intervalo --;
+                }
+                else{
+                    timer.cancel();
+                    Platform.runLater(() -> btnResponder.fire());
+                }
+
+            }
+        }, 0, 1000);
     }
 }
