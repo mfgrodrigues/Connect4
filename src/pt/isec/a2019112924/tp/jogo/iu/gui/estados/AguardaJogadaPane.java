@@ -57,19 +57,18 @@ public class AguardaJogadaPane extends VBox {
     }
 
     private void criaComponentes() {
-        //vBCentro = new VBox(40);
         hBOpcoes = new HBox();
         hBDados = new HBox();
         tabuleiro = new GridPane();
         btnJogaEspecial = new Button("Jogar Peca Especial");
         btnMiniJogo = new Button("Jogar Mini Jogo");
-        btnUndo = new Button("Voltar Atras");
+        btnUndo = new Button("Voltar Atrás");
         btnAvanca = new Button("Jogar");
         tfTexto = new TextField();
         lbJogador1 = new Label();
         lbJogador2 = new Label();
         lbJogadorAtual = new Label();
-        lbJogadorVirtual = new Label("Pressione [ENTER] para avancar");
+        lbJogadorVirtual = new Label("Pressione [ENTER] para avançar");
         lbJogadorVirtual.setVisible(false);
         lbEntrada = new Label();
     }
@@ -130,7 +129,7 @@ public class AguardaJogadaPane extends VBox {
 
         btnAvanca.setOnAction(e -> {
             if (tfTexto.getText().isEmpty() || Integer.parseInt(tfTexto.getText()) <= 0 || Integer.parseInt(tfTexto.getText()) > jogObs.getTabuleiro()[0].length) {
-                alert.setContentText("Introduza uma coluna valida");
+                alert.setContentText("Introduza uma coluna válida");
                 alert.show();
                 return;
             }
@@ -141,7 +140,7 @@ public class AguardaJogadaPane extends VBox {
             else{
                 voltaAtras = false;
                 if(!jogObs.voltarAtras(Integer.parseInt(tfTexto.getText()))){
-                   alert.setContentText("Nao e possivel voltar atras");
+                   alert.setContentText("Não é possível voltar atrás");
                    alert.show();
                    return;
                 }
@@ -185,10 +184,6 @@ public class AguardaJogadaPane extends VBox {
         jogObs.addPropertyChangelistener(PROP_JOGADORES, evt -> {
             atualizaJogadores();
         });
-        jogObs.addPropertyChangelistener(PROP_LOG, evt ->{
-            atualizaLog();
-        });
-
     }
 
     private void atualiza() {
@@ -228,7 +223,6 @@ public class AguardaJogadaPane extends VBox {
     }
 
     private void atualizaJogadores() {
-
         configuraJogAtual();
         if (jogObs.getJogadorAtual() instanceof JogadorHumano) {
             spComandos.setVisible(true);
@@ -288,6 +282,7 @@ public class AguardaJogadaPane extends VBox {
         lbJogador1.setText(jogObs.getJogadores().get(0).toString());
         lbJogador2.setText(jogObs.getJogadores().get(1).toString());
         lbJogadorAtual.setText(jogObs.getJogadorAtual().getNome().toUpperCase());
+
         if(jogObs.getJogadorAtual().getPeca() == 'X') {
             imgAmarelo.setVisible(true);
             imgAzul.setVisible(false);
@@ -303,15 +298,6 @@ public class AguardaJogadaPane extends VBox {
             lbJogadorAtual.setTextFill(Color.WHITE);
             lbJogadorAtual.setBackground(new Background((new BackgroundFill(Color.DARKBLUE, new CornerRadii(10), Insets.EMPTY))));
             lbJogadorAtual.setBorder(new Border(new BorderStroke(Color.DARKBLUE, BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(3))));
-
         }
     }
-
-    private void atualizaLog(){
-        for(String msg: jogObs.getLog()){
-            System.out.println(msg);
-        }
-        jogObs.clearLog();
-    }
-
 }

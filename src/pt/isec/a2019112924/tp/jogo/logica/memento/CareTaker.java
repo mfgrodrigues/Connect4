@@ -94,8 +94,8 @@ public class CareTaker implements Serializable {
         }
     }
 
-    public void loadReplay(String nomeFich){
-        String ficheiro = "./replays/" + nomeFich + ".bin";
+    public void loadReplay(String ficheiro){
+
         try{
             File f = new File(ficheiro);
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));

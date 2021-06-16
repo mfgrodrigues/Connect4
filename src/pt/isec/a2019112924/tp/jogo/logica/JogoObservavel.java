@@ -132,11 +132,26 @@ public class JogoObservavel {
      }
 
      public boolean loadReplayJogo(String nomeFich){
+        System.out.println(nomeFich);
         if(gestor.loadReplayJogo(nomeFich)){
+            propertyChangeSupport.firePropertyChange(PROP_STARTREPLAY, null, null);
             return true;
         }
         return false;
      }
+
+    public  void avancaReplay(){
+        gestor.avancaReplay();
+        propertyChangeSupport.firePropertyChange(PROP_AVANCAREPLAY, null, null);
+        if(gestor.getStackJogoSize() == 0){
+            System.out.println("estou aqui");
+            propertyChangeSupport.firePropertyChange(PROP_STACKSIZE, null, null);
+        }
+    }
+
+    public void terminaReplay(){
+        propertyChangeSupport.firePropertyChange(PROP_STOPREPLAY, null, null);
+    }
 
     public char[][] getTabuleiro() {
         return gestor.getTabuleiro();
@@ -163,6 +178,7 @@ public class JogoObservavel {
     private boolean alteraEstado(Situacao prox) {
         Situacao anterior = estado;
         estado = prox;
+        System.out.println(estado);
         if (anterior != prox) {
             return true;
         }

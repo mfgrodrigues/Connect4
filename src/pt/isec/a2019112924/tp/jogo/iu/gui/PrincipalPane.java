@@ -7,6 +7,7 @@ import pt.isec.a2019112924.tp.jogo.iu.gui.estados.AguardaInicioPane;
 import pt.isec.a2019112924.tp.jogo.iu.gui.estados.AguardaJogadaPane;
 import pt.isec.a2019112924.tp.jogo.iu.gui.estados.JogaMiniJogoCPane;
 import pt.isec.a2019112924.tp.jogo.iu.gui.estados.JogaMiniJogoPPane;
+import pt.isec.a2019112924.tp.jogo.iu.gui.estados.ReplayJogoPane;
 import pt.isec.a2019112924.tp.jogo.iu.gui.estados.TerminaJogoPane;
 import pt.isec.a2019112924.tp.jogo.logica.JogoObservavel;
 
@@ -33,6 +34,7 @@ public class PrincipalPane extends BorderPane {
         JogaMiniJogoCPane jogaMiniJogoCPane = new JogaMiniJogoCPane(jogObs);
         JogaMiniJogoPPane jogaMiniJogoPPane = new JogaMiniJogoPPane(jogObs);
         TerminaJogoPane terminaJogoPane = new TerminaJogoPane(jogObs);
+        ReplayJogoPane replayJogo = new ReplayJogoPane(jogObs);
 
         //Stack com os paineis dos estados
         rootPane = new StackPane();
@@ -41,6 +43,7 @@ public class PrincipalPane extends BorderPane {
         terminaJogoPane.setVisible(false);
         jogaMiniJogoPPane.setVisible(false);
         jogaMiniJogoCPane.setVisible(false);
-        rootPane.getChildren().addAll(aguardaInicioPane, aguardaJogadaPane, jogaMiniJogoPPane, jogaMiniJogoCPane, terminaJogoPane);
+        replayJogo.setVisible(false);
+        rootPane.getChildren().addAll(aguardaInicioPane, aguardaJogadaPane, jogaMiniJogoPPane, jogaMiniJogoCPane, terminaJogoPane, replayJogo);
     }
 }

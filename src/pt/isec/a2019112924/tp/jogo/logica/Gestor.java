@@ -117,9 +117,10 @@ public class Gestor {
     }
 
     public boolean loadReplayJogo(String nomeFich) {
-        if(!existeFicheiro(nomeFich)){
+        /*if(!existeFicheiro(nomeFich)){
+            System.out.println("entrei neste if");
             return false;
-        }
+        } */
         careTaker.loadReplay(nomeFich);
         return true;
     }

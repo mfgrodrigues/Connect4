@@ -19,6 +19,11 @@ public class MusicPlayer {
             mediaPlayer.play();
         });
         mediaPlayer.setAutoPlay(true);
+    }
 
+    public static void stopMusic(String nome){
+        mediaPlayer.stop();
     }
 }
+
+

@@ -31,6 +31,7 @@ public class MaqEstadosOriginator implements IMementoOriginator, Serializable {
     @Override
     public void restoreMemento(Memento memento) throws IOException, ClassNotFoundException {
         maqEstados = (MaquinaEstados) memento.getSnapshot();
+        System.out.println("Na maquina de estados estou no" + maqEstados.getSituacaoAtual());
     }
 
     public void iniciaJogo(){maqEstados.iniciaJogo();}

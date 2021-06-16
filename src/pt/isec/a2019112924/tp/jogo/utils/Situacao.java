@@ -6,5 +6,4 @@ public enum Situacao {
     JogaMiniJogoC,
     JogaMiniJogoP,
     TerminaJogo
-
 }

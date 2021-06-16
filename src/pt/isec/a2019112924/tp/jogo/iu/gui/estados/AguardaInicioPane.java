@@ -15,13 +15,17 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import pt.isec.a2019112924.tp.jogo.iu.gui.recursos.ImageLoader;
 import pt.isec.a2019112924.tp.jogo.logica.JogoObservavel;
 import pt.isec.a2019112924.tp.jogo.utils.Situacao;
 
+import java.io.File;
+
+import static com.sun.tools.attach.VirtualMachine.list;
 import static pt.isec.a2019112924.tp.jogo.iu.gui.ConstantesGUI.FICHEIRO_CARREGAJOGO;
 import static pt.isec.a2019112924.tp.jogo.iu.gui.ConstantesGUI.IMAGEM;
-import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.PROP_ESTADO;
+import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.*;
 
 public class AguardaInicioPane extends VBox {
     private JogoObservavel jogObs;
@@ -49,7 +53,7 @@ public class AguardaInicioPane extends VBox {
         hBbotoes = new HBox();
         btnInicia = new Button("Novo Jogo");
         btnCarrega = new Button("Carregar Jogo");
-        btnReplay = new Button("Replay Historico");
+        btnReplay = new Button("Replay Histórico");
 
         hBJogadores = new HBox();
         btnJog1 = new Button("1 Jogador");
@@ -58,7 +62,7 @@ public class AguardaInicioPane extends VBox {
 
         hBDados = new HBox();
         tfNome = new TextField();
-        btnAvanca = new Button("Avancar");
+        btnAvanca = new Button("Avançar");
 
     }
 
@@ -103,6 +107,12 @@ public class AguardaInicioPane extends VBox {
         jogObs.addPropertyChangelistener(PROP_ESTADO, evt -> {
             atualiza();
         });
+        jogObs.addPropertyChangelistener(PROP_STARTREPLAY, evt -> {
+            this.setVisible(false);
+        });
+        jogObs.addPropertyChangelistener(PROP_STOPREPLAY, evt -> {
+            this.setVisible(true);
+        });
     }
 
     public void registaListener() {
@@ -113,14 +123,25 @@ public class AguardaInicioPane extends VBox {
 
         btnCarrega.setOnAction(e->{
             if(!jogObs.loadEstadoJogoFicheiro(FICHEIRO_CARREGAJOGO)){
-                Alert carregaJogo = new Alert(Alert.AlertType.ERROR, "Nao existem jogos guardados");
+                Alert carregaJogo = new Alert(Alert.AlertType.ERROR, "Não existem jogos guardados");
                 carregaJogo.show();
                 return;
             }
         });
 
         btnReplay.setOnAction(e->{
-
+            File file = new File("./replays");
+            FileChooser chooser = new FileChooser();
+            chooser.setInitialDirectory(file);
+            chooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("replays", "*.bin")
+            );
+            File fichSelecionado = chooser.showOpenDialog(null);
+            String path;
+            if(fichSelecionado != null){
+                path = fichSelecionado.getPath();
+                jogObs.loadReplayJogo(path);
+            }
         });
 
         btnJog1.setOnAction(e -> {
@@ -147,7 +168,7 @@ public class AguardaInicioPane extends VBox {
                 return;
             }
             if (!jogObs.adicionaJogador(tfNome.getText())) {
-                alert.setContentText("Nome de jogador ja existe");
+                alert.setContentText("Nome de jogador já existe");
                 alert.show();
                 return;
             }

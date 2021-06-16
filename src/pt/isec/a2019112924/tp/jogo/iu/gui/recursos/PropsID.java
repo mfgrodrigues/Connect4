@@ -7,4 +7,9 @@ public class PropsID {
     public static String PROP_JOGADORES = "jogadores";
     public static String PROP_MINIJOGO = "minijogo";
     public static String PROP_LOG = "log";
+    public static String PROP_STARTREPLAY = "startReplay";
+    public static String PROP_STOPREPLAY = "stopReplay";
+    public static String PROP_AVANCAREPLAY = "avancaReplay";
+    public static String PROP_STACKSIZE = "stackSize";
+
 }

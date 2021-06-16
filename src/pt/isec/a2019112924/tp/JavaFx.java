@@ -28,7 +28,7 @@ public class JavaFx extends Application {
         stage.setMaxHeight(600);
         stage.show();
 
-      /* PrincipalPane gui1 = new PrincipalPane(jogObs);
+        /*PrincipalPane gui1 = new PrincipalPane(jogObs);
         Stage stage1 = new Stage();
         stage1.setTitle("4 em Linha");
         stage1.setScene(new Scene(gui1.obtemRootPane(), 900, 650));
