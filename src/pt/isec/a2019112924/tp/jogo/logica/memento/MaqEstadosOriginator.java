@@ -70,5 +70,5 @@ public class MaqEstadosOriginator implements IMementoOriginator, Serializable {
 
     public void setLog(List<String> logs){ maqEstados.setLog(logs);}
 
-    public void adicionaJogador(String nome){ maqEstados.adicionaJogador(nome);}
+    public boolean adicionaJogador(String nome){ return maqEstados.adicionaJogador(nome);}
 }

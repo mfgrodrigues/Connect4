@@ -171,7 +171,6 @@ public class JogoObservavel {
     private boolean alteraEstado(Situacao prox) {
         Situacao anterior = estado;
         estado = prox;
-        System.out.println(estado);
         if (anterior != prox) {
             return true;
         }

@@ -35,7 +35,13 @@ public class MiniJogoC implements IMiniJogo, Serializable {
     @Override
     public boolean validaResposta(String resposta) {
         if (System.currentTimeMillis() - tempo < DURACAO_JOGO_MILLIS) {
-            int res = Integer.parseInt(resposta);
+            int res;
+            try {
+                 res = Integer.parseInt(resposta);
+            }catch (NumberFormatException e){
+                sorteiaPergunta();
+                return false;
+            }
             int n= numRespCertas;
             switch (operador) {
                 case 'x':

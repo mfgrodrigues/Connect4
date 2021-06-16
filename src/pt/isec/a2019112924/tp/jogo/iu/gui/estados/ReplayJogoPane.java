@@ -13,17 +13,13 @@ import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import pt.isec.a2019112924.tp.jogo.logica.JogoObservavel;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Stack;
 
 import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.*;
 
@@ -82,18 +78,15 @@ public class ReplayJogoPane extends BorderPane {
         });
 
         jogObs.addPropertyChangelistener(PROP_AVANCAREPLAY, evt -> {
-            System.out.println("estou no avanca replay");
             atualizaTabuleiro();
             atualizaLog();
         });
 
         jogObs.addPropertyChangelistener(PROP_STACKSIZE, evt -> {
-            System.out.println("estou no stack size");
             btnAvanca.setDisable(true);
         });
 
         jogObs.addPropertyChangelistener(PROP_STOPREPLAY, evt -> {
-            System.out.println("estou no stop replay");
             lista.getItems().clear();
             this.setVisible(false);
         });
@@ -118,7 +111,6 @@ public class ReplayJogoPane extends BorderPane {
     }
 
     private void atualizaTabuleiro() {
-        System.out.println("entrei aqui");
         for (int i = 0; i < jogObs.getTabuleiro().length; i++) {
             for (int j = 0; j < jogObs.getTabuleiro()[0].length; j++) {
                 if (jogObs.getTabuleiro()[i][j] == 'X') {
@@ -133,9 +125,9 @@ public class ReplayJogoPane extends BorderPane {
     }
 
     private void atualizaLog() {
-        if(lista == null) return;
+        if (lista == null) return;
         List<String> mensagens = new ArrayList<>();
-        for(int i = tam; i < jogObs.getLog().size(); i++){
+        for (int i = tam; i < jogObs.getLog().size(); i++) {
             mensagens.add(jogObs.getLog().get(i));
         }
         tam = jogObs.getLog().size();

@@ -58,6 +58,6 @@ public class MaquinaEstados implements Serializable {
 
     public void setLog(List<String> logs){ jogo.setLog(logs);}
 
-    public void adicionaJogador(String nome){ jogo.adicionaJogador(nome);}
+    public boolean adicionaJogador(String nome){ return jogo.adicionaJogador(nome);}
 
 }

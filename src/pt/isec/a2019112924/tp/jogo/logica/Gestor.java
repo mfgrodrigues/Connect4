@@ -31,8 +31,7 @@ public class Gestor {
                 return false;
             }
         }
-        originator.adicionaJogador(nome);
-        return true;
+        return originator.adicionaJogador(nome);
     }
 
     //Maquina Estados

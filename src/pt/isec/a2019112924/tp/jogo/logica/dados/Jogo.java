@@ -43,8 +43,12 @@ public class Jogo implements Serializable {
         tabuleiro = new char[ALTURA][LARGURA];
     }
 
-    public void adicionaJogador(String nome) {
-        jogadores.add(new JogadorHumano(nome));
+    public boolean adicionaJogador(String nome) {
+        if (!nome.toLowerCase().startsWith("virtual")){
+            jogadores.add(new JogadorHumano(nome));
+            return true;
+        }
+        return false;
     }
 
     public void eliminaJogadores(){
