@@ -23,8 +23,7 @@ import pt.isec.a2019112924.tp.jogo.utils.Situacao;
 
 import java.io.File;
 
-import static com.sun.tools.attach.VirtualMachine.list;
-import static pt.isec.a2019112924.tp.jogo.iu.gui.ConstantesGUI.*;
+import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.ConstantesGUI.*;
 import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.*;
 
 public class AguardaInicioPane extends VBox {

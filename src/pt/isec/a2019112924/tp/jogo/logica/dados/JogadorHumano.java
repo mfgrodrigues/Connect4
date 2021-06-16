@@ -7,8 +7,7 @@ public class JogadorHumano extends Jogador{
 
     public JogadorHumano(String nome) {
         super(nome);
-        //TODO pecas especiais a 0
-        nrPecasEspeciais = 5;
+        nrPecasEspeciais = 0;
         nrCreditos = 5;
     }
 

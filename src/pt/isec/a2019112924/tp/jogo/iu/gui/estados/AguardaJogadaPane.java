@@ -29,7 +29,7 @@ import pt.isec.a2019112924.tp.jogo.logica.dados.JogadorVirtual;
 import pt.isec.a2019112924.tp.jogo.utils.Situacao;
 
 import static javafx.scene.input.KeyCode.ENTER;
-import static pt.isec.a2019112924.tp.jogo.iu.gui.ConstantesGUI.*;
+import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.ConstantesGUI.*;
 import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.*;
 
 public class AguardaJogadaPane extends VBox {

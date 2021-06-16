@@ -10,9 +10,7 @@ import javafx.scene.layout.VBox;
 import pt.isec.a2019112924.tp.jogo.logica.JogoObservavel;
 import pt.isec.a2019112924.tp.jogo.utils.Situacao;
 
-import java.awt.*;
-
-import static pt.isec.a2019112924.tp.jogo.iu.gui.ConstantesGUI.LETRA;
+import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.ConstantesGUI.LETRA;
 import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.PROP_ESTADO;
 import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.PROP_MINIJOGO;
 
@@ -63,7 +61,7 @@ public class JogaMiniJogoCPane extends VBox {
             if(jogObs.getMiniJogo().getJogoTerminou()){
                 Alert minijogo = new Alert(Alert.AlertType.INFORMATION);
                 if(jogObs.getMiniJogo().ganhou()){
-                   minijogo.setContentText("Venceu o Mini Jogo. Volte a jogar.");
+                   minijogo.setContentText("Venceu o Mini Jogo. Continue a jogar.");
                 }
                 else{
                     minijogo.setContentText("Perdeu o Mini Jogo.");

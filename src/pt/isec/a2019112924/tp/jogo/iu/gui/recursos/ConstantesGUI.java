@@ -1,4 +1,4 @@
-package pt.isec.a2019112924.tp.jogo.iu.gui;
+package pt.isec.a2019112924.tp.jogo.iu.gui.recursos;
 
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;

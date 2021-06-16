@@ -1,13 +1,11 @@
 package pt.isec.a2019112924.tp.jogo.iu.gui.estados;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import pt.isec.a2019112924.tp.jogo.iu.gui.recursos.ImageLoader;
@@ -18,7 +16,7 @@ import pt.isec.a2019112924.tp.jogo.utils.Situacao;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static pt.isec.a2019112924.tp.jogo.iu.gui.ConstantesGUI.*;
+import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.ConstantesGUI.*;
 import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.PROP_ESTADO;
 import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.PROP_STOPREPLAY;
 
