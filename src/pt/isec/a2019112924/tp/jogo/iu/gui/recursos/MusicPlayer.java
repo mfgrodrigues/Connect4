@@ -14,7 +14,6 @@ public class MusicPlayer {
         Media musica = new Media(path);
         mediaPlayer = new MediaPlayer(musica);
         mediaPlayer.setStartTime(Duration.ZERO);
-        mediaPlayer.setStopTime(musica.getDuration());
         mediaPlayer.setOnReady(() -> {
             mediaPlayer.play();
         });
@@ -22,7 +21,9 @@ public class MusicPlayer {
     }
 
     public static void stopMusic(String nome){
-        mediaPlayer.stop();
+        if(mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
     }
 }
 

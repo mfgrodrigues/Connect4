@@ -31,7 +31,7 @@ import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.*;
 public class ReplayJogoPane extends BorderPane {
     private JogoObservavel jogObs;
     private GridPane tabuleiro;
-    private Button btnAvanca, btnSair;
+    private Button btnAvanca;
     private ListView<String> lista;
     private int tam;
 
@@ -46,7 +46,6 @@ public class ReplayJogoPane extends BorderPane {
     private void criaComponentes() {
         tabuleiro = new GridPane();
         btnAvanca = new Button("Avançar");
-        btnSair = new Button ("Sair");
         lista = new ListView<>();
     }
 
@@ -57,24 +56,16 @@ public class ReplayJogoPane extends BorderPane {
         setTop(lista);
 
         VBox centro = new VBox();
-        HBox botoes = new HBox();
         mostraTabuleiro();
-        botoes.setAlignment(Pos.CENTER);
-        botoes.setSpacing(20);
-        botoes.getChildren().addAll(btnAvanca, btnSair);
         centro.setSpacing(30);
         centro.setAlignment(Pos.CENTER);
-        centro.getChildren().addAll(tabuleiro, botoes);
+        centro.getChildren().addAll(tabuleiro, btnAvanca);
         setCenter(centro);
     }
 
     private void registaListener() {
         btnAvanca.setOnAction(e -> {
             jogObs.avancaReplay();
-        });
-
-        btnSair.setOnAction(e->{
-            jogObs.terminaReplay();
         });
     }
 

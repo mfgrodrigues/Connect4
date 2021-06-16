@@ -20,6 +20,7 @@ import java.time.format.DateTimeFormatter;
 
 import static pt.isec.a2019112924.tp.jogo.iu.gui.ConstantesGUI.*;
 import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.PROP_ESTADO;
+import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.PROP_STOPREPLAY;
 
 
 public class TerminaJogoPane extends VBox {
@@ -63,7 +64,15 @@ public class TerminaJogoPane extends VBox {
         });
     }
 
-    private void registaObservador(){jogObs.addPropertyChangelistener(PROP_ESTADO, evt -> {atualizaEstado();});}
+    private void registaObservador(){
+        jogObs.addPropertyChangelistener(PROP_ESTADO, evt -> {
+            atualizaEstado();
+        });
+
+        jogObs.addPropertyChangelistener(PROP_STOPREPLAY, evt -> {
+            atualizaAposReplay();
+        });
+    }
 
     private void atualizaEstado() {
         if (jogObs.getSituacaoAtual() == Situacao.TerminaJogo) {
@@ -88,5 +97,19 @@ public class TerminaJogoPane extends VBox {
         else{
             this.setVisible(false);
         }
+    }
+
+    private void atualizaAposReplay(){
+        if(jogObs.getJogadorAtual().getPeca() == 'X'){
+            venceAmarelo.setVisible(true);
+            venceAzul.setVisible(false);
+        }
+        else{
+            venceAmarelo.setVisible(false);
+            venceAzul.setVisible(true);
+        }
+        lbVencedor.setFont(LETRA_JOGO);
+        lbVencedor.setText("PARABÉNS " + jogObs.getJogadorAtual().getNome().toUpperCase());
+        this.setVisible(true);
     }
 }

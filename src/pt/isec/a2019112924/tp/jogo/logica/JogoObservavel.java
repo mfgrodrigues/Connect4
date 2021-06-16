@@ -93,9 +93,7 @@ public class JogoObservavel {
 
     public void novaTentativa() {
         gestor.novaTentativa();
-        if (alteraEstado(getSituacaoAtual())) {
-            propertyChangeSupport.firePropertyChange(PROP_ESTADO, null, null);
-        }
+        propertyChangeSupport.firePropertyChange(PROP_ESTADO, null, null);
     }
 
     public boolean voltarAtras(int nrBaks){
@@ -144,13 +142,8 @@ public class JogoObservavel {
         gestor.avancaReplay();
         propertyChangeSupport.firePropertyChange(PROP_AVANCAREPLAY, null, null);
         if(gestor.getStackJogoSize() == 0){
-            System.out.println("estou aqui");
-            propertyChangeSupport.firePropertyChange(PROP_STACKSIZE, null, null);
+            propertyChangeSupport.firePropertyChange(PROP_STOPREPLAY, null, null);
         }
-    }
-
-    public void terminaReplay(){
-        propertyChangeSupport.firePropertyChange(PROP_STOPREPLAY, null, null);
     }
 
     public char[][] getTabuleiro() {

@@ -17,14 +17,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import pt.isec.a2019112924.tp.jogo.iu.gui.recursos.ImageLoader;
+import pt.isec.a2019112924.tp.jogo.iu.gui.recursos.MusicPlayer;
 import pt.isec.a2019112924.tp.jogo.logica.JogoObservavel;
 import pt.isec.a2019112924.tp.jogo.utils.Situacao;
 
 import java.io.File;
 
 import static com.sun.tools.attach.VirtualMachine.list;
-import static pt.isec.a2019112924.tp.jogo.iu.gui.ConstantesGUI.FICHEIRO_CARREGAJOGO;
-import static pt.isec.a2019112924.tp.jogo.iu.gui.ConstantesGUI.IMAGEM;
+import static pt.isec.a2019112924.tp.jogo.iu.gui.ConstantesGUI.*;
 import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.*;
 
 public class AguardaInicioPane extends VBox {
@@ -110,9 +110,6 @@ public class AguardaInicioPane extends VBox {
         jogObs.addPropertyChangelistener(PROP_STARTREPLAY, evt -> {
             this.setVisible(false);
         });
-        jogObs.addPropertyChangelistener(PROP_STOPREPLAY, evt -> {
-            this.setVisible(true);
-        });
     }
 
     public void registaListener() {
@@ -186,6 +183,7 @@ public class AguardaInicioPane extends VBox {
 
     public void atualiza() {
         if (jogObs.getSituacaoAtual() == Situacao.AguardaInicio) {
+            MusicPlayer.stopMusic(MUSICA);
             this.setVisible(true);
             hBbotoes.setVisible(true);
             hBJogadores.setVisible(false);

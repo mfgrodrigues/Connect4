@@ -19,7 +19,7 @@ import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.PROP_MINIJOGO;
 public class JogaMiniJogoCPane extends VBox {
     private JogoObservavel jogObs;
     private HBox hBCalculo;
-    private Label lbPergunta, lbTitulo;
+    private Label lbPergunta, lbTitulo, lbTimer;
     private Button btnResponder;
     private TextField tfResposta;
 
