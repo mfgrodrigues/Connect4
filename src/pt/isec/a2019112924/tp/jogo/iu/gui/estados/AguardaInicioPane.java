@@ -117,24 +117,22 @@ public class AguardaInicioPane extends VBox {
             hBJogadores.setVisible(true);
         });
 
-        btnCarrega.setOnAction(e->{
-            if(!jogObs.loadEstadoJogoFicheiro(FICHEIRO_CARREGAJOGO)){
+        btnCarrega.setOnAction(e -> {
+            if (!jogObs.loadEstadoJogoFicheiro(FICHEIRO_CARREGAJOGO)) {
                 Alert carregaJogo = new Alert(Alert.AlertType.ERROR, "Não existem jogos guardados");
                 carregaJogo.show();
                 return;
             }
         });
 
-        btnReplay.setOnAction(e->{
+        btnReplay.setOnAction(e -> {
             File file = new File("./replays");
             FileChooser chooser = new FileChooser();
             chooser.setInitialDirectory(file);
-            chooser.getExtensionFilters().add(
-                    new FileChooser.ExtensionFilter("replays", "*.bin")
-            );
+            chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("replays", "*.bin"));
             File fichSelecionado = chooser.showOpenDialog(null);
             String path;
-            if(fichSelecionado != null){
+            if (fichSelecionado != null) {
                 path = fichSelecionado.getPath();
                 jogObs.loadReplayJogo(path);
             }
@@ -172,7 +170,7 @@ public class AguardaInicioPane extends VBox {
             tfNome.clear();
             jogadoresAdicionados++;
             tfNome.requestFocus();
-            if(nrJogadores == jogadoresAdicionados){
+            if (nrJogadores == jogadoresAdicionados) {
                 jogadoresAdicionados = 0;
                 jogObs.iniciaJogo();
             }

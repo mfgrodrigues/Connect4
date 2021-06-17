@@ -23,9 +23,6 @@ public class PrincipalPane extends BorderPane {
 
     public Parent obtemRootPane(){ return rootPane;}
 
-    //Criar componentes
-    //Dispor Vista
-
     private void criarLayout(){
 
         //Paineis de Estado

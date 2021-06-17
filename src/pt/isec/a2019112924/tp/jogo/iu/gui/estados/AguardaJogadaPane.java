@@ -35,7 +35,6 @@ import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.*;
 public class AguardaJogadaPane extends VBox {
     private JogoObservavel jogObs;
 
-    private VBox vBCentro;
     private HBox hBOpcoes, hBDados;
     private GridPane tabuleiro;
     private Button btnJogaEspecial, btnMiniJogo, btnUndo, btnAvanca;

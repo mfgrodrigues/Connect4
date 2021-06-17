@@ -28,20 +28,12 @@ public class JavaFx extends Application {
         stage.setMaxHeight(600);
         stage.show();
 
-        /*PrincipalPane gui1 = new PrincipalPane(jogObs);
-        Stage stage1 = new Stage();
-        stage1.setTitle("4 em Linha");
-        stage1.setScene(new Scene(gui1.obtemRootPane(), 900, 650));
-        stage1.show();*/
-
-
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
                 if (jogObs.getSituacaoAtual() == Situacao.AguardaJogada) {
                     jogObs.saveEstadoJogoFicheiro(FICHEIRO_CARREGAJOGO);
                 }
                 stage.close();
-                //stage1.close();
             }
         });
     }

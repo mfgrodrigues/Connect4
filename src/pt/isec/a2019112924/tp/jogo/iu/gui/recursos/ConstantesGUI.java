@@ -7,12 +7,8 @@ public class ConstantesGUI {
 
     private ConstantesGUI(){}
 
-    public static int LARGURA = 7;
-    public static int ALTURA = 6;
-
     public static Font LETRA = Font.font("andale mono", FontWeight.BOLD, 20);
     public static Font LETRA_JOGO = Font.font("andale mono", FontWeight.BOLD, 14);
-
 
     public static String FICHEIRO_CARREGAJOGO = "jogo.bin";
 

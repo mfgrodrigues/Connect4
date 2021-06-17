@@ -115,10 +115,12 @@ public class TerminaJogoPane extends VBox {
         if(jogObs.getJogadorAtual().getPeca() == 'X'){
             venceAmarelo.setVisible(true);
             venceAzul.setVisible(false);
+            empate.setVisible(false);
         }
         else{
             venceAmarelo.setVisible(false);
             venceAzul.setVisible(true);
+            empate.setVisible(false);
         }
         lbVencedor.setFont(LETRA_JOGO);
         lbVencedor.setText("PARABÉNS " + jogObs.getJogadorAtual().getNome().toUpperCase());

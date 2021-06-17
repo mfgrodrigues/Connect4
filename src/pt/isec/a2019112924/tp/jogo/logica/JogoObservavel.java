@@ -130,7 +130,6 @@ public class JogoObservavel {
      }
 
      public boolean loadReplayJogo(String nomeFich){
-        System.out.println(nomeFich);
         if(gestor.loadReplayJogo(nomeFich)){
             propertyChangeSupport.firePropertyChange(PROP_STARTREPLAY, null, null);
             return true;
