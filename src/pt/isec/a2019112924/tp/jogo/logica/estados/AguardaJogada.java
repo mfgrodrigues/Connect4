@@ -30,8 +30,7 @@ public class AguardaJogada extends EstadoAdapter {
         int coluna = jogo.sorteiaColuna();
         jogo.addLog(jogo.getJogadorAtual().getNome() + ": Joga peca na coluna " + (coluna + 1));
         if(!jogo.colocaPeca(coluna)){
-            jogo.addLog(jogo.getJogadorAtual().getNome() + ": Coluna completa");
-            return this;
+            return jogaPeca();
         }
         if (jogo.avaliaVencedor()) {
             jogo.addLog(jogo.getJogadorAtual().getNome() + ": Vence o jogo");

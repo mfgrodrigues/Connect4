@@ -18,6 +18,7 @@ public class Jogo implements Serializable {
     private Jogador jogadorAtual;
     private IMiniJogo miniJogo;
     private boolean colunaCompleta;
+    private boolean empate;
 
     //Log
     private List<String> log = new ArrayList<>();
@@ -33,6 +34,8 @@ public class Jogo implements Serializable {
         return log;
     }
 
+    public boolean getEmpate(){ return empate; }
+
     public void clearLog(){
         log.clear();
     }
@@ -41,6 +44,7 @@ public class Jogo implements Serializable {
     public Jogo() {
         jogadores = new ArrayList<>(2);
         tabuleiro = new char[ALTURA][LARGURA];
+        empate = false;
     }
 
     public boolean adicionaJogador(String nome) {
@@ -179,6 +183,44 @@ public class Jogo implements Serializable {
                 }
             }
         }
+
+        boolean naoPreenchida = false;
+        for(int i = 0; i<ALTURA; i++){
+            for (int j = 0;j < LARGURA ;j++){
+                if (tabuleiro[i][j] == '_'){
+                    naoPreenchida = true;
+                    break;
+                }
+            }
+        }
+
+        if(!naoPreenchida){
+            if(jogadorAtual.getNome().equals(jogadores.get(0).getNome())) {
+                if (jogadores.get(1) instanceof JogadorHumano){
+                    if(((JogadorHumano)jogadores.get(1)).getNrCreditos() == 0 && ((JogadorHumano) jogadores.get(1)).getNrPecasEspeciais() == 0){
+                        empate = true;
+                        return true;
+                    }
+                }
+                else {
+                    empate = true;
+                    return true;
+                }
+            }else if(jogadorAtual.getNome().equals(jogadores.get(1).getNome())){
+                if (jogadores.get(0) instanceof JogadorHumano){
+                    if(((JogadorHumano)jogadores.get(0)).getNrCreditos() == 0 && ((JogadorHumano) jogadores.get(0)).getNrPecasEspeciais() == 0){
+                        empate = true;
+                        return true;
+                    }
+                }
+                else {
+                    empate = true;
+                    return true;
+                }
+            }
+        }
+
+        empate = false;
         return false;
     }
 

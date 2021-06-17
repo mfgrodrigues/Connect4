@@ -24,7 +24,7 @@ import static pt.isec.a2019112924.tp.jogo.iu.gui.recursos.PropsID.PROP_STOPREPLA
 public class TerminaJogoPane extends VBox {
     private JogoObservavel jogObs;
     private Label lbVencedor;
-    private ImageView venceAmarelo, venceAzul;
+    private ImageView venceAmarelo, venceAzul, empate;
     private Button btnNovaTentativa;
 
     public TerminaJogoPane(JogoObservavel jogObs){
@@ -44,13 +44,17 @@ public class TerminaJogoPane extends VBox {
         StackPane imagemVencedores = new StackPane();
         Image amarelo = ImageLoader.getImage(VENCEAMARELO);
         Image azul = ImageLoader.getImage(VENCEAZUL);
+        Image balanca = ImageLoader.getImage(EMPATE);
         venceAmarelo = new ImageView(amarelo);
         venceAzul = new ImageView(azul);
+        empate = new ImageView(balanca);
+        empate.setFitHeight(350);
+        empate.setFitWidth(290);
         venceAmarelo.setFitHeight(350);
         venceAmarelo.setFitWidth(290);
         venceAzul.setFitHeight(350);
         venceAzul.setFitWidth(290);
-        imagemVencedores.getChildren().addAll(venceAmarelo, venceAzul);
+        imagemVencedores.getChildren().addAll(venceAmarelo, venceAzul, empate);
         getChildren().addAll(lbVencedor, imagemVencedores, btnNovaTentativa);
         setAlignment(Pos.CENTER);
         setSpacing(20);
@@ -79,17 +83,27 @@ public class TerminaJogoPane extends VBox {
                 Alert sucesso = new Alert(Alert.AlertType.CONFIRMATION, "Jogo gravado com sucesso");
                 sucesso.show();
             }
-            if(jogObs.getJogadorAtual().getPeca() == 'X'){
-                venceAmarelo.setVisible(true);
+            lbVencedor.setFont(LETRA_JOGO);
+            if (jogObs.getEmpate()){
+                empate.setVisible(true);
+                venceAmarelo.setVisible(false);
                 venceAzul.setVisible(false);
+                lbVencedor.setText("EMPATE");
             }
             else{
-                venceAmarelo.setVisible(false);
-                venceAzul.setVisible(true);
+                if(jogObs.getJogadorAtual().getPeca() == 'X'){
+                    venceAmarelo.setVisible(true);
+                    venceAzul.setVisible(false);
+                    empate.setVisible(false);
+                }
+                else{
+                    venceAmarelo.setVisible(false);
+                    venceAzul.setVisible(true);
+                    empate.setVisible(false);
+                }
+                MusicPlayer.playMusic(MUSICA);
+                lbVencedor.setText("PARABÉNS " + jogObs.getJogadorAtual().getNome().toUpperCase());
             }
-            MusicPlayer.playMusic(MUSICA);
-            lbVencedor.setFont(LETRA_JOGO);
-            lbVencedor.setText("PARABÉNS " + jogObs.getJogadorAtual().getNome().toUpperCase());
             this.setVisible(true);
         }
         else{

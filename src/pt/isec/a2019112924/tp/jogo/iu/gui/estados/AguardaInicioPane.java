@@ -166,6 +166,7 @@ public class AguardaInicioPane extends VBox {
             if (!jogObs.adicionaJogador(tfNome.getText())) {
                 alert.setContentText("Nome de jogador já existe");
                 alert.show();
+                tfNome.clear();
                 return;
             }
             tfNome.clear();

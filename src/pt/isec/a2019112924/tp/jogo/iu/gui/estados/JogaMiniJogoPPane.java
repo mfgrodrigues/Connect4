@@ -70,6 +70,7 @@ public class JogaMiniJogoPPane extends VBox {
 
     public void atualiza(){
         if(jogObs.getSituacaoAtual() == Situacao.JogaMiniJogoP) {
+            tfResposta.clear();
             lbInstrucoes.setText(jogObs.getJogadorAtual().getNome() + " digite as palavras apresentadas no menor tempo possível");
             txtPergunta.setText(jogObs.getMiniJogo().getPergunta());
             this.setVisible(true);

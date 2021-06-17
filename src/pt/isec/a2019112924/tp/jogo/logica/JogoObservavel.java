@@ -168,6 +168,8 @@ public class JogoObservavel {
 
     public boolean getColunaCompleta(){return gestor.getColunaCompleta();}
 
+    public boolean getEmpate(){ return gestor.getEmpate();}
+
     private boolean alteraEstado(Situacao prox) {
         Situacao anterior = estado;
         estado = prox;

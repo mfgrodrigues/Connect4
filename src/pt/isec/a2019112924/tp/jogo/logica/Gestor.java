@@ -107,8 +107,22 @@ public class Gestor {
         originator.getJogadores().clear();
         originator.getJogadores().add(jog1);
         originator.getJogadores().add(jog2);
-        jogAtual.setNrJogadas(0);
-        ((JogadorHumano)jogAtual).setNrCreditos(((JogadorHumano)jogAtual).getNrCreditos() - nrBacks);
+        originator.getJogadorAtual().setNrJogadas(0);
+        if (jogAtual.getNome().equals(jog1.getNome())){
+            ((JogadorHumano)jog1).setNrCreditos(((JogadorHumano)jog1).getNrCreditos() - nrBacks);
+            ((JogadorHumano)jog1).setNrJogadas(0);
+        } else {
+            ((JogadorHumano)jog2).setNrCreditos(((JogadorHumano)jog2).getNrCreditos() - nrBacks);
+            ((JogadorHumano)jog2).setNrJogadas(0);
+        }
+        if(originator.getJogadorAtual() instanceof JogadorHumano && originator.getJogadorAtual().getNome().equals(jog1.getNome())){
+            originator.getJogadorAtual().setNrJogadas(jog1.getNrJogadas());
+            ((JogadorHumano)originator.getJogadorAtual()).setNrCreditos(((JogadorHumano)jog1).getNrCreditos());
+        }
+        if(originator.getJogadorAtual() instanceof JogadorHumano && originator.getJogadorAtual().getNome().equals(jog2.getNome())) {
+            originator.getJogadorAtual().setNrJogadas(jog2.getNrJogadas());
+            ((JogadorHumano) originator.getJogadorAtual()).setNrCreditos(((JogadorHumano) jog2).getNrCreditos());
+        }
         originator.setLog(logCopia);
         originator.addLog(jogAtual.getNome() + ": Voltou para tras " + nrBacks + " vezes");
         careTaker.gravaJogo();
@@ -116,10 +130,6 @@ public class Gestor {
     }
 
     public boolean loadReplayJogo(String nomeFich) {
-        /*if(!existeFicheiro(nomeFich)){
-            System.out.println("entrei neste if");
-            return false;
-        } */
         careTaker.loadReplay(nomeFich);
         return true;
     }
@@ -209,4 +219,6 @@ public class Gestor {
     public List<String> getLog(){ return originator.getLog();}
 
     public void clearLog(){ originator.clearLog();}
+
+    public boolean getEmpate(){ return originator.getEmpate();}
 }

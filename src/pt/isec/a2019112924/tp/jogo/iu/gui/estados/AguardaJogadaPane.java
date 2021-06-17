@@ -128,30 +128,30 @@ public class AguardaJogadaPane extends VBox {
         Alert alert = new Alert(Alert.AlertType.ERROR);
 
         btnAvanca.setOnAction(e -> {
-            if (tfTexto.getText().isEmpty() || Integer.parseInt(tfTexto.getText()) <= 0 || Integer.parseInt(tfTexto.getText()) > jogObs.getTabuleiro()[0].length) {
-                alert.setContentText("Introduza uma coluna válida");
+            int nBack = 0;
+            try {
+               nBack = Integer.parseInt(tfTexto.getText());
+            }catch(NumberFormatException exception){
+                alert.setContentText("Introduza um número válido");
                 alert.show();
-                return;
             }
-            else if(jogaPecaEspecial){
-                jogObs.jogaPecaEspecial(Integer.parseInt(tfTexto.getText()) - 1);
-                jogaPecaEspecial = false;
+            if (tfTexto.getText().isEmpty() || nBack <= 0 || nBack > jogObs.getTabuleiro()[0].length) {
+                alert.setContentText("Introduza o número de vezes que pretende voltar atrás");
+                alert.show();
+            } else if (!jogObs.voltarAtras(nBack)) {
+                alert.setContentText("Não é possível voltar atrás");
+                alert.show();
             }
-            else{
-                voltaAtras = false;
-                if(!jogObs.voltarAtras(Integer.parseInt(tfTexto.getText()))){
-                   alert.setContentText("Não é possível voltar atrás");
-                   alert.show();
-                   return;
-                }
-            }
+            voltaAtras = false;
             tfTexto.clear();
             hBDados.setVisible(false);
+            if(jogObs.getJogadorAtual() instanceof JogadorHumano) {
+                hBOpcoes.setVisible(true);
+            }
         });
 
         btnJogaEspecial.setOnAction(e -> {
             hBOpcoes.setVisible(false);
-
             jogaPecaEspecial = true;
         });
 
@@ -256,8 +256,7 @@ public class AguardaJogadaPane extends VBox {
                     if (jogObs.getJogadorAtual() instanceof JogadorHumano && jogaPecaEspecial && !voltaAtras) {
                         jogObs.jogaPecaEspecial(coluna);
                         jogaPecaEspecial = false;
-                    }
-                    else if(jogObs.getJogadorAtual() instanceof JogadorHumano && !jogaPecaEspecial && !voltaAtras){
+                    } else if (jogObs.getJogadorAtual() instanceof JogadorHumano && !jogaPecaEspecial && !voltaAtras) {
                         jogObs.jogaPeca(coluna);
                         if (jogObs.getColunaCompleta()) {
                             alert.show();
@@ -278,20 +277,19 @@ public class AguardaJogadaPane extends VBox {
         btnUndo.setDisable(((JogadorHumano) jogObs.getJogadorAtual()).getNrCreditos() == 0);
     }
 
-    private void configuraJogAtual(){
+    private void configuraJogAtual() {
         lbJogador1.setText(jogObs.getJogadores().get(0).toString());
         lbJogador2.setText(jogObs.getJogadores().get(1).toString());
         lbJogadorAtual.setText(jogObs.getJogadorAtual().getNome().toUpperCase());
 
-        if(jogObs.getJogadorAtual().getPeca() == 'X') {
+        if (jogObs.getJogadorAtual().getPeca() == 'X') {
             imgAmarelo.setVisible(true);
             imgAzul.setVisible(false);
             lbJogadorAtual.setFont(LETRA_JOGO);
             lbJogadorAtual.setTextFill(Color.BLACK);
             lbJogadorAtual.setBackground(new Background((new BackgroundFill(Color.YELLOW, new CornerRadii(10), Insets.EMPTY))));
             lbJogadorAtual.setBorder(new Border(new BorderStroke(Color.YELLOW, BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(3))));
-        }
-        else{
+        } else {
             imgAmarelo.setVisible(false);
             imgAzul.setVisible(true);
             lbJogadorAtual.setFont(LETRA_JOGO);

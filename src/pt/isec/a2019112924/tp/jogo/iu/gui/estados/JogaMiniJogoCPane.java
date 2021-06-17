@@ -107,6 +107,7 @@ public class JogaMiniJogoCPane extends VBox {
                 }
                 else{
                     timer.cancel();
+                    intervalo = 30;
                     Platform.runLater(() -> btnResponder.fire());
                 }
 

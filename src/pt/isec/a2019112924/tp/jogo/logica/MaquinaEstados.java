@@ -60,4 +60,6 @@ public class MaquinaEstados implements Serializable {
 
     public boolean adicionaJogador(String nome){ return jogo.adicionaJogador(nome);}
 
+    public boolean getEmpate(){ return jogo.getEmpate();}
+
 }
